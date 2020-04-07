@@ -9,17 +9,32 @@ import CartSidebar from "./CartSidebar";
 const Product = () => {
   const [isSidebar, setSidebar] = useState(false);
   const [amount, setAmount] = useState(0);
-  const [purchaseItem, setPurchaseItem] = useState({});
+  const [total, setTotal] = useState(0);
+  const [unitCost, setUnitCost] = useState(10);
+  const [product, setProduct] = useState("garlic");
+  const [type, setType] = useState("one-time");
   const [purchaseItems, setPurchaseItems] = useState([]);
+  const createPurchaseItem = (purchase) => {
+    setAmount(purchase.amount);
+    setTotal(purchase.total);
+    setUnitCost(purchase.unitCost);
+    setProduct(purchase.product);
+    setType(purchase.type);
+  };
 
-  const addPurchaseItems = (purchaseItem = {}) => {
-    setPurchaseItems([...purchaseItems, purchaseItem]);
+  const addToPurchaseItems = (purchaseItem = {}) => {
+    console.log("purchase itemm to add! ", purchaseItem);
+    if (Object.keys(purchaseItem).length) {
+      setPurchaseItems([...purchaseItems, purchaseItem]);
+    }
+    console.log("set purchase item!");
   };
   return (
     <div>
+      {console.log("PUCHASE ITEM!!SSSSSS", purchaseItems)}
       <CartSidebar
-        purchaseItems={purchaseItems}
         open={isSidebar}
+        purchaseItems={purchaseItems}
         setSidebar={setSidebar}
       />
       <div style={{ display: "flex", flexDirection: "column" }}>
@@ -32,10 +47,13 @@ const Product = () => {
             <About />
             <AddItems
               amount={amount}
-              setAmount={setAmount}
-              setSidebar={setSidebar}
-              purchaseItem={purchaseItem}
-              setPurchaseItem={setPurchaseItem}
+              updateAmount={setAmount}
+              total={total}
+              updateTotal={setTotal}
+              updateSidebarStatus={setSidebar}
+              createPurchaseItem={createPurchaseItem}
+              purchaseItems={purchaseItems}
+              addToPurchaseItems={addToPurchaseItems}
             />
           </div>
         </div>

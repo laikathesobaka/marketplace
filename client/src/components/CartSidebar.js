@@ -4,21 +4,24 @@ import { Link } from "@reach/router";
 
 import styled from "styled-components";
 
-const CartSidebar = ({ purchaseItems, setSidebar }) => {
+const CartSidebar = ({ open, purchaseItems, setSidebar }) => {
+  console.log("purchaseItems: ", purchaseItems);
   const itemsTotal = purchaseItems.reduce(
     (total, item) => {
-      total[cost] += item.total;
-      total[amount] += item.amount;
+      total["cost"] += item.total;
+      total["amount"] += item.amount;
+      return total;
     },
-    { cost: 0, amount: 0 }
+    { cost: 0, total: 0 }
   );
   return (
     <Sidebar open={open}>
       <TopBar>
-        <button onClick={() => setSidebar(false)}>Close sidebar</button>
+        <button onClick={() => setSidebar(false)}>Close</button>
+        <div>Your Cart</div>
+        <div>{itemsTotal.amount} items</div>
       </TopBar>
 
-      <div> You have {amount} bulbs of garlic in your Cart.</div>
       <StyledButton>
         <Link to="checkout">Checkout</Link>
       </StyledButton>

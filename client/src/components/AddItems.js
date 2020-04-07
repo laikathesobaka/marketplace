@@ -13,34 +13,38 @@ for (let i = 1; i <= 10; i++) {
 
 const AddItems = ({
   amount,
-  setAmount,
-  setSidebar,
-  purchaseItem,
-  setPurchaseItem,
+  updateAmount,
+  total,
+  updateTotal,
+  updateSidebarStatus,
+  createPurchaseItem,
+  purchaseItems,
+  addToPurchaseItems,
 }) => {
-  const [total, setTotal] = useState(0);
   const [canCheckout, setCheckout] = useState(false);
   const [isMonthlyPurchase, setMonthlyPurchase] = useState(false);
+
   const onSelect = (amount) => {
     console.log("Amount items selected: ", amount);
-    setAmount(amount);
-    setTotal(COST_PER_BULB * amount);
+    updateAmount(amount);
+    updateTotal(COST_PER_BULB * amount);
     if (amount > 0) {
       setCheckout(true);
     }
   };
 
-  const onSidebarClick = (status, amount) => {
-    console.log("amount!!!!!", amount);
-    setAmount(amount);
-    setPurchaseItem({
+  const onAddToCart = (showSidebar, amount) => {
+    const purchaseItem = {
       amount,
       total,
       unitCost: COST_PER_BULB,
       product: "garlic",
       type: isMonthlyPurchase ? "monthly" : "one-time",
-    });
-    setSidebar(status);
+    };
+    createPurchaseItem(purchaseItem);
+    console.log("purchase item being added: ", purchaseItem);
+    addToPurchaseItems(purchaseItem);
+    updateSidebarStatus(showSidebar);
   };
   return (
     <SelectWrapper>
@@ -57,13 +61,13 @@ const AddItems = ({
         <Monthly>Monthly</Monthly>
       </PurchaseOptions>
 
-      <StyledButton onClick={() => onSidebarClick(true, amount)}>
+      <StyledButton onClick={() => onAddToCart(true, amount)}>
         Add To Cart
       </StyledButton>
 
       <StyledButton disabled={!canCheckout}>
         {canCheckout ? (
-          <Link to="checkout" purchaseItem={purchaseItem}>
+          <Link to="checkout" purchaseItems={purchaseItems}>
             Checkout
           </Link>
         ) : (
