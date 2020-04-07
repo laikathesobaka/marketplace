@@ -19,7 +19,6 @@ const AddItems = ({
   updateSidebarStatus,
   createPurchaseItem,
   purchaseItems,
-  addToPurchaseItems,
 }) => {
   const [canCheckout, setCheckout] = useState(false);
   const [isMonthlyPurchase, setMonthlyPurchase] = useState(false);
@@ -33,7 +32,9 @@ const AddItems = ({
     }
   };
 
-  const onAddToCart = (showSidebar, amount) => {
+  const onAddToCart = (showSidebar) => {
+    // updateAmount(amount);
+    // updateTotal(COST_PER_BULB * amount);
     const purchaseItem = {
       amount,
       total,
@@ -42,8 +43,6 @@ const AddItems = ({
       type: isMonthlyPurchase ? "monthly" : "one-time",
     };
     createPurchaseItem(purchaseItem);
-    console.log("purchase item being added: ", purchaseItem);
-    addToPurchaseItems(purchaseItem);
     updateSidebarStatus(showSidebar);
   };
   return (
@@ -57,13 +56,11 @@ const AddItems = ({
       <StyledTotal>Total: ${total}.00</StyledTotal>
 
       <PurchaseOptions>
-        <OneTime>One-time</OneTime>
-        <Monthly>Monthly</Monthly>
+        <OneTime onClick={() => setMonthlyPurchase(false)}>One-time</OneTime>
+        <Monthly onClick={() => setMonthlyPurchase(true)}>Monthly</Monthly>
       </PurchaseOptions>
 
-      <StyledButton onClick={() => onAddToCart(true, amount)}>
-        Add To Cart
-      </StyledButton>
+      <StyledButton onClick={() => onAddToCart(true)}>Add To Cart</StyledButton>
 
       <StyledButton disabled={!canCheckout}>
         {canCheckout ? (

@@ -4,46 +4,88 @@ import { Link } from "@reach/router";
 
 import styled from "styled-components";
 
-const CartSidebar = ({ open, purchaseItems, setSidebar }) => {
+const CartSidebar = ({
+  open,
+  updateSidebar,
+  purchaseItems,
+  removePurchaseItem,
+}) => {
   console.log("purchaseItems: ", purchaseItems);
-  const itemsTotal = purchaseItems.reduce(
-    (total, item) => {
-      total["cost"] += item.total;
-      total["amount"] += item.amount;
+
+  const itemsTotal = Object.keys(purchaseItems).reduce(
+    (total, product) => {
+      total["cost"] +=
+        purchaseItems[product].unitCost * purchaseItems[product].amount;
+      total["amount"] += purchaseItems[product].amount;
       return total;
     },
-    { cost: 0, total: 0 }
+    { cost: 0, amount: 0 }
   );
+
   return (
     <Sidebar open={open}>
       <TopBar>
-        <button onClick={() => setSidebar(false)}>Close</button>
-        <div>Your Cart</div>
-        <div>{itemsTotal.amount} items</div>
+        <div style={{ display: "flex", justifyContent: "flex-start" }}>
+          <button onClick={() => updateSidebar(false)}>Close</button>
+          <div>Your Cart</div>
+        </div>
+        <NumItems>{itemsTotal.amount} items</NumItems>
       </TopBar>
-
-      <StyledButton>
-        <Link to="checkout">Checkout</Link>
-      </StyledButton>
+      <div>
+        {Object.keys(purchaseItems).map((product) => {
+          return (
+            <PurchaseItem>
+              {product} x {purchaseItems[product].amount}
+              <RemoveItem onClick={() => removePurchaseItem(product)}>
+                Remove
+              </RemoveItem>
+            </PurchaseItem>
+          );
+        })}
+      </div>
+      <Summary>
+        <div>Total: {itemsTotal.cost}</div>
+        <StyledButton>
+          <Link to="checkout">Checkout</Link>
+        </StyledButton>
+      </Summary>
     </Sidebar>
   );
 };
 
 export default CartSidebar;
 
+const RemoveItem = styled.button``;
+const PurchaseItem = styled.div``;
+
+const Summary = styled.div`
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 20%;
+  background-color: cadetblue;
+`;
+const NumItems = styled.div`
+  position: fixed;
+  right: 5px;
+  font-size: 12px;
+`;
 const TopBar = styled.div`
   display: flex;
   flex-direction: row;
+  position: fixed;
+  top: 10px;
 `;
 const Sidebar = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
+  width: 35%;
   background: #effffa;
   transform: ${({ open }) => (open ? "translateX(0)" : "translateX(100%)")};
   height: 100vh;
   text-align: left;
-  padding: 2rem;
+  padding: 0;
   position: absolute;
   top: 0;
   right: 0;
