@@ -14,6 +14,10 @@ const Product = () => {
   const [product, setProduct] = useState("garlic");
   const [type, setType] = useState("one-time");
   const [purchaseItems, setPurchaseItems] = useState({});
+  const [purchaseItemsTotal, setPurchaseItemsTotal] = useState({
+    cost: 0,
+    amount: 0,
+  });
 
   const createPurchaseItem = (purchase) => {
     setAmount(purchase.amount);
@@ -22,6 +26,23 @@ const Product = () => {
     setProduct(purchase.product);
     setType(purchase.type);
     addToPurchaseItems({ product, amount, total, unitCost, type });
+    // aggregatePurchaseItems();
+  };
+
+  const aggregatePurchaseItems = () => {
+    console.log("PURCHASE ITEMS TO TOTAL: ", purchaseItems);
+    const itemsTotal = Object.keys(purchaseItems).reduce(
+      (total, product) => {
+        console.log("ITEM BEING TOTALLED: ", purchaseItems[product]);
+        total["cost"] +=
+          purchaseItems[product].unitCost * purchaseItems[product].amount;
+        total["amount"] += purchaseItems[product].amount;
+        return total;
+      },
+      { cost: 0, amount: 0 }
+    );
+    console.log("ITEMS TOTLA? ", itemsTotal);
+    setPurchaseItemsTotal({ ...purchaseItemsTotal, ...itemsTotal });
   };
 
   const addToPurchaseItems = (purchaseItem = {}) => {
@@ -44,23 +65,22 @@ const Product = () => {
 
   const removePurchaseItem = (product) => {
     let items = { ...purchaseItems };
-
     if (items[product]) {
       delete items[product];
     }
     setPurchaseItems(items);
-    console.log("REMOVING PURCHASE ITEM:", purchaseItems);
   };
 
   return (
     <div>
+      {console.log("PURCHASE ITEMS PRODUCT PAGE:!", purchaseItems)}
       <CartSidebar
         open={isSidebar}
         updateSidebar={setSidebar}
         purchaseItems={purchaseItems}
+        // purchaseItemsTotal={purchaseItemsTotal}
         removePurchaseItem={removePurchaseItem}
       />
-      {console.log("IS SIDE BAR? ", isSidebar)}
 
       <div style={{ display: "flex", flexDirection: "column" }}>
         <Header />
@@ -79,6 +99,7 @@ const Product = () => {
               createPurchaseItem={createPurchaseItem}
               removePurchaseItem={removePurchaseItem}
               purchaseItems={purchaseItems}
+              //   purchaseItemsTotal={purchaseItemsTotal}
             />
           </div>
         </div>

@@ -7,7 +7,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 const stripePromise = loadStripe("pk_test_jOgo4md45t5TTraVaobJ6Lg400J8bGMDJx");
 
-const Checkout = ({ amount }) => {
+const Checkout = ({ purchaseItemsTotal }) => {
   const [customer, setCustomer] = useState({});
   const [customerFormStatus, setCustomerFormStatus] = useState(false);
   const onSubmit = (data) => {
@@ -17,14 +17,16 @@ const Checkout = ({ amount }) => {
   return (
     <div>
       {console.log("CUSTOMER: ", customer)}
+      {console.log("PURCHASE ITEMS TOTAL CHEEEECKOUT! ", purchaseItemsTotal)}
+
       <CheckoutForm
         onSubmit={onSubmit}
         status={customerFormStatus}
-        amount={amount}
+        amount={purchaseItemsTotal.cost}
       />
       {customerFormStatus && (
         <Elements stripe={stripePromise}>
-          <Purchase amount={amount} />
+          <Purchase amount={purchaseItemsTotal.cost} />
         </Elements>
       )}
     </div>

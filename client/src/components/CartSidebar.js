@@ -8,11 +8,12 @@ const CartSidebar = ({
   open,
   updateSidebar,
   purchaseItems,
+  //   purchaseItemsTotal,
   removePurchaseItem,
 }) => {
-  console.log("purchaseItems: ", purchaseItems);
+  console.log("purchaseItems SIDEBAR: ", purchaseItems);
 
-  const itemsTotal = Object.keys(purchaseItems).reduce(
+  const purchaseItemsTotal = Object.keys(purchaseItems).reduce(
     (total, product) => {
       total["cost"] +=
         purchaseItems[product].unitCost * purchaseItems[product].amount;
@@ -24,12 +25,14 @@ const CartSidebar = ({
 
   return (
     <Sidebar open={open}>
+      {console.log("SIDE BAR PURCHASE ITEMS TOTAL: ", purchaseItemsTotal)}
+
       <TopBar>
         <div style={{ display: "flex", justifyContent: "flex-start" }}>
           <button onClick={() => updateSidebar(false)}>Close</button>
           <div>Your Cart</div>
         </div>
-        <NumItems>{itemsTotal.amount} items</NumItems>
+        <NumItems>{purchaseItemsTotal.amount} items</NumItems>
       </TopBar>
       <div>
         {Object.keys(purchaseItems).map((product) => {
@@ -44,9 +47,11 @@ const CartSidebar = ({
         })}
       </div>
       <Summary>
-        <div>Total: {itemsTotal.cost}</div>
+        <div>Total: {purchaseItemsTotal.cost}</div>
         <StyledButton>
-          <Link to="checkout">Checkout</Link>
+          <Link to="checkout" purchaseItemsTotal={purchaseItemsTotal}>
+            Checkout
+          </Link>
         </StyledButton>
       </Summary>
     </Sidebar>

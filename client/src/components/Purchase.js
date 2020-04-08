@@ -26,6 +26,7 @@ export default function Purchase(amount) {
     } catch (err) {
       console.log(err);
     }
+
     console.log("client aldkjfadj: ", clientSecret);
     let result = await stripe.confirmCardPayment(clientSecret, {
       payment_method: {

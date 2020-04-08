@@ -9,7 +9,7 @@ const app = express();
 app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(require("./routes"));
+// app.use(require("./routes"));
 
 app.post("/purchase", async (req, res) => {
   console.log("pucharse req.body ---------------", req.body);
