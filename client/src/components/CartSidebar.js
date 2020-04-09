@@ -6,30 +6,16 @@ import styled from "styled-components";
 
 const CartSidebar = ({
   open,
-  updateSidebar,
+  updateSidebarStatus,
   purchaseItems,
-  //   purchaseItemsTotal,
+  purchaseItemsTotal,
   removePurchaseItem,
 }) => {
-  console.log("purchaseItems SIDEBAR: ", purchaseItems);
-
-  const purchaseItemsTotal = Object.keys(purchaseItems).reduce(
-    (total, product) => {
-      total["cost"] +=
-        purchaseItems[product].unitCost * purchaseItems[product].amount;
-      total["amount"] += purchaseItems[product].amount;
-      return total;
-    },
-    { cost: 0, amount: 0 }
-  );
-
   return (
     <Sidebar open={open}>
-      {console.log("SIDE BAR PURCHASE ITEMS TOTAL: ", purchaseItemsTotal)}
-
       <TopBar>
         <div style={{ display: "flex", justifyContent: "flex-start" }}>
-          <button onClick={() => updateSidebar(false)}>Close</button>
+          <button onClick={() => updateSidebarStatus(false)}>Close</button>
           <div>Your Cart</div>
         </div>
         <NumItems>{purchaseItemsTotal.amount} items</NumItems>
