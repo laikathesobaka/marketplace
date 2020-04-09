@@ -18,22 +18,11 @@ const AddItems = ({
   updateTotal,
   updateSidebarStatus,
   createPurchaseItem,
-  purchaseItems,
-  // purchaseItemsTotal,
 }) => {
   const [canCheckout, setCheckout] = useState(false);
   const [isMonthlyPurchase, setMonthlyPurchase] = useState(false);
-  const purchaseItemsTotal = Object.keys(purchaseItems).reduce(
-    (total, product) => {
-      total["cost"] +=
-        purchaseItems[product].unitCost * purchaseItems[product].amount;
-      total["amount"] += purchaseItems[product].amount;
-      return total;
-    },
-    { cost: 0, amount: 0 }
-  );
+
   const onSelect = (amount) => {
-    console.log("Amount items selected: ", amount);
     updateAmount(amount);
     updateTotal(COST_PER_BULB * amount);
     if (amount > 0) {
@@ -42,8 +31,6 @@ const AddItems = ({
   };
 
   const onAddToCart = (showSidebar) => {
-    // updateAmount(amount);
-    // updateTotal(COST_PER_BULB * amount);
     const purchaseItem = {
       amount,
       total,
@@ -56,8 +43,6 @@ const AddItems = ({
   };
   return (
     <SelectWrapper>
-      {console.log("ADD ITEMS PURCHASE ITEMS TOTAL: ", purchaseItemsTotal)}
-
       <StyledDropdown
         options={options}
         onChange={(option) => onSelect(option.value)}
@@ -75,9 +60,7 @@ const AddItems = ({
 
       <StyledButton disabled={!canCheckout}>
         {canCheckout ? (
-          <Link to="checkout" purchaseItemsTotal={purchaseItemsTotal}>
-            Checkout
-          </Link>
+          <Link to="checkout">Checkout</Link>
         ) : (
           <div>Checkout</div>
         )}
