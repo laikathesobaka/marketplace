@@ -76,5 +76,3 @@ export default connect(mapStateToProps, {
   removeFromCart,
   aggregateCartTotals,
 })(ProductPage);
-
-// export default Product;

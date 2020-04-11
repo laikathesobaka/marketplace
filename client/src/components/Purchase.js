@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { navigate } from "@reach/router";
 import CardSection from "./CardSection";
-
-export default function Purchase(amount) {
+import { getPaymentIntent, submitSubscription } from "../helpers/stripe";
+const Purchase = ({ customer, cartTotals }) => {
   const stripe = useStripe();
   const elements = useElements();
+  const customerName = `${customer.firstName} ${customer.lastName}`;
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -15,43 +16,64 @@ export default function Purchase(amount) {
       return;
     }
 
-    let clientSecret;
-    try {
-      let res = await fetch("/purchase", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(amount),
+    const cardElement = elements.getElement(CardElement);
+
+    let paymentSuccess;
+    let oneTimePaymentRes;
+    if (cartTotals.monthly.amount === 0 && cartTotals.oneTime.amount > 0) {
+      const paymentIntentOneTime = await getPaymentIntent(
+        cartTotals.oneTime.cost
+      );
+      // Confirm payment for onetime products
+      oneTimePaymentRes = await stripe.confirmCardPayment(
+        paymentIntentOneTime.clientSecret,
+        {
+          payment_method: {
+            card: cardElement,
+            billing_details: {
+              name: customerName,
+            },
+          },
+        }
+      );
+      if (oneTimePaymentRes.error) {
+        // Show error to your customer (e.g., insufficient funds)
+        console.log(oneTimePaymentRes.error.message);
+      } else {
+        if (oneTimePaymentRes.status === "succeeded") {
+          paymentSuccess = true;
+        }
+      }
+    }
+    if (cartTotals.monthly.amount > 0) {
+      const paymentMethodRes = await stripe.createPaymentMethod({
+        type: "card",
+        card: cardElement,
+        billing_details: {
+          name: customerName,
+        },
       });
-      clientSecret = await res.text();
-    } catch (err) {
-      console.log(err);
+      if (paymentMethodRes.error) {
+        console.log(
+          "Error occurred creating payment method: ",
+          paymentMethodRes.error
+        );
+      }
+
+      const subscription = await submitSubscription(
+        cartTotals.monthly.cost,
+        customer.email,
+        paymentMethodRes.paymentMethod.id
+      );
+      if (subscription.status === "active") {
+        paymentSuccess = true;
+      }
     }
 
-    console.log("client aldkjfadj: ", clientSecret);
-    let result = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: elements.getElement(CardElement),
-        billing_details: {
-          name: "Jenny Rosen",
-        },
-      },
-    });
-
-    if (result.error) {
-      // Show error to your customer (e.g., insufficient funds)
-      console.log(result.error.message);
-      navigate(`/fail`);
+    if (paymentSuccess) {
+      navigate(`/success`);
     } else {
-      if (result.paymentIntent.status === "succeeded") {
-        console.log("Confirm payment success!");
-        // Show a success message to your customer
-        // There's a risk of the customer closing the window before callback
-        // execution. Set up a webhook or plugin to listen for the
-        // payment_intent.succeeded event that handles any business critical
-        // post-payment actions.
-
-        navigate(`/success`);
-      }
+      navigate(`/fail`);
     }
   };
 
@@ -61,4 +83,6 @@ export default function Purchase(amount) {
       <button disabled={!stripe}>Confirm Purchase</button>
     </form>
   );
-}
+};
+
+export default Purchase;
