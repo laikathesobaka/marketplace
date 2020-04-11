@@ -4,22 +4,125 @@
 const stripeSecret = process.env.STRIPE_SECRET;
 const stripe = require("stripe")(stripeSecret);
 
+async function createPaymentRequest(cardElement, customerName) {
+  let paymentRequest;
+  try {
+    paymentRequest = await stripe.createPaymentRequest({
+      type: "card",
+      cardElement,
+      billing_details: {
+        name: customerName,
+      },
+    });
+  } catch (err) {
+    console.log("Error occurred creating payment request: ", err);
+  }
+  return paymentRequest;
+}
+
+async function createPaymentMethod(cardElement, customerName) {
+  const res = await stripe.createPaymentMethod({
+    type: "card",
+    card: cardElement,
+    billing_details: {
+      name: customerName,
+    },
+  });
+  if (res.error) {
+    console.log("Error occurred creating payment method: ", err);
+  }
+  return res.paymentMethod;
+}
+
 async function createPaymentIntent(amount) {
   let paymentIntent;
   try {
     paymentIntent = await stripe.paymentIntents.create({
-      amount: amount,
+      amount: amount * 100,
       currency: "usd",
       // Verify your integration in this guide by including this parameter
       metadata: { integration_check: "accept_a_payment" },
     });
   } catch (err) {
     console.log("error occurred creating payment intent", err);
-    // throw err;
+    s;
   }
-  return paymentIntent.client_secret;
+  return {
+    paymentIntentID: paymentIntent.id,
+    clientSecret: paymentIntent.client_secret,
+    status: paymentIntent.status,
+  };
+}
+
+async function createCustomer(email, paymentMethod) {
+  let customer;
+  try {
+    customer = stripe.customers.create({
+      email,
+      payment_method: paymentMethod,
+      invoice_settings: {
+        default_payment_method: paymentMethod,
+      },
+    });
+  } catch (err) {
+    console.log("error occurred creating customer stripe: ", err);
+  }
+  return customer;
+}
+
+async function createProduct(productName = "mockecommerce") {
+  let product;
+  try {
+    product = await stripe.products.create({
+      name: productName,
+      type: "service",
+    });
+  } catch (err) {
+    console.log("Error occurred creating product: ", err);
+  }
+  return product;
+}
+
+async function createPlan(amount, productID, nickname) {
+  let plan;
+  try {
+    plan = await stripe.plans.create({
+      currency: "usd",
+      interval: "month",
+      product: productID,
+      nickname: nickname,
+      amount: amount,
+    });
+  } catch (err) {
+    console.log("Error occurred creating plan: ", err);
+  }
+  return plan;
+}
+
+async function createSubscription(customerID, planID, paymentIntent) {
+  let subscription;
+  try {
+    subscription = await stripe.subscriptions.create({
+      customer: customerID,
+      items: [
+        {
+          plan: planID,
+        },
+      ],
+      expand: ["latest_invoice.payment_intent"],
+    });
+  } catch (err) {
+    console.log("Error occurred creating subscription: ", err);
+  }
+  return subscription.status;
 }
 
 module.exports = {
   createPaymentIntent,
+  createCustomer,
+  createPaymentRequest,
+  createPaymentMethod,
+  createProduct,
+  createPlan,
+  createSubscription,
 };

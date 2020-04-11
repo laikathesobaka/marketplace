@@ -52,8 +52,18 @@ const AddItems = ({
       <StyledTotal>Total: ${total}.00</StyledTotal>
 
       <PurchaseOptions>
-        <OneTime onClick={() => setMonthlyPurchase(false)}>One-time</OneTime>
-        <Monthly onClick={() => setMonthlyPurchase(true)}>Monthly</Monthly>
+        <PurchaseOptionButton
+          onClick={() => setMonthlyPurchase(false)}
+          active={!isMonthlyPurchase}
+        >
+          One-time
+        </PurchaseOptionButton>
+        <PurchaseOptionButton
+          onClick={() => setMonthlyPurchase(true)}
+          active={isMonthlyPurchase}
+        >
+          Monthly
+        </PurchaseOptionButton>
       </PurchaseOptions>
 
       <StyledButton onClick={() => onAddToCart(true)}>Add To Cart</StyledButton>
@@ -79,13 +89,10 @@ const PurchaseOptions = styled.div`
   width: 100px;
 `;
 
-const OneTime = styled.div`
-  background-color: fuchsia;
+const PurchaseOptionButton = styled.div`
+  ${({ active }) => active && `background: fuchsia;`}
 `;
 
-const Monthly = styled.div`
-  background-color: aqua;
-`;
 const SelectWrapper = styled.div`
   padding-top: 20px;
 `;
