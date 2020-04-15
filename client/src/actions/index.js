@@ -1,3 +1,12 @@
+export const receiveUser = (user) => ({
+  type: "RECEIVE_USER",
+  user,
+});
+
+export const removeUser = () => ({
+  type: "REMOVE_USER",
+});
+
 export const addToCart = (product) => (dispatch, getState) => {
   const { cart } = getState();
   const productName = product.product;

@@ -10,6 +10,7 @@ import Image from "./Image";
 import About from "./About";
 import AddItems from "./AddItems";
 import CartSidebar from "./CartSidebar";
+import NavBar from "./NavBar";
 
 const ProductPage = ({ cart, cartTotals, addToCart, removeFromCart }) => {
   const [isSidebar, setSidebar] = useState(false);
@@ -37,9 +38,10 @@ const ProductPage = ({ cart, cartTotals, addToCart, removeFromCart }) => {
         purchaseItemsTotal={cartTotals}
         removePurchaseItem={removeFromCart}
       />
-
+      <NavBar />
       <div style={{ display: "flex", flexDirection: "column" }}>
         <Header />
+
         <div style={{ display: "flex", flexDirection: "row" }}>
           <div>
             <Image />

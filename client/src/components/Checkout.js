@@ -13,24 +13,7 @@ const stripePromise = loadStripe("pk_test_jOgo4md45t5TTraVaobJ6Lg400J8bGMDJx");
 const Checkout = ({ cart, cartTotals }) => {
   const [customer, setCustomer] = useState({});
   const [customerFormStatus, setCustomerFormStatus] = useState(false);
-  // const [monthlyProducts, setMonthlyProducts] = useState([]);
-  // const [oneTimeProducts, setOneTimeProducts] = useState([]);
-  useEffect(() => {
-    // separateProductsByType();
-  });
-  // const separateProductsByType = () => {
-  //   const monthly = [];
-  //   const oneTime = [];
-  //   Object.keys(cart).forEach((product) => {
-  //     if (product.type === "monthly") {
-  //       monthly.push(monthly);
-  //     } else {
-  //       oneTime.push(oneTime);
-  //     }
-  //   });
-  //   setMonthlyProducts([...monthly]);
-  //   setOneTimeProducts([...oneTime]);
-  // };
+
   const onSubmit = (data) => {
     // separateProduc;
     setCustomer(data);
