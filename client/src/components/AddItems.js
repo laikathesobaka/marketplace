@@ -21,7 +21,7 @@ const AddItems = ({
   user,
 }) => {
   const [canCheckout, setCheckout] = useState(false);
-  const [isMonthlyPurchase, setMonthlyPurchase] = useState(false);
+  const [isSubscriptionPurchase, setSubscriptionPurchase] = useState(false);
   const [dropdownOption, setDropdownOption] = useState({
     value: 0,
     label: "0",
@@ -42,7 +42,7 @@ const AddItems = ({
       total,
       unitCost: COST_PER_BULB,
       product: "garlic",
-      type: isMonthlyPurchase ? "monthly" : "one-time",
+      type: isSubscriptionPurchase ? "monthly" : null,
     };
     createPurchaseItem(purchaseItem);
     updateSidebarStatus(showSidebar);
@@ -59,14 +59,14 @@ const AddItems = ({
 
         <PurchaseOptions>
           <PurchaseOption
-            onClick={() => setMonthlyPurchase(false)}
-            active={!isMonthlyPurchase}
+            onClick={() => setSubscriptionPurchase(false)}
+            active={!isSubscriptionPurchase}
           >
             One-time
           </PurchaseOption>
           <PurchaseOption
-            onClick={() => setMonthlyPurchase(true)}
-            active={isMonthlyPurchase}
+            onClick={() => setSubscriptionPurchase(true)}
+            active={isSubscriptionPurchase}
           >
             Monthly
           </PurchaseOption>

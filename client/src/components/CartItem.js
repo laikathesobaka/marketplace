@@ -55,5 +55,4 @@ const RemoveButton = styled.button`
   border-color: black;
   width: 100%;
   height: 30px;
-  border-left-style: none;
 `;
