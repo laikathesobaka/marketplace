@@ -34,6 +34,13 @@ CREATE TABLE IF NOT EXISTS purchases (
   purchase_date DATE NOT NULL DEFAULT CURRENT_DATE
 );
 
+CREATE TABLE IF NOT EXISTS orders (
+  ID SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  purchases jsonb,
+  order_date DATE NOT NULL DEFAULT CURRENT_DATE
+)
+
 `);
 
 module.exports = { pool };

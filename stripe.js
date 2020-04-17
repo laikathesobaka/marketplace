@@ -1,6 +1,8 @@
 // Set your secret key. Remember to switch to your live secret key in production!
 // See your keys here: https://dashboard.stripe.com/account/apikeys
 
+require("dotenv").config();
+
 const stripeSecret = process.env.STRIPE_SECRET;
 const stripe = require("stripe")(stripeSecret);
 
@@ -35,6 +37,7 @@ async function createPaymentMethod(cardElement, customerName) {
 }
 
 async function createPaymentIntent(amount) {
+  console.log("CREATE PAYMENT INTENT ", amount);
   let paymentIntent;
   try {
     paymentIntent = await stripe.paymentIntents.create({
@@ -45,7 +48,6 @@ async function createPaymentIntent(amount) {
     });
   } catch (err) {
     console.log("error occurred creating payment intent", err);
-    s;
   }
   return {
     paymentIntentID: paymentIntent.id,

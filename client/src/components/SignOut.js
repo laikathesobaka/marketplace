@@ -1,16 +1,25 @@
 import React from "react";
+import styled from "styled-components";
 
-const SignOut = ({ signedIn, removeUser }) => {
+const SignOut = ({ removeUser, updateSignedInStatus }) => {
   const onSignOutClick = async () => {
     try {
       await fetch("/signout");
     } catch (err) {
       throw err;
     }
-    signedIn(false);
     removeUser();
+    // updateSignedInStatus(false);
   };
-  return <button onClick={() => onSignOutClick()}>Sign Out</button>;
+  return <Button onClick={() => onSignOutClick()}>Sign Out</Button>;
 };
 
 export default SignOut;
+
+const Button = styled.button`
+  padding: 10px;
+  font-size: 13px;
+  background-blend-mode: color;
+  border-style: solid;
+  border-color: black;
+`;

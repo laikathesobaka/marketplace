@@ -2,7 +2,6 @@ import React from "react";
 import { Router } from "@reach/router";
 
 import "./App.css";
-import Header from "./components/Header";
 import ProductPage from "./components/ProductPage";
 import Checkout from "./components/Checkout";
 import OrderSuccess from "./components/OrderSuccess";

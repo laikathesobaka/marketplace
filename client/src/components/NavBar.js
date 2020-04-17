@@ -3,32 +3,31 @@ import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import SignOut from "./SignOut";
 import styled from "styled-components";
-import { connect } from "react-redux";
-import { receiveUser, removeUser } from "../actions";
+import AccountSidebar from "./AccountSidebar";
 
-const NavBar = ({ receiveUser, removeUser }) => {
-  const [signedIn, setSignedIn] = useState(false);
-  // if (!signedIn) {
+const NavBar = ({ signedIn, updateAccountSidebarStatus }) => {
   return (
-    <div>
-      {signedIn ? (
-        <AuthOptions>
-          <SignOut signedIn={setSignedIn} removeUser={removeUser} />
-        </AuthOptions>
-      ) : (
-        <AuthOptions>
-          <SignIn signedIn={setSignedIn} receiveUser={receiveUser} />
-          <SignUp signedIn={setSignedIn} receiveUser={receiveUser} />
-        </AuthOptions>
-      )}
-    </div>
+    <NavBarContainer>
+      <div>
+        <AccountIcon
+          onClick={() => updateAccountSidebarStatus(true)}
+          src="./account2.jpg"
+        />
+      </div>
+    </NavBarContainer>
   );
 };
 
-export default connect(null, { receiveUser, removeUser })(NavBar);
+export default NavBar;
 
-const AuthOptions = styled.div`
+const NavBarContainer = styled.div`
+  margin-top: 15px;
+  margin-right: 15px;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+`;
+
+const AccountIcon = styled.img`
+  width: 20px;
 `;

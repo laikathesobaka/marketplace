@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 export default function Header() {
-  return <Title>GET THE FRESHEST GARLIC!!!</Title>;
+  return <Title>SIBERIAN FARMER'S MARKET</Title>;
 }
 
 const Title = styled.h1`

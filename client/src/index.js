@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { createLogger } from "redux-logger";
 import thunk from "redux-thunk";
 import reducer from "./reducers";
+import { checkSignedIn } from "./helpers/auth";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";

@@ -1,12 +1,17 @@
-const user = (state = {}, action) => {
+const initialState = {};
+const user = (state = initialState, action) => {
   switch (action.type) {
     case "RECEIVE_USER":
-      return { ...action.user };
+      return action.user;
     case "REMOVE_USER":
-      return {};
+      return { ...state, ...{ user: action.user } };
     default:
-      return {};
+      return state;
   }
+};
+
+export const getUser = (state) => {
+  return state.user;
 };
 
 export default user;
