@@ -6,7 +6,7 @@ import Cookie from "js-cookie";
 import { GoogleLogin } from "react-google-login";
 import googleConfig from "../googleConfig";
 
-const SignInPopUp = ({ showPopUp, signedIn, receiveUser }) => {
+const SignInPopUp = ({ showPopUp, receiveUser }) => {
   const { register, handleSubmit, watch, errors } = useForm();
   const [showSignInError, setShowSignInError] = useState(false);
 
@@ -23,16 +23,13 @@ const SignInPopUp = ({ showPopUp, signedIn, receiveUser }) => {
     const user = await res.json();
     if (res.status === 200) {
       receiveUser(user);
-      signedIn(true);
     }
     if (res.status === 400) {
       console.log("ERROR LOGGING IN USER: ", res);
       setShowSignInError(true);
     }
   };
-  const onGoogleFail = (googleRes) => {
-    signedIn(false);
-  };
+  const onGoogleFail = (googleRes) => {};
 
   const onSubmit = async (data) => {
     const res = await fetch("/signin", {
@@ -46,7 +43,6 @@ const SignInPopUp = ({ showPopUp, signedIn, receiveUser }) => {
     const user = await res.json();
     if (res.status === 200) {
       receiveUser(user);
-      signedIn(true);
     }
     if (res.status === 400) {
       console.log("ERROR LOGGING IN USER: ", res);

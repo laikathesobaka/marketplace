@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import Checkout from "./Checkout";
 import { Link } from "@reach/router";
-
 import styled from "styled-components";
+import Cart from "./Cart";
 
 const CartSidebar = ({
   open,
+  products,
   updateSidebarStatus,
   purchaseItems,
   purchaseItemsTotal,
@@ -14,65 +15,61 @@ const CartSidebar = ({
   return (
     <Sidebar open={open}>
       <TopBar>
-        <div style={{ display: "flex", justifyContent: "flex-start" }}>
-          <button onClick={() => updateSidebarStatus(false)}>Close</button>
-          <div>Your Cart</div>
-        </div>
+        {/* <div style={{ display: "flex", justifyContent: "flex-start" }}> */}
+        <CloseButton onClick={() => updateSidebarStatus(false)}>X</CloseButton>
+        <Title>Your Cart</Title>
+        {/* </div> */}
         <NumItems>{purchaseItemsTotal.amount} items</NumItems>
       </TopBar>
-      <div>
-        {Object.keys(purchaseItems).map((product) => {
-          return (
-            <PurchaseItem>
-              {product} x {purchaseItems[product].amount}
-              <RemoveItem onClick={() => removePurchaseItem(product)}>
-                Remove
-              </RemoveItem>
-            </PurchaseItem>
-          );
-        })}
-      </div>
-      <Summary>
-        <div>Total: {purchaseItemsTotal.cost}</div>
-        <StyledButton>
-          <Link to="checkout" purchaseItemsTotal={purchaseItemsTotal}>
-            Checkout
-          </Link>
-        </StyledButton>
-      </Summary>
+      <Cart
+        cartItems={purchaseItems}
+        cartTotals={purchaseItemsTotal}
+        products={products}
+        remove={true}
+        removeItem={removePurchaseItem}
+        checkout={true}
+      />
     </Sidebar>
   );
 };
 
 export default CartSidebar;
 
-const RemoveItem = styled.button``;
-const PurchaseItem = styled.div``;
-
-const Summary = styled.div`
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 20%;
-  background-color: cadetblue;
-`;
 const NumItems = styled.div`
   position: fixed;
-  right: 5px;
+  right: 10px;
   font-size: 12px;
 `;
+
 const TopBar = styled.div`
   display: flex;
-  flex-direction: row;
+  //   flex-direction: row;
+  justify-content: start;
   position: fixed;
-  top: 10px;
+  top: 20px;
+  width: 100%;
+`;
+
+const CloseButton = styled.button`
+  background-blend-mode: color;
+  border-style: none;
+  position: fixed;
+  left: 20px;
+`;
+
+const Title = styled.div`
+  position: fixed;
+  left: 85px;
 `;
 const Sidebar = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: start;
+
   width: 35%;
-  background: #effffa;
+  background: white;
+  border-left-style: solid;
+  border-width: 1px;
   transform: ${({ open }) => (open ? "translateX(0)" : "translateX(100%)")};
   height: 100vh;
   text-align: left;
@@ -82,9 +79,4 @@ const Sidebar = styled.div`
   right: 0;
   z-index: 1;
   transition: transform 0.3s ease-in-out;
-`;
-
-const StyledButton = styled.button`
-  padding: 5px 17px;
-  background: blue;
 `;

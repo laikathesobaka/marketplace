@@ -3,9 +3,8 @@ import { PopUp, Close, Title } from "./SignInPopUp";
 import AuthErrorMsg from "./AuthErrorMsg";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { navigate } from "@reach/router";
 
-const SignUpPopUp = ({ showPopUp, signedIn, receiveUser }) => {
+const SignUpPopUp = ({ showPopUp, receiveUser }) => {
   const [alreadyRegisteredErr, setAlreadyRegisteredErr] = useState(false);
   const [email, setEmail] = useState("");
   const onSubmit = async (data) => {
@@ -25,7 +24,6 @@ const SignUpPopUp = ({ showPopUp, signedIn, receiveUser }) => {
       setAlreadyRegisteredErr(true);
     }
     if (res.status === 200) {
-      signedIn(true);
       receiveUser(user);
       showPopUp(false);
     }

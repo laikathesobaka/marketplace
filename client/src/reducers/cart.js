@@ -1,7 +1,7 @@
 const cart = (state = {}, action) => {
   switch (action.type) {
     case "GET_CART_PRODUCTS":
-      return { ...state.cart };
+      return { ...state };
     case "ADD_TO_CART":
       const item = {
         [action.product.product]: { ...action.product },
@@ -10,21 +10,23 @@ const cart = (state = {}, action) => {
         ...state,
         ...item,
       };
+
     case "REMOVE_FROM_CART":
       return {
         ...action.cart,
       };
     default:
-      return {};
+      return state;
   }
 };
 
 export const getCartProducts = (state) => {
+  console.log("GET CART PRODUCTS STATE : ", state);
   return state.cart;
 };
 
 export const aggregateCartTotals = (state) => {
-  const cart = state.cart;
+  const cart = { ...state.cart };
   const cartTotals = Object.keys(cart).reduce(
     (totals, product) => {
       totals["cost"] += cart[product].amount * cart[product].unitCost;

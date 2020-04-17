@@ -8,7 +8,7 @@ const COST_PER_BULB = 10;
 
 const options = [];
 for (let i = 1; i <= 10; i++) {
-  options.push({ value: i, label: i });
+  options.push({ value: i, label: String(i) });
 }
 
 const AddItems = ({
@@ -18,11 +18,17 @@ const AddItems = ({
   updateTotal,
   updateSidebarStatus,
   createPurchaseItem,
+  user,
 }) => {
   const [canCheckout, setCheckout] = useState(false);
   const [isMonthlyPurchase, setMonthlyPurchase] = useState(false);
-
-  const onSelect = (amount) => {
+  const [dropdownOption, setDropdownOption] = useState({
+    value: 0,
+    label: "0",
+  });
+  const onSelect = (option) => {
+    const amount = option.value;
+    setDropdownOption(option);
     updateAmount(amount);
     updateTotal(COST_PER_BULB * amount);
     if (amount > 0) {
@@ -42,40 +48,47 @@ const AddItems = ({
     updateSidebarStatus(showSidebar);
   };
   return (
-    <SelectWrapper>
-      <StyledDropdown
-        options={options}
-        onChange={(option) => onSelect(option.value)}
-        value={amount}
-        placeholder={amount}
-      ></StyledDropdown>
-      <StyledTotal>Total: ${total}.00</StyledTotal>
+    <SelectContainer>
+      <DropdownContainer>
+        <StyledDropdown
+          options={options}
+          onChange={(option) => onSelect(option)}
+          value={dropdownOption.label}
+          placeholder={dropdownOption.label}
+        ></StyledDropdown>
 
-      <PurchaseOptions>
-        <PurchaseOptionButton
-          onClick={() => setMonthlyPurchase(false)}
-          active={!isMonthlyPurchase}
-        >
-          One-time
-        </PurchaseOptionButton>
-        <PurchaseOptionButton
-          onClick={() => setMonthlyPurchase(true)}
-          active={isMonthlyPurchase}
-        >
-          Monthly
-        </PurchaseOptionButton>
-      </PurchaseOptions>
+        <PurchaseOptions>
+          <PurchaseOption
+            onClick={() => setMonthlyPurchase(false)}
+            active={!isMonthlyPurchase}
+          >
+            One-time
+          </PurchaseOption>
+          <PurchaseOption
+            onClick={() => setMonthlyPurchase(true)}
+            active={isMonthlyPurchase}
+          >
+            Monthly
+          </PurchaseOption>
+        </PurchaseOptions>
+      </DropdownContainer>
+      <StyledTotal>Total ${total}.00</StyledTotal>
 
-      <StyledButton onClick={() => onAddToCart(true)}>Add To Cart</StyledButton>
+      <AddToCartButton
+        disabled={!canCheckout}
+        onClick={() => onAddToCart(true)}
+      >
+        Add To Cart
+      </AddToCartButton>
 
-      <StyledButton disabled={!canCheckout}>
+      {/* <StyledButton disabled={!canCheckout}>
         {canCheckout ? (
           <Link to="checkout">Checkout</Link>
         ) : (
           <div>Checkout</div>
         )}
-      </StyledButton>
-    </SelectWrapper>
+      </StyledButton> */}
+    </SelectContainer>
   );
 };
 
@@ -84,20 +97,46 @@ export default AddItems;
 const PurchaseOptions = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
   font-size: 12px;
-  width: 100px;
+  width: 200px;
+  border-style: solid;
+  margin-left: 10px;
+  border-width: 0.01em;
+  justify-content: space-around;
+  align-items: center;
 `;
 
-const PurchaseOptionButton = styled.div`
-  ${({ active }) => active && `background: fuchsia;`}
+const PurchaseOption = styled.div`
+  ${({ active }) =>
+    active
+      ? `background-color: black; color: white;`
+      : `background-color: white; color: black;`}
 `;
 
-const SelectWrapper = styled.div`
+const SelectContainer = styled.div`
   padding-top: 20px;
 `;
 
-const StyledDropdown = styled(Dropdown)``;
+const AddToCartButton = styled.button`
+  background-blend-mode: color;
+  color: white;
+  background-color: black;
+  font-weight: 600;
+  padding: 8px;
+  font-size: 13px;
+  width: 272px;
+  margin-top: 20px;
+`;
+
+const DropdownContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const StyledDropdown = styled(Dropdown)`
+  width: 50px;
+  margin-right: 10px;
+`;
 
 const StyledTotal = styled.div`
   padding-top: 10px;

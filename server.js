@@ -58,6 +58,19 @@ app.use(passport.session());
 
 // app.use(require("./routes/user"));
 
+const isAuthenticated = async (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  console.log("FAILED TO AUTHENTICATE IN SERVER", req.body);
+  res.send({ authenticated: false });
+};
+app.get("/authenticated", isAuthenticated, async (req, res, next) => {
+  console.log("rEQ TO /AUTHENTICATED: ", req.body);
+  const user = { ...req.user, authenticated: true };
+  res.send(user);
+});
+
 app.post("/signin", async (req, res, next) => {
   passport.authenticate("local", async (err, user, info) => {
     req.login(user, async (err) => {
@@ -103,7 +116,9 @@ app.post("/signup", async (req, res) => {
 });
 
 app.get("/signout", async (req, res) => {
+  console.log("SIGN OUT SERVER REQ !!!!!!!!!!!! ", req.session, req.user);
   req.logout();
+  console.log("SESSION AFTER LOGGING OUT : ", req.session);
   res.redirect("/");
 });
 
