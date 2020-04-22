@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import CartItem from "./CartItem";
 import Cart from "./Cart";
 
 const OrderSummary = ({ cart, cartTotals, products }) => {
@@ -36,5 +35,5 @@ const SummaryContainer = styled.div`
   border-left-style: solid;
   border-width: 1px;
   height: 100%;
-  width: 40%;
+  width: 35%;
 `;

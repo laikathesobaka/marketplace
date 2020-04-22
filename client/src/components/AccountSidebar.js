@@ -1,30 +1,27 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import SignIn from "./SignIn";
-import SignOut from "./SignOut";
 import SignUp from "./SignUp";
 import GoogleSignIn from "./GoogleSignIn";
 import SignedInAccountOptions from "./SignedInAccountOptions";
 
 const AccountSidebar = ({
+  user,
   receiveUser,
   removeUser,
   open,
   updateAccountSidebarStatus,
   signedIn,
-  updateSignedInStatus,
+  updateUserAuth,
+  checkUserAuthenticated,
 }) => {
   const [signUpClicked, setSignUpClicked] = useState(false);
-  const [showSignInError, setShowSignInError] = useState(false);
-  const updateShowSignInError = (state) => {
-    setShowSignInError(state);
+  const updateSignUpClicked = (status) => {
+    setSignUpClicked(status);
   };
   const onCloseClick = () => {
     updateAccountSidebarStatus(false);
-    setSignUpClicked(false);
-  };
-  const updateSignUpClicked = (status) => {
-    setSignUpClicked(status);
+    updateSignUpClicked(false);
   };
 
   return (
@@ -40,7 +37,7 @@ const AccountSidebar = ({
               <div>
                 <GoogleSignIn
                   receiveUser={receiveUser}
-                  updateShowSignInError={updateShowSignInError}
+                  updateUserAuth={updateUserAuth}
                   style={{ marginBottom: "20px" }}
                 />
                 <hr />
@@ -48,23 +45,22 @@ const AccountSidebar = ({
                   receiveUser={receiveUser}
                   onCloseClick={onCloseClick}
                   updateAccountSidebarStatus={updateAccountSidebarStatus}
-                  updateSignedInStatus={updateSignedInStatus}
+                  updateUserAuth={updateUserAuth}
                   updateSignUpClicked={updateSignUpClicked}
                 />
-                {/* <CreateAccountButton>Create Account</CreateAccountButton> */}
               </div>
             ) : (
               <div>
                 <GoogleSignIn
                   receiveUser={receiveUser}
-                  updateShowSignInError={updateShowSignInError}
+                  updateUserAuth={updateUserAuth}
                   style={{ marginBottom: "20px" }}
                 />
                 <hr />
                 <SignIn
                   receiveUser={receiveUser}
                   updateAccountSidebarStatus={updateAccountSidebarStatus}
-                  updateSignedInStatus={updateSignedInStatus}
+                  updateUserAuth={updateUserAuth}
                 />
                 <CreateAccountButton onClick={() => setSignUpClicked(true)}>
                   Create Account
@@ -75,9 +71,12 @@ const AccountSidebar = ({
         </div>
       ) : (
         <SignedInAccountOptions
+          user={user}
           removeUser={removeUser}
           onCloseClick={onCloseClick}
-          updateSignedInStatus={updateSignedInStatus}
+          updateUserAuth={updateUserAuth}
+          checkUserAuthenticated={checkUserAuthenticated}
+          updateAccountSidebarStatus={updateAccountSidebarStatus}
         />
       )}
     </SidebarContainer>
@@ -86,10 +85,7 @@ const AccountSidebar = ({
 
 export default AccountSidebar;
 
-const Title = styled.div`
-  position: fixed;
-  left: 110px;
-`;
+const Title = styled.div``;
 
 const Options = styled.div`
   display: flex;
@@ -116,7 +112,7 @@ const SidebarContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 30%;
+  width: 35%;
   background: white;
   border-left-style: solid;
   border-width: 1px;
@@ -132,10 +128,8 @@ const SidebarContainer = styled.div`
 
 const TopBar = styled.div`
   display: flex;
-  //   flex-direction: row;
-  justify-content: start;
-  position: fixed;
-  top: 20px;
+  justify-content: center;
+  margin-top: 14px;
   width: 100%;
 `;
 
@@ -143,5 +137,7 @@ const CloseButton = styled.button`
   background-blend-mode: color;
   border-style: none;
   position: fixed;
-  left: 33px;
+  left: 12px;
+  top: 15px;
+  color: black;
 `;

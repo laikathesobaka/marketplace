@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
+import FormErrorMsg from "./FormErrorMsg";
 
 const SignIn = ({
   receiveUser,
+  updateUserAuth,
   updateAccountSidebarStatus,
-  updateSignedInStatus,
 }) => {
-  const { register, handleSubmit, watch, errors } = useForm();
+  const { register, handleSubmit, errors } = useForm();
   const [showSignInError, setShowSignInError] = useState(false);
   const emailRules = {
     required: "Email is required.",
@@ -15,6 +16,9 @@ const SignIn = ({
       value: /^\S+@\S+$/i,
       message: "Invalid email address.",
     },
+  };
+  const passwordRules = {
+    required: "Password is required",
   };
   const onSubmit = async (data) => {
     const res = await fetch("/signin", {
@@ -27,15 +31,16 @@ const SignIn = ({
     });
     const user = await res.json();
     if (res.status === 200) {
-      console.log("USER SIGN IN STATUS 200 ?");
       receiveUser(user);
-      console.log("POST RECEIVE USER SIGN IN !");
-      updateAccountSidebarStatus(false);
-      // updateSignedInStatus(true);
+      if (updateAccountSidebarStatus) {
+        updateAccountSidebarStatus(false);
+      }
+      updateUserAuth({ authenticated: true });
     }
+
     if (res.status === 400) {
-      console.log("ERROR LOGGING IN USER: ", res);
       setShowSignInError(true);
+      updateUserAuth({ authenticated: false });
     }
   };
 
@@ -43,8 +48,16 @@ const SignIn = ({
     <div>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Input name="email" placeholder="Email" ref={register(emailRules)} />
-        {errors.email && <span>{errors.email.message}</span>}
-        <Input name="password" placeholder="Password" ref={register} />
+        {errors.email && <FormErrorMsg message={errors.email.message} />}
+        <Input
+          name="password"
+          placeholder="Password"
+          ref={register(passwordRules)}
+        />
+        {errors.password && <FormErrorMsg message={errors.password.message} />}
+        {showSignInError && (
+          <FormErrorMsg message={"Invalid email or password."} />
+        )}
         <SignInButton type="submit">Sign In</SignInButton>
       </Form>
     </div>
@@ -68,9 +81,10 @@ const SignInButton = styled.button`
   padding: 10px;
   background-blend-mode: color;
   background-color: black;
+  margin-top: 12px;
+  border-style: none;
   color: white;
   font-size: 13px;
-  font-weight: 600;
 `;
 
 const CreateAccountButton = styled.button`

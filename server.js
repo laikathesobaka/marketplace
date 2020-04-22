@@ -7,6 +7,7 @@ const FileStore = require("session-file-store")(session);
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const User = require("./controllers/user");
+const Order = require("./controllers/order");
 
 require("dotenv").config();
 
@@ -62,13 +63,11 @@ const isAuthenticated = async (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
   }
-  console.log("FAILED TO AUTHENTICATE IN SERVER", req.body);
   res.send({ authenticated: false });
 };
 app.get("/authenticated", isAuthenticated, async (req, res, next) => {
-  console.log("rEQ TO /AUTHENTICATED: ", req.body);
-  const user = { ...req.user, authenticated: true };
-  res.send(user);
+  // const user = { ...req.user, auth };
+  res.send({ ...req.user, authenticated: true });
 });
 
 app.post("/signin", async (req, res, next) => {
@@ -128,7 +127,21 @@ app.post("/purchase", async (req, res) => {
   res.send(paymentIntent);
 });
 
-app.post("/purchase/product", async (req, res) => {});
+app.post("/purchase/submitOrder", async (req, res) => {
+  const { user, purchases, orderTotals, orderDate } = req.body;
+  console.log("SUBMIT ORDER REQ . BODY", req.body);
+  try {
+    const order = await Order.createOrder(
+      user,
+      purchases,
+      orderTotals,
+      orderDate
+    );
+    res.status(200).send(order);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
 
 app.post("/purchase/paymentRequest", async (req, res) => {
   const { cardElement, customerName } = req.body;
@@ -157,7 +170,7 @@ app.post("/purchase/customer", async (req, res) => {
 
 app.post("/purchase/subscription", async (req, res) => {
   const { email, amount, paymentMethodID } = req.body;
-
+  console.log('"PURCHASE / SUBSCRIPTION REQ.BODY: ', req.body);
   let customer;
   try {
     customer = await stripe.createCustomer(email, paymentMethodID);
@@ -179,13 +192,53 @@ app.post("/purchase/subscription", async (req, res) => {
     console.log(err);
   }
 
-  let subscriptionStatus;
+  let subscription;
   try {
-    subscriptionStatus = await stripe.createSubscription(customer.id, plan.id);
+    subscription = await stripe.createSubscription(customer.id, plan.id);
   } catch (err) {
     console.log(err);
   }
-  return res.send({ status: subscriptionStatus });
+  return res.send(subscription);
+});
+
+app.post("/user/orderHistory", async (req, res) => {
+  const { userID } = req.body;
+  console.log("user/orderHistory req.body", req.body);
+  const orders = await Order.getOrdersByUserID(userID);
+  console.log("sending orders /orderHistory: ", orders);
+  res.send(orders);
+});
+
+app.post("/user/subscriptions", async (req, res) => {
+  const { userID } = req.body;
+  const subscriptions = await Order.getSubscriptionsByUserID(userID);
+  res.send(subscriptions);
+});
+
+app.post("/user/cancelSubscriptions", async (req, res) => {
+  const subscriptions = req.body;
+  console.log("CANCEL SUBSCRIPTIONS REQ.BODY --- ", req.body);
+  const subscriptionIDs = subscriptions.map(
+    (subscription) => subscription.subscription_id
+  );
+  console.log("SUBSCRIPTION IDS: ", subscriptionIDs);
+  const purchaseIDs = subscriptions.map(
+    (subscription) => subscription.purchase_id
+  );
+  console.log("PURCHASE IDS : ", purchaseIDs);
+
+  try {
+    await stripe.cancelSubscriptions(subscriptionIDs);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
+  }
+  try {
+    await Order.cancelPurchaseSubscriptions(purchaseIDs);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+  res.status(200);
 });
 
 app.listen(3001, () =>

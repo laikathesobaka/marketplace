@@ -74,6 +74,18 @@ async function createUser(firstName, lastName, email, password = "") {
   return insertedUser.rows[0];
 }
 
+async function updateUserContact(userID, address, phoneNumber) {
+  const query = {
+    text:
+      "UPDATE users SET address = $1, phone_number = $2 WHERE user_id = $3;",
+    values: [address, phoneNumber, userID],
+  };
+  try {
+    await pool.query();
+  } catch (err) {
+    console.log(err.stack);
+  }
+}
 async function getUserByID(userID) {
   let user;
   const query = {
@@ -107,4 +119,5 @@ module.exports = {
   createUser,
   getUserByID,
   getUserByEmail,
+  updateUserContact,
 };

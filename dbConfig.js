@@ -16,7 +16,8 @@ CREATE TABLE IF NOT EXISTS users (
   password_hash TEXT,
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
-  address TEXT
+  address TEXT,
+  phone_number INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS products (
@@ -25,21 +26,27 @@ CREATE TABLE IF NOT EXISTS products (
   name TEXT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS purchases (
-  ID SERIAL PRIMARY KEY,
-  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-  product_id INTEGER REFERENCES products(id) ON DELETE CASCADE,
-  amount INTEGER NOT NULL,
-  subscription BOOLEAN NOT NULL,
-  purchase_date DATE NOT NULL DEFAULT CURRENT_DATE
-);
-
 CREATE TABLE IF NOT EXISTS orders (
   ID SERIAL PRIMARY KEY,
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   purchases jsonb,
+  quantity_total INTEGER,
+  cost_total INTEGER,
   order_date DATE NOT NULL DEFAULT CURRENT_DATE
-)
+);
+
+CREATE TABLE IF NOT EXISTS purchases (
+  ID SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  product_id TEXT,
+  order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
+  subscription_id TEXT,
+  subscription_interval TEXT,
+  name TEXT,
+  quantity INTEGER NOT NULL,
+  cost INTEGER NOT NULL,
+  purchase_date DATE NOT NULL DEFAULT CURRENT_DATE
+);
 
 `);
 

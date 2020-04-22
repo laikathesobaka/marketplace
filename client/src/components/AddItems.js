@@ -1,98 +1,114 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "@reach/router";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { getCartProducts, aggregateCartTotals } from "../reducers/cart";
+import { addToCart, updateCartSidebarStatus } from "../actions";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import styled from "styled-components";
-
-const COST_PER_BULB = 10;
 
 const options = [];
 for (let i = 1; i <= 10; i++) {
   options.push({ value: i, label: String(i) });
 }
 
-const AddItems = ({
-  amount,
-  updateAmount,
-  total,
-  updateTotal,
-  updateSidebarStatus,
-  createPurchaseItem,
-  user,
-}) => {
+const AddItems = ({ product, addToCart, updateCartSidebarStatus }) => {
   const [canCheckout, setCheckout] = useState(false);
-  const [isSubscriptionPurchase, setSubscriptionPurchase] = useState(false);
   const [dropdownOption, setDropdownOption] = useState({
     value: 0,
     label: "0",
   });
+
+  const [amount, setAmount] = useState(0);
+  const [total, setTotal] = useState(0);
+
+  const [subscription, setSubscription] = useState("");
+  const [isSubscriptionPurchase, setIsSubscriptionPurchase] = useState(false);
+
+  const unitCost = product.unitCost;
+  const productName = product.name;
+  const media = product.media;
+
   const onSelect = (option) => {
-    const amount = option.value;
+    const quantity = option.value;
     setDropdownOption(option);
-    updateAmount(amount);
-    updateTotal(COST_PER_BULB * amount);
-    if (amount > 0) {
+    setAmount(quantity);
+    setTotal(product.unitCost * quantity);
+    if (quantity > 0) {
       setCheckout(true);
     }
   };
 
-  const onAddToCart = (showSidebar) => {
+  const onAddToCart = (sidebarStatus) => {
+    console.log("IS SUBSCRIPTION PURCHASE? ", isSubscriptionPurchase);
+    // if (isSubscriptionPurchase) {
+    //   setSubscription("monthly");
+    // } else {
+    //   setSubscription("");
+    // }
+    const sub = isSubscriptionPurchase ? "monthly" : "";
     const purchaseItem = {
+      productID: productName + sub,
       amount,
       total,
-      unitCost: COST_PER_BULB,
-      product: "garlic",
-      type: isSubscriptionPurchase ? "monthly" : null,
+      unitCost,
+      name: productName,
+      subscription: sub,
+      media,
     };
-    createPurchaseItem(purchaseItem);
-    updateSidebarStatus(showSidebar);
+    addToCart(purchaseItem);
+    updateCartSidebarStatus(sidebarStatus);
   };
+
   return (
-    <SelectContainer>
-      <DropdownContainer>
-        <StyledDropdown
-          options={options}
-          onChange={(option) => onSelect(option)}
-          value={dropdownOption.label}
-          placeholder={dropdownOption.label}
-        ></StyledDropdown>
+    <div>
+      <SelectContainer>
+        <DropdownContainer>
+          <StyledDropdown
+            options={options}
+            onChange={(option) => onSelect(option)}
+            value={dropdownOption.label}
+            placeholder={dropdownOption.label}
+          ></StyledDropdown>
 
-        <PurchaseOptions>
-          <PurchaseOption
-            onClick={() => setSubscriptionPurchase(false)}
-            active={!isSubscriptionPurchase}
-          >
-            One-time
-          </PurchaseOption>
-          <PurchaseOption
-            onClick={() => setSubscriptionPurchase(true)}
-            active={isSubscriptionPurchase}
-          >
-            Monthly
-          </PurchaseOption>
-        </PurchaseOptions>
-      </DropdownContainer>
-      <StyledTotal>Total ${total}.00</StyledTotal>
+          <PurchaseOptions>
+            <PurchaseOption
+              onClick={() => setIsSubscriptionPurchase(false)}
+              active={!isSubscriptionPurchase}
+            >
+              One-time
+            </PurchaseOption>
+            <PurchaseOption
+              onClick={() => setIsSubscriptionPurchase(true)}
+              active={isSubscriptionPurchase}
+            >
+              Monthly
+            </PurchaseOption>
+          </PurchaseOptions>
+        </DropdownContainer>
 
-      <AddToCartButton
-        disabled={!canCheckout}
-        onClick={() => onAddToCart(true)}
-      >
-        Add To Cart
-      </AddToCartButton>
+        <StyledTotal>Total ${total}.00</StyledTotal>
 
-      {/* <StyledButton disabled={!canCheckout}>
-        {canCheckout ? (
-          <Link to="checkout">Checkout</Link>
-        ) : (
-          <div>Checkout</div>
-        )}
-      </StyledButton> */}
-    </SelectContainer>
+        <AddToCartButton
+          disabled={!canCheckout}
+          onClick={() => onAddToCart(true)}
+        >
+          Add To Cart
+        </AddToCartButton>
+      </SelectContainer>
+    </div>
   );
 };
 
-export default AddItems;
+const mapStateToProps = (state) => ({
+  cart: getCartProducts(state),
+  cartTotals: aggregateCartTotals(state),
+});
+
+export default connect(mapStateToProps, {
+  addToCart,
+  aggregateCartTotals,
+  updateCartSidebarStatus,
+})(AddItems);
 
 const PurchaseOptions = styled.div`
   display: flex;
@@ -119,6 +135,7 @@ const SelectContainer = styled.div`
 
 const AddToCartButton = styled.button`
   background-blend-mode: color;
+  border-style: none;
   color: white;
   background-color: black;
   font-weight: 600;
@@ -141,9 +158,4 @@ const StyledDropdown = styled(Dropdown)`
 const StyledTotal = styled.div`
   padding-top: 10px;
   padding-bottom: 10px;
-`;
-
-const StyledButton = styled.button`
-  padding: 5px 17px;
-  background: transparent;
 `;

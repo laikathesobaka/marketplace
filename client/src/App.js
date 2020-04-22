@@ -2,24 +2,30 @@ import React from "react";
 import { Router } from "@reach/router";
 
 import "./App.css";
+import Home from "./components/Home";
 import ProductPage from "./components/ProductPage";
 import Checkout from "./components/Checkout";
 import OrderSuccess from "./components/OrderSuccess";
 import OrderFail from "./components/OrderFail";
-import SignInPopUp from "./components/SignInPopUp";
-import SignUpPopUp from "./components/SignUpPopUp";
+import Products from "./components/Products";
+import OrderHistory from "./components/OrderHistory";
+import SignedInAccountOptions from "./components/SignedInAccountOptions";
+import Subscriptions from "./components/Subscriptions";
 
 function App() {
   return (
     <div>
-      {/* <Header /> */}
+      <Home />
       <Router>
-        <ProductPage path="/" />
+        <Products path="/" />
+        <ProductPage path="/product/:productName" />
+        <SignedInAccountOptions path="/account" />
+
         <Checkout path="/checkout" />
         <OrderSuccess path="/success" />
         <OrderFail path="/fail" />
-        <SignInPopUp path="/signin" />
-        <SignUpPopUp path="/signup" />
+        <OrderHistory path="/orders" />
+        <Subscriptions path="/subscriptions" />
       </Router>
     </div>
   );

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-
+import React, { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
 const CheckoutForm = ({ onSubmit, customerFormStatus, user }) => {
-  const { register, handleSubmit, watch, errors } = useForm({
+  const [customerFormSuccess, setCustomerFormStatus] = useState(false);
+  const { register, handleSubmit, errors } = useForm({
     defaultValues: {
       firstName: user.first_name,
       lastName: user.last_name,
@@ -12,7 +12,6 @@ const CheckoutForm = ({ onSubmit, customerFormStatus, user }) => {
       address: user.address,
     },
   });
-  const [customerFormSuccess, setCustomerFormStatus] = useState(false);
   const nameRules = {
     required: "This field is required",
     pattern: {
@@ -22,6 +21,7 @@ const CheckoutForm = ({ onSubmit, customerFormStatus, user }) => {
   };
   return (
     <div>
+      {console.log("USER COMING INTO CHECKOUT FORM ", user.first_name)}
       <FormContainer>
         {console.log("customer form submit success? : ", customerFormSuccess)}
         <Title>Where's this order going?</Title>
@@ -89,6 +89,7 @@ const Form = styled.form`
 
 const UserInfoSection = styled.div``;
 const ShippingInfoSection = styled.div``;
+
 const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
