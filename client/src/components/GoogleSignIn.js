@@ -3,7 +3,7 @@ import { GoogleLogin } from "react-google-login";
 import googleConfig from "../googleConfig";
 import styled from "styled-components";
 
-const GoogleSignIn = ({ receiveUser, updateShowSignInError }) => {
+const GoogleSignIn = ({ receiveUser, updateUserAuth }) => {
   const onGoogleSuccess = async (googleRes) => {
     const res = await fetch("/signin/google", {
       method: "POST",
@@ -17,10 +17,11 @@ const GoogleSignIn = ({ receiveUser, updateShowSignInError }) => {
     const user = await res.json();
     if (res.status === 200) {
       receiveUser(user);
+      updateUserAuth(true);
     }
     if (res.status === 400) {
       console.log("ERROR LOGGING IN USER: ", res);
-      updateShowSignInError(true);
+      // updateShowSignInError(true);
     }
   };
   const onGoogleFail = (googleRes) => {};

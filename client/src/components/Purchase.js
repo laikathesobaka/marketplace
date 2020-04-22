@@ -2,9 +2,26 @@ import React, { useState } from "react";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { navigate } from "@reach/router";
 import CardSection from "./CardSection";
-import { getPaymentIntent, submitSubscription } from "../helpers/stripe";
+import {
+  getPaymentIntent,
+  submitSubscription,
+  submitOrder,
+} from "../helpers/payment";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
+
+const filterPurchaseItemsBySubscription = (purchaseItems) => {
+  const subscription = [];
+  const oneOff = [];
+  for (const item in purchaseItems) {
+    if (purchaseItems[item].subscription) {
+      subscription.push(purchaseItems[item]);
+    } else {
+      oneOff.push(purchaseItems[item]);
+    }
+  }
+  return [subscription, oneOff];
+};
 
 const Purchase = ({
   customerFormInput,
@@ -16,6 +33,10 @@ const Purchase = ({
   address,
 }) => {
   const [email, setEmail] = useState("");
+  const [
+    subscriptionPurchaseItems,
+    oneTimePurchaseItems,
+  ] = filterPurchaseItemsBySubscription(cart);
   const stripe = useStripe();
   const elements = useElements();
   const customerName = `${customerFormInput.firstName} ${customerFormInput.lastName}`;
@@ -30,46 +51,33 @@ const Purchase = ({
     },
   };
 
-  const handlePaymentSubmit = async (data, event) => {
-    console.log("ON PAYMENT FORM SUBMIT DATA ", event);
-    event.preventDefault();
-    if (!stripe || !elements) {
-      // Stripe.js has not yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
-      return;
-    }
-    setEmail(data.email);
-    const cardElement = elements.getElement(CardElement);
-    let paymentSuccess;
-    let oneTimePaymentRes;
-    if (cartTotals.monthly.amount === 0 && cartTotals.oneTime.amount > 0) {
-      const paymentIntentOneTime = await getPaymentIntent(
-        cartTotals.oneTime.cost
-      );
-      console.log("PAYMENT INTENT RETURNED : ", paymentIntentOneTime);
-      // Confirm payment for onetime products
-      oneTimePaymentRes = await stripe.confirmCardPayment(
-        paymentIntentOneTime.clientSecret,
-        {
-          payment_method: {
-            card: cardElement,
-            billing_details: {
-              name: customerName,
-            },
+  const processOneOffPayments = async (cardElement) => {
+    const paymentIntent = await getPaymentIntent(cartTotals.oneTime.cost);
+    const confirmPaymentRes = await stripe.confirmCardPayment(
+      paymentIntent.clientSecret,
+      {
+        payment_method: {
+          card: cardElement,
+          billing_details: {
+            name: customerName,
           },
-        }
-      );
-      console.log("ONE TIME PAYMENT RES -------- ", oneTimePaymentRes);
-      if (oneTimePaymentRes.error) {
-        // Show error to your customer (e.g., insufficient funds)
-        console.log(oneTimePaymentRes.error.message);
-      } else {
-        if (oneTimePaymentRes.paymentIntent.status === "succeeded") {
-          paymentSuccess = true;
-        }
+        },
       }
+    );
+    if (confirmPaymentRes.paymentIntent.status === "succeeded") {
+      return true;
     }
-    if (cartTotals.monthly.amount > 0) {
+    if (confirmPaymentRes.error) {
+      // Show error to your customer (e.g., insufficient funds)
+      console.log(confirmPaymentRes.error.message);
+      return false;
+    }
+    return false;
+  };
+
+  const processSubscriptionPayments = async (cardElement, purchaseItems) => {
+    const res = [];
+    for (const purchaseItem of purchaseItems) {
       const paymentMethodRes = await stripe.createPaymentMethod({
         type: "card",
         card: cardElement,
@@ -83,31 +91,64 @@ const Purchase = ({
           paymentMethodRes.error
         );
       }
-
       const subscription = await submitSubscription(
-        cartTotals.monthly.cost,
+        purchaseItem.total,
         customerFormInput.email,
         paymentMethodRes.paymentMethod.id
       );
       if (subscription.status === "active") {
-        paymentSuccess = true;
+        console.log(cart[purchaseItem.productID]);
+        cart[purchaseItem.productID].subscriptionID = subscription.id;
+        res.push(true);
+      }
+      if (subscription.status === "incomplete") {
+        res.push(false);
       }
     }
-    console.log("PAYMENT SUCCCESS ?? ---------- ", paymentSuccess);
-    if (paymentSuccess) {
-      navigate("/success", {
-        state: {
-          address,
-          email,
-          cartTotals,
-          cart,
-          user,
-          fullName,
-          products,
-        },
-      });
-    } else {
+    return res;
+  };
+
+  const handlePaymentSubmit = async (data, event) => {
+    event.preventDefault();
+    if (!stripe || !elements) {
+      // Stripe.js has not yet loaded.
+      // Make sure to disable form submission until Stripe.js has loaded.
+      return;
     }
+    setEmail(data.email);
+    const cardElement = elements.getElement(CardElement);
+    if (oneTimePurchaseItems.length) {
+      const oneTimePaymentRes = await processOneOffPayments(cardElement);
+      if (!oneTimePaymentRes) {
+        navigate("/fail");
+      }
+    }
+    if (subscriptionPurchaseItems.length) {
+      const subscriptionPaymentRes = await processSubscriptionPayments(
+        cardElement,
+        subscriptionPurchaseItems
+      );
+      if (subscriptionPaymentRes.every((res) => res)) {
+        navigate("/fail");
+      }
+    }
+
+    try {
+      const orderSubmitRes = await submitOrder(user, cart, cartTotals);
+    } catch (err) {
+      console.log("Error occurred submitting order :", err);
+    }
+    navigate("/success", {
+      state: {
+        address,
+        email,
+        cartTotals,
+        cart,
+        user,
+        fullName,
+        products,
+      },
+    });
   };
 
   return (

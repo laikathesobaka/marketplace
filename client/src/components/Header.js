@@ -5,9 +5,12 @@ export default function Header() {
   return <Title>SIBERIAN FARMER'S MARKET</Title>;
 }
 
-const Title = styled.h1`
-  font-size: 3em;
+const Title = styled.div`
+  width: -webkit-fill-available;
+  position: fixed;
+  top: 45px;
+  font-size: 30px;
   text-align: center;
   color: black;
-  padding: 20px;
+  font-weight: 900;
 `;

@@ -1,15 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 
-const SignOut = ({ removeUser, updateSignedInStatus }) => {
+const SignOut = ({ removeUser, updateUserAuth }) => {
   const onSignOutClick = async () => {
     try {
       await fetch("/signout");
     } catch (err) {
       throw err;
     }
-    removeUser();
-    // updateSignedInStatus(false);
+    // removeUser();
+    updateUserAuth({ authenticated: false });
   };
   return <Button onClick={() => onSignOutClick()}>Sign Out</Button>;
 };

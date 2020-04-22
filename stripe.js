@@ -116,7 +116,28 @@ async function createSubscription(customerID, planID, paymentIntent) {
   } catch (err) {
     console.log("Error occurred creating subscription: ", err);
   }
-  return subscription.status;
+  console.log("CREATED SUBSCRIPTION IN STRIPE.JS: ", subscription);
+  return subscription;
+}
+
+async function getSubscription(subscriptionID) {
+  let subscription;
+  try {
+    subscription = await stripe.subscriptions.retrieve(subscriptionID);
+  } catch (err) {
+    console.log("Error occurred retrieving subscription: ", err);
+  }
+  return subscription;
+}
+
+async function cancelSubscriptions(subscriptionIDs) {
+  for (const subscriptionID of subscriptionIDs) {
+    try {
+      await stripe.subscriptions.del(subscriptionID);
+    } catch (err) {
+      console.log("Error occurred deleting subscription: ", err);
+    }
+  }
 }
 
 module.exports = {
@@ -127,4 +148,6 @@ module.exports = {
   createProduct,
   createPlan,
   createSubscription,
+  getSubscription,
+  cancelSubscriptions,
 };

@@ -1,19 +1,17 @@
-import React, { useState } from "react";
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
-import SignOut from "./SignOut";
+import React from "react";
 import styled from "styled-components";
-import AccountSidebar from "./AccountSidebar";
 
-const NavBar = ({ signedIn, updateAccountSidebarStatus }) => {
+const NavBar = ({ updateAccountSidebarStatus, updateCartSidebarStatus }) => {
   return (
     <NavBarContainer>
-      <div>
-        <AccountIcon
-          onClick={() => updateAccountSidebarStatus(true)}
-          src="./account2.jpg"
-        />
-      </div>
+      <AccountIcon
+        src={process.env.PUBLIC_URL + "/account3.png"}
+        onClick={() => updateAccountSidebarStatus(true)}
+      />
+      <BasketIcon
+        src={process.env.PUBLIC_URL + "/account.png"}
+        onClick={() => updateCartSidebarStatus(true)}
+      />
     </NavBarContainer>
   );
 };
@@ -29,5 +27,14 @@ const NavBarContainer = styled.div`
 `;
 
 const AccountIcon = styled.img`
+  position: fixed;
+  right: 45px;
   width: 20px;
+`;
+
+const BasketIcon = styled.img`
+  position: fixed;
+  right: 20px;
+  width: 20px;
+  margin-left: 10px;
 `;

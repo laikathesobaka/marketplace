@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import Checkout from "./Checkout";
-import { Link } from "@reach/router";
+import React from "react";
 import styled from "styled-components";
 import Cart from "./Cart";
 
@@ -10,15 +8,14 @@ const CartSidebar = ({
   updateSidebarStatus,
   purchaseItems,
   purchaseItemsTotal,
-  removePurchaseItem,
+  removeFromCart,
 }) => {
   return (
     <Sidebar open={open}>
       <TopBar>
-        {/* <div style={{ display: "flex", justifyContent: "flex-start" }}> */}
         <CloseButton onClick={() => updateSidebarStatus(false)}>X</CloseButton>
-        <Title>Your Cart</Title>
-        {/* </div> */}
+        {/* <Title>Your Cart</Title> */}
+        <Img src={process.env.PUBLIC_URL + "/basket.png"} />
         <NumItems>{purchaseItemsTotal.amount} items</NumItems>
       </TopBar>
       <Cart
@@ -26,8 +23,9 @@ const CartSidebar = ({
         cartTotals={purchaseItemsTotal}
         products={products}
         remove={true}
-        removeItem={removePurchaseItem}
+        removeFromCart={removeFromCart}
         checkout={true}
+        updateSidebarStatus={updateSidebarStatus}
       />
     </Sidebar>
   );
@@ -35,16 +33,18 @@ const CartSidebar = ({
 
 export default CartSidebar;
 
+const Img = styled.img`
+  width: 30px;
+`;
+
 const NumItems = styled.div`
-  position: fixed;
-  right: 10px;
-  font-size: 12px;
+  font-size: 11px;
 `;
 
 const TopBar = styled.div`
   display: flex;
-  //   flex-direction: row;
-  justify-content: start;
+  justify-content: space-around;
+  align-items: baseline;
   position: fixed;
   top: 20px;
   width: 100%;
@@ -53,21 +53,17 @@ const TopBar = styled.div`
 const CloseButton = styled.button`
   background-blend-mode: color;
   border-style: none;
-  position: fixed;
-  left: 20px;
+  color: black;
 `;
 
-const Title = styled.div`
-  position: fixed;
-  left: 85px;
-`;
+const Title = styled.div``;
+
 const Sidebar = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: start;
-
   width: 35%;
-  background: white;
+  background-color: white;
   border-left-style: solid;
   border-width: 1px;
   transform: ${({ open }) => (open ? "translateX(0)" : "translateX(100%)")};

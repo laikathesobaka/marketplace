@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import ShippingInfoSummary from "./ShippingInfoSummary";
-import OrderSummary from "./OrderSummary";
+import { useNavigate } from "@reach/router";
+
 const OrderSuccess = (props) => {
-  console.log("ORDER SUCCESS PROPS ", props.location.state);
   const data = props.location.state;
+  const navigate = useNavigate();
   return (
     <Container>
       <Title>Order placed!</Title>
@@ -12,7 +13,9 @@ const OrderSuccess = (props) => {
         We have received your order and it is being processed. <br />
         You will get an email confirmation at {data.email}.
       </Note>
-      <ContinueShoppingButton>Continue Shopping</ContinueShoppingButton>
+      <ContinueShoppingButton onClick={() => navigate("/")}>
+        Continue Shopping
+      </ContinueShoppingButton>
       <ShippingInfoContainer>
         <ShippingInfoSummary fullName={data.fullName} address={data.address} />
       </ShippingInfoContainer>
@@ -43,6 +46,8 @@ const Note = styled.div`
 const ShippingInfoContainer = styled.div`
   font-size: 11px;
   width: 300px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 `;
 
 const ContinueShoppingButton = styled.button`

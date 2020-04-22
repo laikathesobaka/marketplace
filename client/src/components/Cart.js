@@ -1,49 +1,53 @@
 import React from "react";
 import styled from "styled-components";
 import CartItem from "./CartItem";
-import { Link } from "@reach/router";
+import { navigate } from "@reach/router";
 
 const Cart = ({
   cartItems,
   cartTotals,
   products,
   remove,
-  removeItem,
+  removeFromCart,
   checkout,
+  updateSidebarStatus,
 }) => {
   {
     console.log("CART ITEMS ---------- ", cartItems);
+    console.log("CART TOTLAS ", cartTotals);
     console.log("CART PRODUCTS ---- ", products);
   }
+  const onCheckoutClick = async () => {
+    updateSidebarStatus(false);
+    await navigate("/checkout");
+  };
   return (
     <CartContainer>
       <CartItemContainer>
         {Object.keys(cartItems).map((item) => {
+          console.log("ITEM: ", item);
           return (
             <CartItem
-              name={item}
+              productID={item}
+              name={cartItems[item].name}
               amount={cartItems[item].amount}
               total={cartItems[item].total}
-              media={products[item].media}
+              media={products[cartItems[item].name].media}
+              subscription={cartItems[item].subscription}
               remove={remove}
-              removeItem={removeItem}
+              removeFromCart={removeFromCart}
             />
           );
         })}
       </CartItemContainer>
-      <TotalsContainer>
+      <TotalsContainer checkout={checkout}>
         <Total>
           <div>Order Total</div>
           <div>${cartTotals.cost}.00</div>
         </Total>
         {checkout && (
-          <CheckoutButton>
-            <Link
-              to="checkout"
-              style={{ textDecoration: "none", color: "white" }}
-            >
-              Checkout
-            </Link>
+          <CheckoutButton onClick={() => onCheckoutClick()}>
+            Checkout
           </CheckoutButton>
         )}
       </TotalsContainer>
@@ -65,17 +69,19 @@ const CheckoutButton = styled.button`
   background-blend-mode: color;
   border-style: none;
   background-color: black;
+  color: white;
 `;
 
 const Total = styled.div`
   font-weight: bold;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   margin-top: 40px;
   margin-bottom: 20px;
-  width: 230px;
+  width: -webkit-fill-available;
+  justify-content: space-around;
 `;
+
 const TotalsContainer = styled.div`
   position: fixed;
   bottom: 0;
@@ -84,10 +90,12 @@ const TotalsContainer = styled.div`
   border-width: 1px;
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: ${(props) => (props.checkout ? "column" : "row")};
   align-items: center;
 `;
 
 const CartItemContainer = styled.div`
-  margin-left: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 `;

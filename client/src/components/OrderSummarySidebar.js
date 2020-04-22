@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import CartItem from "./CartItem";
+import Cart from "./Cart";
 
 const OrderSummary = ({ cart, cartTotals, products }) => {
   {
@@ -11,24 +12,33 @@ const OrderSummary = ({ cart, cartTotals, products }) => {
   return (
     <SummaryContainer>
       <Title>Order Summary - {cartTotals.amount} items</Title>
-      <OrderItemContainer>
-        {Object.keys(cart).map((item) => {
-          return (
-            <CartItem
-              name={item}
-              amount={cart[item].amount}
-              total={cart[item].total}
-              media={products[item].media}
-            />
-          );
-        })}
-      </OrderItemContainer>
+      <Cart
+        cartItems={cart}
+        cartTotals={cartTotals}
+        products={products}
+        remove={false}
+        checkout={false}
+      />
+      {/* <div>
+        <OrderItemContainer>
+          {Object.keys(cart).map((item) => {
+            return (
+              <CartItem
+                name={item}
+                amount={cart[item].amount}
+                total={cart[item].total}
+                media={products[item].media}
+              />
+            );
+          })}
+        </OrderItemContainer>
+      </div>
       <TotalsContainer>
         <Total>
           <div>Order Total</div>
           <div>${cartTotals.cost}.00</div>
         </Total>
-      </TotalsContainer>
+      </TotalsContainer> */}
     </SummaryContainer>
   );
 };
@@ -39,33 +49,46 @@ const Total = styled.div`
   font-weight: bold;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   margin-top: 40px;
-  margin-left: 40px;
-  width: 230px;
 `;
+
 const TotalsContainer = styled.div`
   position: fixed;
   bottom: 0;
   height: 200px;
   border-top-style: solid;
-  border-width: 1px;
-  width: 100%;
-`;
-const Title = styled.div`
-  margin-left: 40px;
-  margin-top: 50px;
-  margin-bottom: 50px;
-`;
-const SummaryContainer = styled.div`
-  position: fixed;
-  right: 0;
   border-left-style: solid;
   border-width: 1px;
-  height: 100%;
-  width: 40%;
+  width: 35%;
+`;
+
+const Title = styled.div`
+  margin-top: 50px;
+  margin-bottom: 50px;
+  text-align: center;
+`;
+
+const SummaryContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  width: 35%;
+  background-color: white;
+  border-left-style: solid;
+  border-width: 1px;
+  height: 100vh;
+  text-align: left;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
 `;
 
 const OrderItemContainer = styled.div`
-  margin-left: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  border-left-style: solid;
 `;

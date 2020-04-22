@@ -1,22 +1,40 @@
 import React from "react";
 import styled from "styled-components";
 
-const CartItem = ({ name, amount, total, media, remove, removeItem }) => {
+const CartItem = ({
+  productID,
+  name,
+  amount,
+  total,
+  media,
+  subscription,
+  remove,
+  removeFromCart,
+}) => {
+  const removeItem = (productName) => {
+    console.log("REMOVE CLICKED!");
+    removeFromCart(productName);
+  };
   return (
-    <CartItemContainer>
-      <Details>
-        <div>
-          {name} x {amount}
+    <div>
+      <CartItemContainer>
+        <Details>
+          <div>
+            {name} x {amount}
+          </div>
+          <div>${total}.00</div>
+        </Details>
+        <div style={{ verticalAlign: "middle" }}>
+          <ProductImg src={media} />
         </div>
-        <div>${total}.00</div>
-      </Details>
-      <div style={{ verticalAlign: "middle" }}>
-        <ProductImg src={media} />
-      </div>
+        <Subscription>{subscription}</Subscription>
+      </CartItemContainer>
       {remove && (
-        <RemoveButton onClick={() => removeItem(name)}>Remove</RemoveButton>
+        <RemoveButton onClick={() => removeItem(productID)}>
+          Remove
+        </RemoveButton>
       )}
-    </CartItemContainer>
+    </div>
   );
 };
 
@@ -30,11 +48,11 @@ const Details = styled.div`
 `;
 const CartItemContainer = styled.div`
   position: relative;
-  width: 120px;
-  height: 150px;
+  width: 110px;
+  height: 120px;
+  background-color: deepskyblue;
   border-style: solid;
   border-width: 0.01em;
-  background-color: white;
   font-size: 14px;
 `;
 
@@ -48,11 +66,19 @@ const ProductImg = styled.img`
 `;
 
 const RemoveButton = styled.button`
-  position: absolute;
-  bottom: 0;
-  right: 0;
   border-style: solid;
+  border-top-style: none;
   border-color: black;
-  width: 100%;
+  width: 110px;
   height: 30px;
+  color: black;
+`;
+
+const Subscription = styled.div`
+  font-size: 10px;
+  font-weight: 600;
+  position: absolute;
+  bottom: 15px;
+  text-align: center;
+  width: inherit;
 `;
