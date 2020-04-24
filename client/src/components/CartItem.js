@@ -16,11 +16,11 @@ const CartItem = ({
     removeFromCart(productName);
   };
   return (
-    <div>
+    <Container>
       <CartItemContainer>
         <Details>
           <div>
-            {name} x {amount}
+            {name} x {amount}lbs
           </div>
           <div>${total}.00</div>
         </Details>
@@ -34,7 +34,7 @@ const CartItem = ({
           Remove
         </RemoveButton>
       )}
-    </div>
+    </Container>
   );
 };
 
@@ -45,6 +45,11 @@ const Details = styled.div`
   text-align: center;
   font-size: 12px;
   font-weight: 300;
+  margin-right: 10px;
+`;
+
+const Container = styled.div`
+  margin-bottom: 10px;
 `;
 const CartItemContainer = styled.div`
   position: relative;

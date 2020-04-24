@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { getCartProducts, aggregateCartTotals } from "../reducers/cart";
 import { addToCart, updateCartSidebarStatus } from "../actions";
@@ -18,49 +18,62 @@ const AddItems = ({ product, addToCart, updateCartSidebarStatus }) => {
     label: "0",
   });
 
+  const [unitCost, setUnitCost] = useState(0);
+  const [media, setMedia] = useState("");
+  const [productName, setProductName] = useState("");
+  const [category, setCategory] = useState("");
   const [amount, setAmount] = useState(0);
   const [total, setTotal] = useState(0);
-
   const [subscription, setSubscription] = useState("");
   const [isSubscriptionPurchase, setIsSubscriptionPurchase] = useState(false);
-
-  const unitCost = product.unitCost;
-  const productName = product.name;
-  const media = product.media;
+  useEffect(() => {
+    setProductData();
+  }, [product]);
+  // const unitCost = product.unit_cost;
+  // const productName = product.name;
+  // const category = product.category;
+  // const media = product.media;
+  const setProductData = () => {
+    setUnitCost(product.unit_cost);
+    setMedia(product.media);
+    setProductName(product.name);
+    setCategory(product.category);
+  };
 
   const onSelect = (option) => {
     const quantity = option.value;
     setDropdownOption(option);
     setAmount(quantity);
-    setTotal(product.unitCost * quantity);
+    setTotal(unitCost * quantity);
     if (quantity > 0) {
       setCheckout(true);
     }
   };
 
   const onAddToCart = (sidebarStatus) => {
-    console.log("IS SUBSCRIPTION PURCHASE? ", isSubscriptionPurchase);
-    // if (isSubscriptionPurchase) {
-    //   setSubscription("monthly");
-    // } else {
-    //   setSubscription("");
-    // }
     const sub = isSubscriptionPurchase ? "monthly" : "";
     const purchaseItem = {
       productID: productName + sub,
       amount,
       total,
       unitCost,
-      name: productName,
+      productName,
       subscription: sub,
       media,
+      category,
     };
+    console.log("PURCHASE ITEM IN ADD TO CART : ", purchaseItem);
     addToCart(purchaseItem);
+    setAmount(0);
+    setTotal(0);
+    setDropdownOption({ value: 0, label: "0" });
+    setIsSubscriptionPurchase(false);
     updateCartSidebarStatus(sidebarStatus);
   };
 
   return (
     <div>
+      {console.log("PRODUCT COMING INTO ADD ITEMS ---- ", product)}
       <SelectContainer>
         <DropdownContainer>
           <StyledDropdown

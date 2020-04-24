@@ -26,6 +26,7 @@ const AccountSidebar = ({
 
   return (
     <SidebarContainer open={open}>
+      {console.log("ACCOUNT SIDE BAR OPEN STATUS ----- ", open)}
       {!signedIn ? (
         <div>
           <TopBar>
@@ -119,10 +120,10 @@ const SidebarContainer = styled.div`
   transform: ${({ open }) => (open ? "translateX(0)" : "translateX(100%)")};
   height: 100vh;
   padding: 0;
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
-  z-index: 1;
+  z-index: 3;
   transition: transform 0.3s ease-in-out;
 `;
 

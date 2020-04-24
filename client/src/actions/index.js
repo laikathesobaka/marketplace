@@ -14,12 +14,9 @@ export const removeUser = () => {
 };
 
 export const checkUserAuthenticated = () => async (dispatch) => {
-  // let authenticated;
   try {
     const res = await fetch("/authenticated");
     const authRes = await res.json();
-    console.log("AUTH RES !!!!!!!!!!!! ", authRes);
-    // authenticated = authRes.authenticated;
     dispatch(updateUserAuth(authRes));
   } catch (err) {
     console.log(
@@ -39,31 +36,39 @@ export const updateAccountSidebarStatus = (status) => ({
   status,
 });
 
+export const getAllProducts = () => async (dispatch) => {
+  let products;
+  try {
+    const productsRes = await fetch("/products", { method: "GET" });
+    products = await productsRes.json();
+  } catch (err) {
+    console.log("Error occurred fetching products: ", err);
+  }
+  dispatch({
+    type: "GET_PRODUCTS",
+    products,
+  });
+};
+
+export const getAllVendors = () => async (dispatch) => {
+  let vendors;
+  try {
+    const vendorsRes = await fetch("/vendors", { method: "GET" });
+    vendors = await vendorsRes.json();
+    console.log("VENDORS FETCH RES -------- ", vendors);
+  } catch (err) {
+    console.log("Error occurred fetching vendors: ", err);
+  }
+  dispatch({
+    type: "GET_VENDORS",
+    vendors,
+  });
+};
+
 export const addToCart = (purchaseItem) => ({
   type: "ADD_TO_CART",
   purchaseItem,
 });
-// export const addToCart = (product) => (dispatch, getState) => {
-//   const cartItems = { ...getState().cart.items };
-// const match = Object.keys(cartItems).forEach((item) => {
-//   if (cartItems[product.])
-// });
-// console.log("MATCH>>>> >", match);
-// if (cartItems[product.ID]) {
-//   dispatch(addToCartExisting(cartItems[product.ID], product));
-// } else {
-//   dispatch(addToCartNew(product));
-// }
-// if (!cartItems[productName]) {
-//   dispatch(addToCartNew(product));
-// } else {
-//   dispatch(addToCartExisting(cartItems[productName], product));
-// }
-// return {
-//   type: "ADD_TO_CART",
-//   product,
-// };
-// };
 
 export const addToCartNew = (purchaseItem) => ({
   type: "ADD_TO_CART",
@@ -72,9 +77,6 @@ export const addToCartNew = (purchaseItem) => ({
 
 export const addToCartExisting = (existingProduct, newProduct) => {
   console.log("ADDING TO CART EXISTING: ", existingProduct, newProduct);
-  // const product = { ...existingProduct };
-  // product.amount += newProduct.amount;
-  // product.total += newProduct.total;
   const product = {
     [existingProduct.productID]: {
       ...existingProduct,
