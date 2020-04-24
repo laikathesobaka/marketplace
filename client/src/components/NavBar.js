@@ -24,6 +24,8 @@ const NavBarContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  z-index: 3;
+  position: relative;
 `;
 
 const AccountIcon = styled.img`

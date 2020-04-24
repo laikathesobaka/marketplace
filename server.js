@@ -1,4 +1,6 @@
 const express = require("express");
+const url = require("url");
+const querystring = require("querystring");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const stripe = require("./stripe");
@@ -8,7 +10,8 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const User = require("./controllers/user");
 const Order = require("./controllers/order");
-
+const Product = require("./controllers/products");
+const Vendor = require("./controllers/vendors");
 require("dotenv").config();
 
 passport.use(
@@ -56,8 +59,6 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-// app.use(require("./routes/user"));
 
 const isAuthenticated = async (req, res, next) => {
   if (req.isAuthenticated()) {
@@ -121,6 +122,31 @@ app.get("/signout", async (req, res) => {
   res.redirect("/");
 });
 
+app.post("/products", async (req, res) => {
+  const products = await Product.createProducts();
+  res.send(products);
+});
+
+app.get("/products", async (req, res) => {
+  const products = await Product.getAllProducts();
+  res.send(products);
+});
+
+app.get("/vendors", async (req, res) => {
+  const vendors = await Vendor.getAllVendors();
+  console.log("VENDORS RES IN SERVER : ", vendors);
+  res.send(vendors);
+});
+
+app.get("/products/:vendorID", async (req, res) => {
+  console.log("PRODUCTS/VENDORS REQ.PARMS", req.params);
+  const vendorID = req.query.vendorID;
+  console.log("REQ. QUERY VENDORS", req.query);
+  const products = await Product.getProductsByVendorID(vendorID);
+  console.log("VENDOR PRODUCTS SERVER : ", products);
+  res.send(products);
+});
+
 app.post("/purchase", async (req, res) => {
   const totalCost = req.body.totalCost;
   const paymentIntent = await stripe.createPaymentIntent(totalCost);
@@ -129,7 +155,6 @@ app.post("/purchase", async (req, res) => {
 
 app.post("/purchase/submitOrder", async (req, res) => {
   const { user, purchases, orderTotals, orderDate } = req.body;
-  console.log("SUBMIT ORDER REQ . BODY", req.body);
   try {
     const order = await Order.createOrder(
       user,

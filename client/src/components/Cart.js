@@ -29,10 +29,10 @@ const Cart = ({
           return (
             <CartItem
               productID={item}
-              name={cartItems[item].name}
+              name={cartItems[item].productName}
               amount={cartItems[item].amount}
               total={cartItems[item].total}
-              media={products[cartItems[item].name].media}
+              media={cartItems[item].media}
               subscription={cartItems[item].subscription}
               remove={remove}
               removeFromCart={removeFromCart}
@@ -58,6 +58,8 @@ const Cart = ({
 export default Cart;
 
 const CartContainer = styled.div`
+  display: flex;
+  justify-content: center;
   text-align: center;
   margin-top: 100px;
 `;
@@ -88,7 +90,9 @@ const TotalsContainer = styled.div`
   height: 200px;
   border-top-style: solid;
   border-width: 1px;
-  width: 100%;
+  background-color: white;
+  //   width: width: 35%;;
+  width: -webkit-fill-available;
   display: flex;
   flex-direction: ${(props) => (props.checkout ? "column" : "row")};
   align-items: center;
@@ -97,5 +101,17 @@ const TotalsContainer = styled.div`
 const CartItemContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 80%;
+  &:after {
+      content: "",
+      flex: auto
+  }
+  overflow: auto;
+  min-height: min-content;
+  overflow-y: auto;
+  height: auto;
+  position: relative;
+  max-height: 64vh;
 `;

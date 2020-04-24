@@ -1,4 +1,5 @@
 const Pool = require("pg").Pool;
+
 require("dotenv").config();
 
 const pool = new Pool({
@@ -20,10 +21,20 @@ CREATE TABLE IF NOT EXISTS users (
   phone_number INTEGER
 );
 
+CREATE TABLE IF NOT EXISTS vendors (
+  ID SERIAL PRIMARY KEY,
+  name TEXT,
+  created_at DATE DEFAULT CURRENT_DATE
+);
+
 CREATE TABLE IF NOT EXISTS products (
   ID SERIAL PRIMARY KEY,
+  vendor_id INTEGER REFERENCES vendors(id) ON DELETE CASCADE,
   unit_cost INTEGER NOT NULL,
-  name TEXT NOT NULL
+  name TEXT NOT NULL,
+  media TEXT,
+  category TEXT,
+  inventory INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS orders (
@@ -47,6 +58,8 @@ CREATE TABLE IF NOT EXISTS purchases (
   cost INTEGER NOT NULL,
   purchase_date DATE NOT NULL DEFAULT CURRENT_DATE
 );
+
+INSERT INTO vendors (name) VALUES ('Yulia'), ('Dima'), ('Anna'), ('Alex');
 
 `);
 

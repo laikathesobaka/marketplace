@@ -70,9 +70,9 @@ const Sidebar = styled.div`
   height: 100vh;
   text-align: left;
   padding: 0;
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
-  z-index: 1;
+  z-index: 3;
   transition: transform 0.3s ease-in-out;
 `;

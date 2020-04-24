@@ -7,7 +7,6 @@ export default function Header() {
 
 const Title = styled.div`
   width: -webkit-fill-available;
-  position: fixed;
   top: 45px;
   font-size: 30px;
   text-align: center;

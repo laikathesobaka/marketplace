@@ -1,26 +1,7 @@
-const initialState = {
-  garlic: {
-    unitCost: 10,
-    media: "/garlic2.png",
-    name: "garlic",
-  },
-  onion: {
-    unitCost: 5,
-    media: "/onion.png",
-    name: "onion",
-  },
-  potato: {
-    unitCost: 3,
-    media: "/potato.png",
-    name: "potato",
-  },
-};
-
-const products = (state = initialState, action) => {
+const products = (state = {}, action) => {
   switch (action.type) {
-    case "GET_PURCHASE_ITEMS":
-      return { ...state };
-
+    case "GET_PRODUCTS":
+      return { ...state, ...action.products, ...action.categories };
     default:
       return state;
   }

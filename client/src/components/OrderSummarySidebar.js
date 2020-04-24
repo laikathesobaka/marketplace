@@ -19,53 +19,14 @@ const OrderSummary = ({ cart, cartTotals, products }) => {
         remove={false}
         checkout={false}
       />
-      {/* <div>
-        <OrderItemContainer>
-          {Object.keys(cart).map((item) => {
-            return (
-              <CartItem
-                name={item}
-                amount={cart[item].amount}
-                total={cart[item].total}
-                media={products[item].media}
-              />
-            );
-          })}
-        </OrderItemContainer>
-      </div>
-      <TotalsContainer>
-        <Total>
-          <div>Order Total</div>
-          <div>${cartTotals.cost}.00</div>
-        </Total>
-      </TotalsContainer> */}
     </SummaryContainer>
   );
 };
 
 export default OrderSummary;
 
-const Total = styled.div`
-  font-weight: bold;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  margin-top: 40px;
-`;
-
-const TotalsContainer = styled.div`
-  position: fixed;
-  bottom: 0;
-  height: 200px;
-  border-top-style: solid;
-  border-left-style: solid;
-  border-width: 1px;
-  width: 35%;
-`;
-
 const Title = styled.div`
   margin-top: 50px;
-  margin-bottom: 50px;
   text-align: center;
 `;
 
@@ -80,7 +41,7 @@ const SummaryContainer = styled.div`
   height: 100vh;
   text-align: left;
   padding: 0;
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   z-index: 1;

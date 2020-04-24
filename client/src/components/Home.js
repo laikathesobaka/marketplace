@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
+import styled from "styled-components";
 import { connect } from "react-redux";
-
 import {
   getCartProducts,
   aggregateCartTotals,
@@ -20,6 +20,7 @@ import {
   checkUserAuthenticated,
   updateUserAuth,
   updateAccountSidebarStatus,
+  getAllProducts,
 } from "../actions";
 
 import CartSidebar from "./CartSidebar";
@@ -28,6 +29,7 @@ import NavBar from "./NavBar";
 
 const Home = ({
   products,
+  getAllProducts,
   cart,
   cartTotals,
   cartSidebarStatus,
@@ -43,35 +45,51 @@ const Home = ({
   updateAccountSidebarStatus,
 }) => {
   useEffect(() => {
+    const seedProducts = async () => {
+      try {
+        await fetch("/products", { method: "POST" });
+      } catch (err) {
+        console.log("Error occurred seeding products");
+      }
+    };
+    seedProducts();
+    // getAllProducts();
     checkUserAuthenticated();
   }, []);
 
+  const onCounterSidebarClick = () => {
+    updateAccountSidebarStatus(false);
+    updateCartSidebarStatus(false);
+  };
   return (
     <div>
-      {console.log("HOME > USER LOGGED IN ?", userAuthStatus)}
-      <NavBar
-        updateAccountSidebarStatus={updateAccountSidebarStatus}
-        updateCartSidebarStatus={updateCartSidebarStatus}
-      />
-      <CartSidebar
-        products={products}
-        open={cartSidebarStatus}
-        updateSidebarStatus={updateCartSidebarStatus}
-        getCartSidebarStatus={getCartSidebarStatus}
-        purchaseItems={cart}
-        purchaseItemsTotal={cartTotals}
-        removeFromCart={removeFromCart}
-      />
-      <AccountSidebar
-        open={accountSidebarStatus}
-        receiveUser={receiveUser}
-        removeUser={removeUser}
-        updateAccountSidebarStatus={updateAccountSidebarStatus}
-        user={user}
-        signedIn={userAuthStatus}
-        updateUserAuth={updateUserAuth}
-        checkUserAuthenticated={checkUserAuthenticated}
-      />
+      <div>
+        <CounterSidebar onClick={() => onCounterSidebarClick()} />
+        {/* {console.log("HOME > USER LOGGED IN ?", userAuthStatus)} */}
+        <NavBar
+          updateAccountSidebarStatus={updateAccountSidebarStatus}
+          updateCartSidebarStatus={updateCartSidebarStatus}
+        />
+        <CartSidebar
+          products={products}
+          open={cartSidebarStatus}
+          updateSidebarStatus={updateCartSidebarStatus}
+          getCartSidebarStatus={getCartSidebarStatus}
+          purchaseItems={cart}
+          purchaseItemsTotal={cartTotals}
+          removeFromCart={removeFromCart}
+        />
+        <AccountSidebar
+          open={accountSidebarStatus}
+          receiveUser={receiveUser}
+          removeUser={removeUser}
+          updateAccountSidebarStatus={updateAccountSidebarStatus}
+          user={user}
+          signedIn={userAuthStatus}
+          updateUserAuth={updateUserAuth}
+          checkUserAuthenticated={checkUserAuthenticated}
+        />
+      </div>
     </div>
   );
 };
@@ -95,4 +113,12 @@ export default connect(mapStateToProps, {
   updateAccountSidebarStatus,
   checkUserAuthenticated,
   updateUserAuth,
+  getAllProducts,
 })(Home);
+
+const CounterSidebar = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+`;
