@@ -4,12 +4,6 @@ const stripe = require("../stripe");
 
 async function createPurchases(userID, orderID, orderDate, purchases) {
   for (const purchase of purchases) {
-    const subscriptionID = purchase.subscriptionID
-      ? purchase.subscriptionID
-      : "";
-    const subscriptionInterval = purchase.subscription
-      ? purchase.subscription
-      : "";
     const query = {
       text: `INSERT INTO purchases(
             user_id,
@@ -17,7 +11,7 @@ async function createPurchases(userID, orderID, orderDate, purchases) {
             order_id,
             subscription_id,
             subscription_interval,
-            name,
+            product_name,
             quantity,
             cost,
             purchase_date
@@ -26,9 +20,9 @@ async function createPurchases(userID, orderID, orderDate, purchases) {
         userID,
         purchase.productID,
         orderID,
-        subscriptionID,
-        subscriptionInterval,
-        purchase.name,
+        purchase.subscriptionID,
+        purchase.subscription,
+        purchase.productName,
         purchase.amount,
         purchase.total,
         orderDate,
@@ -65,9 +59,55 @@ async function createOrder(user, purchases, orderTotals, orderDate) {
   return order.rows[0];
 }
 
+function formatOrdersByID(orders) {
+  return orders.reduce((res, order) => {
+    const purchase = {
+      productID: order.product_id,
+      subscriptionID: order.subscription_id,
+      subscriptionInterval: order.subscription_interval,
+      productName: order.product_name,
+      quantity: order.quantity,
+      cost: order.cost,
+      vendorID: order.vendor_id,
+      unitCost: order.unit_cost,
+      media: order.media,
+      category: order.category,
+    };
+    if (!res[order.id]) {
+      res[order.id] = {
+        orderID: order.id,
+        orderDate: order.order_date,
+        quantityTotal: order.quantity_total,
+        costTotal: order.cost_total,
+        purchases: [purchase],
+      };
+    } else {
+      res[order.id].purchases.push(purchase);
+    }
+    return res;
+  }, {});
+}
+
 async function getOrdersByUserID(userID) {
   const query = {
-    text: "SELECT * FROM orders WHERE user_id = $1 ORDER BY order_date DESC;",
+    text: `SELECT
+        orders.id,
+        order_date,
+        quantity_total,
+        cost_total,
+        product_id,
+        subscription_id,
+        subscription_interval,
+        product_name,
+        quantity,
+        cost,
+        vendor_id,
+        unit_cost,
+        media,
+        category
+    FROM orders INNER JOIN purchases ON orders.id = purchases.order_id
+    INNER JOIN products on purchases.product_id = products.id 
+    WHERE orders.user_id = $1 ORDER BY order_date DESC;`,
     values: [userID],
   };
   let orders;
@@ -76,8 +116,11 @@ async function getOrdersByUserID(userID) {
   } catch (err) {
     console.log(err.stack);
   }
-  console.log("ORDERS.ROWS[0].PURCHASES ", orders.rows);
-  return orders.rows;
+  console.log(
+    "GET ORDERS INNER JOIN PURCHASES RES: ",
+    formatOrdersByID(orders.rows)
+  );
+  return formatOrdersByID(orders.rows);
 }
 
 async function getSubscriptionsByUserID(userID) {

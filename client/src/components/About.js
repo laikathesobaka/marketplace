@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { formatPrice } from "../helpers/formatPrice";
 
 const About = ({ unitCost, description }) => {
   return (
@@ -8,7 +9,7 @@ const About = ({ unitCost, description }) => {
         <div>Sourced from the best Siberian farmer's market.</div>
         <div>Number one cure for colds.</div>
       </Description>
-      <Cost>${unitCost}.00/lb</Cost>
+      <Cost>${formatPrice(unitCost)}/lb</Cost>
     </AboutContainer>
   );
 };

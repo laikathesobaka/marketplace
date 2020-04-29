@@ -4,19 +4,23 @@ const cart = (state = initialState, action) => {
     case "GET_CART_PRODUCTS":
       return { ...state, ...state.items };
     case "ADD_TO_CART":
-      console.log("STATE COMING INTO ADD TO CART", state);
-      console.log("ADD TO CART ACTION PRODUCT", action.purchaseItem);
-      const existingPurchaseItem = state.items[action.purchaseItem.productID];
+      const purchaseItemKey =
+        String(action.purchaseItem.productID) +
+        action.purchaseItem.productName +
+        action.purchaseItem.subscription;
+      const existingPurchaseItem = state.items[purchaseItemKey];
+      console.log(" EXISTING PURCHASE ITEM -------- ", existingPurchaseItem);
       if (existingPurchaseItem) {
         const combined = {
           ...existingPurchaseItem,
+          purchaseItemKey,
           amount: (existingPurchaseItem.amount += action.purchaseItem.amount),
           total: (existingPurchaseItem.total += action.purchaseItem.total),
         };
         console.log("COMBINED: ", combined);
         return {
           ...state,
-          items: { ...state.items, [existingPurchaseItem.productID]: combined },
+          items: { ...state.items, [purchaseItemKey]: combined },
           list: [...state.list, action.purchaseItem],
         };
       } else {
@@ -24,7 +28,7 @@ const cart = (state = initialState, action) => {
           ...state,
           items: {
             ...state.items,
-            [action.purchaseItem.productID]: action.purchaseItem,
+            [purchaseItemKey]: { ...action.purchaseItem, purchaseItemKey },
           },
           list: [...state.list, action.purchaseItem],
         };

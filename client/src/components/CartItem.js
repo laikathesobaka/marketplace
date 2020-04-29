@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { formatPrice } from "../helpers/formatPrice";
 
 const CartItem = ({
   productID,
@@ -22,7 +23,7 @@ const CartItem = ({
           <div>
             {name} x {amount}lbs
           </div>
-          <div>${total}.00</div>
+          <div>${formatPrice(total)}</div>
         </Details>
         <div style={{ verticalAlign: "middle" }}>
           <ProductImg src={media} />

@@ -133,7 +133,8 @@ async function getSubscription(subscriptionID) {
 async function cancelSubscriptions(subscriptionIDs) {
   for (const subscriptionID of subscriptionIDs) {
     try {
-      await stripe.subscriptions.del(subscriptionID);
+      const subscription = await stripe.subscriptions.del(subscriptionID);
+      console.log("DELETED SUBSCRIPTION ------------- ", subscription);
     } catch (err) {
       console.log("Error occurred deleting subscription: ", err);
     }

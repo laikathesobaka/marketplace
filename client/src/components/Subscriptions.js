@@ -10,12 +10,18 @@ import {
   checkUserAuthenticated,
   updateUserAuth,
   updateAccountSidebarStatus,
+  getAllProducts,
 } from "../actions";
 import { cancelSubscriptions } from "../helpers/payment";
 import SubscriptionItem from "./SubscriptionItem";
 import styled from "styled-components";
 
-const Subscriptions = ({ user, checkUserAuthenticated, products }) => {
+const Subscriptions = ({
+  user,
+  checkUserAuthenticated,
+  products,
+  getAllProducts,
+}) => {
   const [subscriptions, setSubscriptions] = useState([]);
   const [cancelSubscriptionStatus, setCancelSubscriptionStatus] = useState(
     false
@@ -33,6 +39,7 @@ const Subscriptions = ({ user, checkUserAuthenticated, products }) => {
       console.log("ORDERS GET SUBSCRIPTIONS ----- ", subscriptionsRes);
       setSubscriptions(subscriptionsRes);
     };
+    getAllProducts();
     getSubscriptions();
   }, []);
 
@@ -53,20 +60,23 @@ const Subscriptions = ({ user, checkUserAuthenticated, products }) => {
     <div>
       <SubscriptionsContainer>
         <Title>Subscriptions</Title>
-        {!subscriptions.length && <div>No subscriptions.</div>}
-        {subscriptions.map((subscription) => {
-          return (
-            <SubscriptionItem
-              subscription={subscription}
-              product={products[subscription.name]}
-              cancelSubscriptions={onCancelSubscriptionsClick}
-            />
-          );
-        })}
-        {subscriptions.length && (
-          <CancelAllSubscriptions>
-            Cancel All Subscriptions
-          </CancelAllSubscriptions>
+        {!subscriptions.length ? (
+          <NoSubscriptions>No subscriptions</NoSubscriptions>
+        ) : (
+          <SubscriptionItemsContainer>
+            {subscriptions.map((subscription) => {
+              return (
+                <SubscriptionItem
+                  subscription={subscription}
+                  product={products[subscription.product_id]}
+                  cancelSubscriptions={onCancelSubscriptionsClick}
+                />
+              );
+            })}
+            <CancelAllSubscriptions>
+              Cancel All Subscriptions
+            </CancelAllSubscriptions>
+          </SubscriptionItemsContainer>
         )}
       </SubscriptionsContainer>
     </div>
@@ -84,6 +94,7 @@ export default connect(mapStateToProps, {
   updateAccountSidebarStatus,
   checkUserAuthenticated,
   updateUserAuth,
+  getAllProducts,
 })(Subscriptions);
 
 const SubscriptionsContainer = styled.div`
@@ -98,4 +109,17 @@ const Title = styled.div`
   font-size: 13px;
 `;
 
-const CancelAllSubscriptions = styled.button``;
+const NoSubscriptions = styled.div`
+  margin-top: 30px;
+  font-size: 13px;
+`;
+
+const SubscriptionItemsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const CancelAllSubscriptions = styled.button`
+  width: 200px;
+`;

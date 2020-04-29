@@ -14,7 +14,7 @@ import styled from "styled-components";
 import Order from "./Order";
 
 const OrderHistory = (props) => {
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState({});
   const userID = props.location.state.user.id;
   useEffect(() => {
     checkUserAuthenticated();
@@ -33,13 +33,13 @@ const OrderHistory = (props) => {
   return (
     <OrderHistoryContainer>
       <Title>Orders</Title>
-      {orders.length === 0 && (
+      {Object.keys(orders).length === 0 && (
         <NoOrders>
           <div>No order history.</div>
         </NoOrders>
       )}
-      {orders.map((order) => {
-        return <Order order={order} />;
+      {Object.keys(orders).map((orderID) => {
+        return <Order order={orders[orderID]} />;
       })}
     </OrderHistoryContainer>
   );

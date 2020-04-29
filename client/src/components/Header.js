@@ -6,10 +6,12 @@ export default function Header() {
 }
 
 const Title = styled.div`
+  position: relative;
   width: -webkit-fill-available;
-  top: 45px;
   font-size: 30px;
   text-align: center;
   color: black;
   font-weight: 900;
+  margin-bottom: 60px;
+  margin-bottom: 60px;
 `;
