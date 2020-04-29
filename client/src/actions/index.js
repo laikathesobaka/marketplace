@@ -36,6 +36,11 @@ export const updateAccountSidebarStatus = (status) => ({
   status,
 });
 
+export const updateShowSearch = (status) => ({
+  type: "SHOW_SEARCH",
+  status,
+});
+
 export const getAllProducts = () => async (dispatch) => {
   let products;
   try {

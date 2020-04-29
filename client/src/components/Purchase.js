@@ -97,8 +97,7 @@ const Purchase = ({
         paymentMethodRes.paymentMethod.id
       );
       if (subscription.status === "active") {
-        console.log(cart[purchaseItem.productID]);
-        cart[purchaseItem.productID].subscriptionID = subscription.id;
+        cart[purchaseItem.purchaseItemKey].subscriptionID = subscription.id;
         res.push(true);
       }
       if (subscription.status === "incomplete") {

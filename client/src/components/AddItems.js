@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { getCartProducts, aggregateCartTotals } from "../reducers/cart";
 import { addToCart, updateCartSidebarStatus } from "../actions";
+import { formatPrice } from "../helpers/formatPrice";
+
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import styled from "styled-components";
@@ -53,7 +55,7 @@ const AddItems = ({ product, addToCart, updateCartSidebarStatus }) => {
   const onAddToCart = (sidebarStatus) => {
     const sub = isSubscriptionPurchase ? "monthly" : "";
     const purchaseItem = {
-      productID: productName + sub,
+      productID: product.id,
       amount,
       total,
       unitCost,
@@ -99,7 +101,7 @@ const AddItems = ({ product, addToCart, updateCartSidebarStatus }) => {
           </PurchaseOptions>
         </DropdownContainer>
 
-        <StyledTotal>Total ${total}.00</StyledTotal>
+        <StyledTotal>Total ${total ? formatPrice(total) : "0.00"}</StyledTotal>
 
         <AddToCartButton
           disabled={!canCheckout}

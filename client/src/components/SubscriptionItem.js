@@ -1,25 +1,26 @@
 import React from "react";
 import styled from "styled-components";
-// import moment from "moment";
+import moment from "moment";
+import { formatPrice } from "../helpers/formatPrice";
 
 const SubscriptionItem = ({ subscription, product, cancelSubscriptions }) => {
   const subscriptionType = subscription.subscription_interval;
-  const nextOrderDate = new Date(subscription.current_period_end * 1000);
+  const nextOrderDate = moment
+    .unix(subscription.current_period_end)
+    .format("MMM Do, YYYY");
   return (
     <SubscriptionItemContainer>
+      {console.log(" SUBSCRIPTION ITEM SUB AND PRO", subscription, product)}
       <ImgContainer>
         <Img src={product.media} />
       </ImgContainer>
       <Information>
         <Title>
-          {subscriptionType} subscription for {subscription.name}
+          {subscriptionType} subscription for {subscription.product_name}
         </Title>
         <div>Quantity: {subscription.quantity}</div>
-        <div>Total: {subscription.total}</div>
-        <div>
-          Next order takes place on {nextOrderDate.getMonth() + 1}{" "}
-          {nextOrderDate.getDate()} {nextOrderDate.getFullYear()}
-        </div>
+        <div>Total: ${formatPrice(subscription.cost)}</div>
+        <div>Next order takes place on {nextOrderDate}</div>
         <CancelSubscriptionButton
           onClick={() => cancelSubscriptions([subscription])}
         >

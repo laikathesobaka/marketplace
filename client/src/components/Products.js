@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { navigate } from "@reach/router";
+import Product from "./Product";
+import { Link, navigate } from "@reach/router";
 import { connect } from "react-redux";
 import { getProducts } from "../reducers/products";
+import { getShowSearchStatus } from "../reducers/search";
 import { getVendors } from "../reducers/vendors";
 import Header from "./Header";
+import SearchBar from "./SearchBar";
 import styled from "styled-components";
+import { formatPrice } from "../helpers/formatPrice";
 import {
   checkUserAuthenticated,
   getAllProducts,
   getAllVendors,
+  updateShowSearch,
 } from "../actions";
 
 const Products = ({
@@ -17,10 +22,27 @@ const Products = ({
   vendors,
   getAllVendors,
   checkUserAuthenticated,
+  showSearch,
+  updateShowSearch,
 }) => {
+  useEffect(() => {
+    const seedProducts = async () => {
+      try {
+        await fetch("/products", { method: "POST" });
+      } catch (err) {
+        console.log("Error occurred seeding products");
+      }
+    };
+    checkUserAuthenticated();
+    seedProducts();
+    getAllProducts();
+    getAllVendors();
+  }, []);
+
   const categories = Array.from(
     new Set(Object.keys(products).map((product) => products[product].category))
   );
+
   const productsByCategory = Object.keys(products).reduce((res, product) => {
     if (res[products[product].category]) {
       res[products[product].category].push(products[product]);
@@ -29,12 +51,9 @@ const Products = ({
     }
     return res;
   }, {});
-  useEffect(() => {
-    getAllProducts();
-    getAllVendors();
-    checkUserAuthenticated();
-  }, []);
+
   const onProductClick = (product) => {
+    console.log("CLICKED ON PRODUCT CLICK : ", product);
     const vendor = vendors[product.vendor_id];
     navigate(`/product/${product.name}`, {
       state: {
@@ -49,44 +68,65 @@ const Products = ({
       },
     });
   };
+
+  const onCategoryClick = (category) => {
+    navigate(`/category/${category}`, {
+      state: {
+        category,
+        products,
+        vendors,
+      },
+    });
+  };
+
+  const categoryImageMap = {
+    produce: "🍅",
+    dairy: "🧀",
+    seafood: "🐟",
+    poultry: "🐔",
+    meat: "🥩",
+  };
   return (
     <div
       style={{
         display: "flex",
-        justifyContent: "center",
-        position: "fixed",
         width: "-webkit-fill-available",
         height: "100%",
         overflow: "scroll",
       }}
     >
+      <SearchBar
+        show={showSearch}
+        updateShowSearch={updateShowSearch}
+        onProductClick={onProductClick}
+        products={products}
+      />
       <Container>
         <Header />
-
-        {/* <Container> */}
+        <CategoryTabs>
+          {categories.map((category) => (
+            <CategoryTab onClick={() => onCategoryClick(category)}>
+              {categoryImageMap[category]}
+            </CategoryTab>
+          ))}
+        </CategoryTabs>
         {categories.map((category) => {
           return (
-            // <div>
             <CategoryContainer>
               <Category>{category}</Category>
               <ProductsContainer>
-                {productsByCategory[category].map((product) => {
+                {productsByCategory[category].slice(0, 8).map((product) => {
                   return (
-                    <Product onClick={() => onProductClick(product)}>
-                      <ImageBox>
-                        <ProductImg src={product.media} />
-                      </ImageBox>
-                      <InfoBox>
-                        <Info>
-                          <ProductName>{product.name}</ProductName>
-                          <UnitCost>${product.unit_cost}.00/lb</UnitCost>
-                        </Info>
-                        {/* <AddToCartButton>Add To Cart</AddToCartButton> */}
-                      </InfoBox>
-                    </Product>
+                    <Product
+                      product={product}
+                      onProductClick={onProductClick}
+                    />
                   );
                 })}
               </ProductsContainer>
+              <SeeMore onClick={() => onCategoryClick(category)}>
+                See more
+              </SeeMore>
             </CategoryContainer>
           );
         })}
@@ -98,37 +138,67 @@ const Products = ({
 const mapStateToProps = (state) => ({
   products: getProducts(state),
   vendors: getVendors(state),
+  showSearch: getShowSearchStatus(state),
 });
 
 export default connect(mapStateToProps, {
   checkUserAuthenticated,
   getAllProducts,
   getAllVendors,
+  updateShowSearch,
 })(Products);
 
 const Container = styled.div`
   margin-top: 50px;
   display: flex;
   flex-direction: column;
-  flex: 0 0 auto;
+  // flex: 0 0 auto;
+  align-items: center;
   margin-bottom: 50px;
+  width: -webkit-fill-available;
 `;
 const CategoryContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  width: 55%;
+  justify-content: flex-start;
+  margin-bottom: 60px;
 `;
 
 const ProductsContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
   // position: relative;
   z-index: 2;
   flex-wrap: wrap;
 `;
 
-const ProductContainer = styled.div``;
+const CategoryTabs = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 54%;
+  justify-content: center;
+  margin-bottom: 30px;
+  font-weight: bold;
+`;
+
+const CategoryTab = styled.div`
+  display: flex;
+  flex-grow: 1;
+  font-size: 25px;
+  border-style: solid;
+  // border-bottom-style: none;
+  border-width: 1px;
+  width: 110px;
+  border-radius: 100px 100px 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  padding-top: 5px;
+  border-color: black;
+`;
 
 const Category = styled.div`
   font-size: 15px;
@@ -136,45 +206,15 @@ const Category = styled.div`
   font-weight: 300;
 `;
 
-const Product = styled.div`
-  margin-bottom: 15px;
-  margin-right: 10px;
-`;
-
-const ImageBox = styled.div`
-  width: 150px;
-  height: 200px;
-  background-color: cornsilk;
-  line-height: 250px;
+const SeeMore = styled.div`
+  font-size: 12px;
+  border-style: solid;
+  border-width: 1px;
+  padding: 10px;
+  width: 100px;
   text-align: center;
+  margin-top: 25px;
+  margin-bottom: 30px;
+  align-self: center;
+  color: darkviolet;
 `;
-
-const ProductImg = styled.img`
-  width: 130px;
-  background-color: inherit;
-  max-width: 100%;
-  height: auto;
-  vertical-align: middle;
-`;
-
-const Info = styled.div`
-  padding-left: 15px;
-  padding-top: 6px;
-`;
-
-const InfoBox = styled.div`
-  width: inherit;
-  height: 50px;
-  background-color: deeppink;
-`;
-
-const ProductName = styled.div`
-  font-weight: 700;
-  font-size: 14px;
-`;
-
-const UnitCost = styled.div`
-  font-size: 13px;
-`;
-
-const AddToCartButton = styled.button``;

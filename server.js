@@ -116,9 +116,7 @@ app.post("/signup", async (req, res) => {
 });
 
 app.get("/signout", async (req, res) => {
-  console.log("SIGN OUT SERVER REQ !!!!!!!!!!!! ", req.session, req.user);
   req.logout();
-  console.log("SESSION AFTER LOGGING OUT : ", req.session);
   res.redirect("/");
 });
 
@@ -134,16 +132,12 @@ app.get("/products", async (req, res) => {
 
 app.get("/vendors", async (req, res) => {
   const vendors = await Vendor.getAllVendors();
-  console.log("VENDORS RES IN SERVER : ", vendors);
   res.send(vendors);
 });
 
 app.get("/products/:vendorID", async (req, res) => {
-  console.log("PRODUCTS/VENDORS REQ.PARMS", req.params);
   const vendorID = req.query.vendorID;
-  console.log("REQ. QUERY VENDORS", req.query);
   const products = await Product.getProductsByVendorID(vendorID);
-  console.log("VENDOR PRODUCTS SERVER : ", products);
   res.send(products);
 });
 
@@ -195,7 +189,6 @@ app.post("/purchase/customer", async (req, res) => {
 
 app.post("/purchase/subscription", async (req, res) => {
   const { email, amount, paymentMethodID } = req.body;
-  console.log('"PURCHASE / SUBSCRIPTION REQ.BODY: ', req.body);
   let customer;
   try {
     customer = await stripe.createCustomer(email, paymentMethodID);
@@ -228,9 +221,7 @@ app.post("/purchase/subscription", async (req, res) => {
 
 app.post("/user/orderHistory", async (req, res) => {
   const { userID } = req.body;
-  console.log("user/orderHistory req.body", req.body);
   const orders = await Order.getOrdersByUserID(userID);
-  console.log("sending orders /orderHistory: ", orders);
   res.send(orders);
 });
 
@@ -242,16 +233,12 @@ app.post("/user/subscriptions", async (req, res) => {
 
 app.post("/user/cancelSubscriptions", async (req, res) => {
   const subscriptions = req.body;
-  console.log("CANCEL SUBSCRIPTIONS REQ.BODY --- ", req.body);
   const subscriptionIDs = subscriptions.map(
     (subscription) => subscription.subscription_id
   );
-  console.log("SUBSCRIPTION IDS: ", subscriptionIDs);
   const purchaseIDs = subscriptions.map(
     (subscription) => subscription.purchase_id
   );
-  console.log("PURCHASE IDS : ", purchaseIDs);
-
   try {
     await stripe.cancelSubscriptions(subscriptionIDs);
   } catch (err) {
@@ -263,7 +250,14 @@ app.post("/user/cancelSubscriptions", async (req, res) => {
   } catch (err) {
     res.status(500).send(err);
   }
-  res.status(200);
+  res.status(200).end();
+});
+
+app.get("/search/:searchTerm", async (req, res) => {
+  const searchTerm = req.query.searchTerm;
+  const products = await Product.searchProducts(searchTerm);
+  console.log("PRODUCTS SEARCH RES SERVER ----", products);
+  res.send(products);
 });
 
 app.listen(3001, () =>

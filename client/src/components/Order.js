@@ -1,22 +1,31 @@
 import React from "react";
 import styled from "styled-components";
+import moment from "moment";
+import { formatPrice } from "../helpers/formatPrice";
 
 const Order = ({ order }) => {
+  const orderDate = moment(order.orderDate).format("MMM Do, YYYY h:mma");
   return (
     <OrderContainer>
       <Overview>
-        <div>Order No. {order.id}</div>
-        <div>{order.order_date}</div>
+        <div>Order No. {order.orderID}</div>
+        <div>{orderDate}</div>
       </Overview>
-      <CostTotal>${order.cost_total}.00</CostTotal>
+      <CostTotal>${formatPrice(order.costTotal)}</CostTotal>
       <OrderItemsContainer>
-        {Object.keys(order.purchases).map((productName) => {
+        {order.purchases.map((purchase) => {
           return (
             <OrderItem>
-              <Img src={order.purchases[productName].media} />
+              <ImgContainer>
+                <Img src={purchase.media} />
+              </ImgContainer>
               <Amount>
-                {productName} x {order.purchases[productName].amount}
+                {purchase.productName} x {purchase.quantity}
               </Amount>
+              <Cost>${formatPrice(purchase.cost)}</Cost>
+              {purchase.subscriptionID && (
+                <Subscription>subscription</Subscription>
+              )}
             </OrderItem>
           );
         })}
@@ -31,8 +40,8 @@ const OrderContainer = styled.div`
   display: flex;
   flex-direction: column;
   border-style: solid;
-  width: 500px;
-  height: 130px;
+  width: 600px;
+  //   height: 130px;
   border-width: 1px;
   border-color: lightgray;
   padding: 25px;
@@ -43,6 +52,7 @@ const Overview = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  font-size: 13px;
 `;
 
 const CostTotal = styled.div`
@@ -54,12 +64,23 @@ const OrderItemsContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: baseline;
+  flex-wrap: wrap;
+  &:after {
+    content: "",
+    flex: auto
+  }
 `;
 
 const OrderItem = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  //   flex: 1;
+  padding: 10px;
+  font-size: 10px;
+`;
+
+const ImgContainer = styled.div`
+  text-align: center;
 `;
 
 const Img = styled.img`
@@ -67,5 +88,12 @@ const Img = styled.img`
 `;
 
 const Amount = styled.div`
-  font-size: 10px;
+  white-space: nowrap;
+  font-weight: 600;
+`;
+
+const Cost = styled.div``;
+
+const Subscription = styled.div`
+  font-weight: 100;
 `;

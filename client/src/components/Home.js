@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import {
@@ -12,6 +12,8 @@ import {
   getAccountSidebarStatus,
 } from "../reducers/user";
 import { getProducts } from "../reducers/products";
+import { getShowSearchStatus } from "../reducers/search";
+import { getVendors } from "../reducers/vendors";
 import {
   removeFromCart,
   receiveUser,
@@ -21,11 +23,14 @@ import {
   updateUserAuth,
   updateAccountSidebarStatus,
   getAllProducts,
+  getAllVendors,
+  updateShowSearch,
 } from "../actions";
 
 import CartSidebar from "./CartSidebar";
 import AccountSidebar from "./AccountSidebar";
 import NavBar from "./NavBar";
+import SearchBar from "./SearchBar";
 
 const Home = ({
   products,
@@ -43,20 +48,22 @@ const Home = ({
   updateUserAuth,
   accountSidebarStatus,
   updateAccountSidebarStatus,
+  showSearch,
+  updateShowSearch,
 }) => {
   useEffect(() => {
-    const seedProducts = async () => {
-      try {
-        await fetch("/products", { method: "POST" });
-      } catch (err) {
-        console.log("Error occurred seeding products");
-      }
-    };
-    seedProducts();
+    // const seedProducts = async () => {
+    //   try {
+    //     await fetch("/products", { method: "POST" });
+    //   } catch (err) {
+    //     console.log("Error occurred seeding products");
+    //   }
+    // };
+    // checkUserAuthenticated();
+    // seedProducts();
     // getAllProducts();
-    checkUserAuthenticated();
+    // getAllVendors();
   }, []);
-
   const onCounterSidebarClick = () => {
     updateAccountSidebarStatus(false);
     updateCartSidebarStatus(false);
@@ -64,9 +71,10 @@ const Home = ({
   return (
     <div>
       <div>
-        <CounterSidebar onClick={() => onCounterSidebarClick()} />
-        {/* {console.log("HOME > USER LOGGED IN ?", userAuthStatus)} */}
+        {/* <CounterSidebar onClick={() => onCounterSidebarClick()} /> */}
+        {/* {showSearch && <SearchBar products={products} />} */}
         <NavBar
+          updateShowSearch={updateShowSearch}
           updateAccountSidebarStatus={updateAccountSidebarStatus}
           updateCartSidebarStatus={updateCartSidebarStatus}
         />
@@ -101,7 +109,9 @@ const mapStateToProps = (state) => ({
   accountSidebarStatus: getAccountSidebarStatus(state),
   user: getUser(state),
   products: getProducts(state),
+  vendors: getVendors(state),
   userAuthStatus: getUserAuthStatus(state),
+  showSearch: getShowSearchStatus(state),
 });
 
 export default connect(mapStateToProps, {
@@ -114,6 +124,8 @@ export default connect(mapStateToProps, {
   checkUserAuthenticated,
   updateUserAuth,
   getAllProducts,
+  getAllVendors,
+  updateShowSearch,
 })(Home);
 
 const CounterSidebar = styled.div`

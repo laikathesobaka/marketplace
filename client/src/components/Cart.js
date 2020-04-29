@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import CartItem from "./CartItem";
 import { navigate } from "@reach/router";
+import { formatPrice } from "../helpers/formatPrice";
 
 const Cart = ({
   cartItems,
@@ -12,11 +13,6 @@ const Cart = ({
   checkout,
   updateSidebarStatus,
 }) => {
-  {
-    console.log("CART ITEMS ---------- ", cartItems);
-    console.log("CART TOTLAS ", cartTotals);
-    console.log("CART PRODUCTS ---- ", products);
-  }
   const onCheckoutClick = async () => {
     updateSidebarStatus(false);
     await navigate("/checkout");
@@ -25,7 +21,6 @@ const Cart = ({
     <CartContainer>
       <CartItemContainer>
         {Object.keys(cartItems).map((item) => {
-          console.log("ITEM: ", item);
           return (
             <CartItem
               productID={item}
@@ -43,7 +38,7 @@ const Cart = ({
       <TotalsContainer checkout={checkout}>
         <Total>
           <div>Order Total</div>
-          <div>${cartTotals.cost}.00</div>
+          <div>${formatPrice(cartTotals.cost)}</div>
         </Total>
         {checkout && (
           <CheckoutButton onClick={() => onCheckoutClick()}>

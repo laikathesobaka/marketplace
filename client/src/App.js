@@ -8,9 +8,11 @@ import Checkout from "./components/Checkout";
 import OrderSuccess from "./components/OrderSuccess";
 import OrderFail from "./components/OrderFail";
 import Products from "./components/Products";
+import Category from "./components/Category";
 import OrderHistory from "./components/OrderHistory";
 import SignedInAccountOptions from "./components/SignedInAccountOptions";
 import Subscriptions from "./components/Subscriptions";
+import SearchBar from "./components/SearchBar";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
       <Home />
       <Router>
         <Products path="/" />
+        {/* <SearchBar path="/search" /> */}
+        <Category path="/category/:categoryName" />
         <ProductPage path="/product/:productName" />
         <SignedInAccountOptions path="/account" />
 

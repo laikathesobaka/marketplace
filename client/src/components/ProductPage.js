@@ -11,9 +11,6 @@ import fetch from "cross-fetch";
 
 const ProductPage = (props) => {
   const { product, vendor, vendorProducts } = props.location.state;
-  // const vendorProducts = props.location.state.vendorProducts.filter(
-  //   (p) => p.id !== product.id
-  // );
   const navigate = useNavigate();
   const onProductClick = (prod) => {
     // const vendor = vendors[product.vendor_id];
@@ -26,26 +23,28 @@ const ProductPage = (props) => {
     });
   };
   return (
-    <div>
-      {console.log(" PROPS IN PRODUCT PAGE ", props)}
-      {console.log("PRODUCT IN PRODUCT PAGE: ", product)}
-      {console.log(" VENDOR'S PRODUCTS :", vendorProducts)}
-      <HomeIcon
-        src={process.env.PUBLIC_URL + "/home.png"}
-        onClick={() => navigate("/")}
-      />
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        height: "-webkit-fill-available",
+      }}
+    >
       <Header />
       <Container>
         <ProductContainer>
           <div style={{ display: "flex", flexDirection: "row" }}>
-            <div>
+            <ImgContainer>
               <Img src={product.media} />
-            </div>
-            <div>
-              <ProductName>{product.name}</ProductName>
-              <About unitCost={product.unit_cost} />
+            </ImgContainer>
+            <ProductInfoContainer>
+              <div>
+                <ProductName>{product.name}</ProductName>
+                <About unitCost={product.unit_cost} />
+              </div>
               <AddItems product={product} />
-            </div>
+            </ProductInfoContainer>
           </div>
           <VendorContainer>
             <div style={{ display: "flex", flexDirection: "row" }}>
@@ -77,19 +76,9 @@ export default connect(mapStateToProps, {
   getAllVendors,
 })(ProductPage);
 
-const HomeIcon = styled.img`
-  width: 20px;
-  margin-left: 30px;
-  z-index: 2;
-  position: relative;
-`;
-
 const Container = styled.div`
   display: flex;
-  width: -webkit-fill-available;
   justify-content: center;
-  height: -webkit-fill-available;
-  align-items: center;
 `;
 
 const ProductContainer = styled.div`
@@ -97,8 +86,15 @@ const ProductContainer = styled.div`
   flex: 0 0 auto;
   flex-direction: column;
   align-items: flex-start;
+  width: 50%;
+  margin-bottom: 50px;
 `;
 
+const ProductInfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
 const VendorContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -110,10 +106,15 @@ const ProductName = styled.div`
   font-weight: bold;
 `;
 
+const ImgContainer = styled.div`
+  background-color: bisque;
+  display: flex;
+  margin-right: 15px;
+`;
+
 const Img = styled.img`
   width: 281px;
-  margin-right: 20px;
-  background-color: bisque;
+  margin: auto;
 `;
 
 const FarmIcon = styled.img`
@@ -130,6 +131,7 @@ const Farmer = styled.div`
 const OtherVendorProducts = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   margin-top: 12px;
 `;
@@ -142,6 +144,7 @@ const OtherProduct = styled.div`
   border-width: 0.01em;
   border-color: darkgray;
   font-size: 14px;
+  margin-top: 10px;
   margin-right: 10px;
   display: flex;
   align-items: center;

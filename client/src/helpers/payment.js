@@ -48,12 +48,7 @@ export async function cancelSubscriptions(subscriptions) {
   return false;
 }
 
-export async function submitOrder(
-  user,
-  purchases,
-  orderTotals,
-  subscriptionID
-) {
+export async function submitOrder(user, purchases, orderTotals) {
   const orderDate = new Date();
   try {
     await fetch("/purchase/submitOrder", {
