@@ -1,48 +1,35 @@
 import React, { useState } from "react";
-import { GoogleLogin } from "react-google-login";
-import googleConfig from "../googleConfig";
 import styled from "styled-components";
 
 const GoogleSignIn = ({ receiveUser, updateUserAuth }) => {
-  const onGoogleSuccess = async (googleRes) => {
-    const res = await fetch("/signin/google", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: googleRes.profileObj.email,
-        firstName: googleRes.profileObj.givenName,
-        lastName: googleRes.profileObj.familyName,
-      }),
-    });
-    const user = await res.json();
-    if (res.status === 200) {
-      receiveUser(user);
-      updateUserAuth(true);
-    }
-    if (res.status === 400) {
-      console.log("ERROR LOGGING IN USER: ", res);
-      // updateShowSignInError(true);
-    }
-  };
-  const onGoogleFail = (googleRes) => {};
   return (
-    <GoogleButtonContainer>
-      <GoogleLogin
-        clientId={googleConfig.clientID}
-        buttonText="Continue with Google"
-        onSuccess={onGoogleSuccess}
-        onFailure={onGoogleFail}
-        cookiePolicy={"single_host_origin"}
-        style={{
-          width: "inherit",
-        }}
-      />
+    <GoogleButtonContainer href="/auth/google">
+      <Logo src={process.env.PUBLIC_URL + "/icons/google.svg"} />
+      <Text>Sign in with Google</Text>
     </GoogleButtonContainer>
   );
 };
 
 export default GoogleSignIn;
 
-const GoogleButtonContainer = styled.div`
+const GoogleButtonContainer = styled.a`
+  display: flex;
+  flex-direction: row;
+  color: dimgray;
+  border-style: outset;
+  border-width: 1px;
+  text-decoration: none;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 20px;
+`;
+
+const Logo = styled.img`
+  width: 20px;
+  margin-right: 18px;
+`;
+
+const Text = styled.div`
+  font-size: 13px;
 `;

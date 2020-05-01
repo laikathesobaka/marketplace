@@ -52,14 +52,7 @@ const Home = ({
   updateShowSearch,
 }) => {
   useEffect(() => {
-    // const seedProducts = async () => {
-    //   try {
-    //     await fetch("/products", { method: "POST" });
-    //   } catch (err) {
-    //     console.log("Error occurred seeding products");
-    //   }
-    // };
-    // checkUserAuthenticated();
+    checkUserAuthenticated();
     // seedProducts();
     // getAllProducts();
     // getAllVendors();

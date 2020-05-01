@@ -34,7 +34,7 @@ const SummaryContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: start;
-  width: 35%;
+  width: 24vw;
   background-color: white;
   border-left-style: solid;
   border-width: 1px;

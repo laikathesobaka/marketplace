@@ -64,7 +64,6 @@ const AddItems = ({ product, addToCart, updateCartSidebarStatus }) => {
       media,
       category,
     };
-    console.log("PURCHASE ITEM IN ADD TO CART : ", purchaseItem);
     addToCart(purchaseItem);
     setAmount(0);
     setTotal(0);
@@ -75,7 +74,6 @@ const AddItems = ({ product, addToCart, updateCartSidebarStatus }) => {
 
   return (
     <div>
-      {console.log("PRODUCT COMING INTO ADD ITEMS ---- ", product)}
       <SelectContainer>
         <DropdownContainer>
           <StyledDropdown
@@ -101,7 +99,7 @@ const AddItems = ({ product, addToCart, updateCartSidebarStatus }) => {
           </PurchaseOptions>
         </DropdownContainer>
 
-        <StyledTotal>Total ${total ? formatPrice(total) : "0.00"}</StyledTotal>
+        <Total>Total ${total ? formatPrice(total) : "0.00"}</Total>
 
         <AddToCartButton
           disabled={!canCheckout}
@@ -130,18 +128,27 @@ const PurchaseOptions = styled.div`
   flex-direction: row;
   font-size: 12px;
   width: 200px;
-  border-style: solid;
+  // border-style: solid;
   margin-left: 10px;
-  border-width: 0.01em;
-  justify-content: space-around;
-  align-items: center;
+  // border-width: 0.01em;
+  // justify-content: space-around;
+  // align-items: center;
 `;
 
-const PurchaseOption = styled.div`
+const PurchaseOption = styled.button`
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-style: solid;
+  border-width: 1px;
+  color: darkslategray;
+  border-color: dimgray;
+  &:nth-child(2) {
+    border-left-style: none;
+  }
   ${({ active }) =>
-    active
-      ? `background-color: black; color: white;`
-      : `background-color: white; color: black;`}
+    active ? `background-color: honeydew;` : `background-color: white;`}
 `;
 
 const SelectContainer = styled.div`
@@ -170,7 +177,8 @@ const StyledDropdown = styled(Dropdown)`
   margin-right: 10px;
 `;
 
-const StyledTotal = styled.div`
+const Total = styled.div`
+  font-size: 14px;
   padding-top: 10px;
   padding-bottom: 10px;
 `;

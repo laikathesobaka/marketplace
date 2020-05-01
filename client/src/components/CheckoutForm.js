@@ -21,9 +21,7 @@ const CheckoutForm = ({ onSubmit, customerFormStatus, user }) => {
   };
   return (
     <div>
-      {console.log("USER COMING INTO CHECKOUT FORM ", user.first_name)}
       <FormContainer>
-        {console.log("customer form submit success? : ", customerFormSuccess)}
         <Title>Where's this order going?</Title>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <RowInput>
@@ -68,14 +66,17 @@ const SubmitButton = styled.button`
   width: 200px;
   padding: 10px;
   font-size: 13px;
-  font-weight: 100;
-  background-color: deeppink;
-  border-style: none;
+  font-weight: 600;
+  background-color: aliceblue;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
 `;
 const Title = styled.div`
   font-size: 20px;
   font-weight: 200;
   padding-bottom: 20px;
+  width: 30vw;
 `;
 
 const RowInput = styled.div`
@@ -85,6 +86,7 @@ const RowInput = styled.div`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
+  width: 453px;
 `;
 
 const UserInfoSection = styled.div``;
@@ -93,7 +95,8 @@ const ShippingInfoSection = styled.div``;
 const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 30%;
+  width: 43vw;
+  margin-top: 70px;
 `;
 
 const Input = styled.input`

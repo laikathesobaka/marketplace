@@ -21,7 +21,10 @@ const SignedInAccountOptions = ({
   return (
     <div>
       <TopBar>
-        <CloseButton onClick={() => onCloseClick()}>X</CloseButton>
+        <Close
+          src={process.env.PUBLIC_URL + "/icons/close.svg"}
+          onClick={() => onCloseClick()}
+        />
         <Title>Your Account</Title>
       </TopBar>
       <Options>
@@ -43,8 +46,7 @@ const SignedInAccountOptions = ({
 export default SignedInAccountOptions;
 
 const Title = styled.div`
-  position: fixed;
-  left: 90px;
+  font-size: 14px;
 `;
 
 const AccountOptions = styled.div`
@@ -69,16 +71,14 @@ const Options = styled.div`
 
 const TopBar = styled.div`
   display: flex;
-  justify-content: space-around;
-  align-items: baseline;
-  position: fixed;
-  top: 20px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
   width: 100%;
 `;
 
-const CloseButton = styled.button`
-  background-blend-mode: color;
-  border-style: none;
+const Close = styled.img`
   position: fixed;
-  left: 33px;
+  left: 22px;
+  width: 9px;
 `;

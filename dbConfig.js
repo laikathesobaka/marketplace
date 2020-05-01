@@ -1,5 +1,5 @@
 const Pool = require("pg").Pool;
-
+const products = require("./products");
 require("dotenv").config();
 
 const pool = new Pool({
@@ -15,8 +15,9 @@ CREATE TABLE IF NOT EXISTS users (
   ID SERIAL PRIMARY KEY,
   email TEXT UNIQUE NOT NULL,
   password_hash TEXT,
-  first_name TEXT NOT NULL,
-  last_name TEXT NOT NULL,
+  google_id TEXT,
+  first_name TEXT,
+  last_name TEXT,
   address TEXT,
   phone_number INTEGER
 );
@@ -62,5 +63,19 @@ CREATE TABLE IF NOT EXISTS purchases (
 INSERT INTO vendors (name) VALUES ('Yulia'), ('Dima'), ('Anna'), ('Alex'), ('Sasha'), ('Katya'), ('Vlad') ON CONFLICT (name) DO NOTHING;
 
 `);
+
+const query = {
+  text: `INSERT INTO products (vendor_id, unit_cost, name, media, category, inventory)
+  SELECT * FROM UNNEST ($1::int[], $2::int[], $3::text[], $4::text[], $5::text[], $6::int[]) ON CONFLICT (name, category, vendor_id) DO NOTHING RETURNING *;`,
+  values: [
+    products.map((product) => product.vendorID),
+    products.map((product) => product.unitCost),
+    products.map((product) => product.name),
+    products.map((product) => product.media),
+    products.map((product) => product.category),
+    products.map((product) => product.inventory),
+  ],
+};
+pool.query(query);
 
 module.exports = { pool };

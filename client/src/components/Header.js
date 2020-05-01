@@ -13,5 +13,5 @@ const Title = styled.div`
   color: black;
   font-weight: 900;
   margin-bottom: 60px;
-  margin-bottom: 60px;
+  margin-top: 40px;
 `;

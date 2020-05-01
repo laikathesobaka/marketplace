@@ -48,16 +48,14 @@ const Checkout = ({
 
   return (
     <div style={{ display: "flex" }}>
-      {console.log("USER AT CHECKOUT ----- ", user)}
-      {console.log("USER AUTH STATUS IN CHECKOUT ----- ", userAuthStatus)}
-      <div style={{ order: "1" }}>
+      <div>
         <OrderSummarySidebar
           cart={cart}
           cartTotals={cartTotals}
           products={products}
         />
       </div>
-      <div style={{ order: "2" }}>
+      <div>
         <CheckoutContainer>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <MainTitle>Checkout</MainTitle>
@@ -96,8 +94,7 @@ const Checkout = ({
 
             {(userAuthStatus || guestCheckoutClicked) > 0 &&
               customerFormStatus && (
-                <div>
-                  <ShippingInfoSummary fullName={fullName} address={address} />
+                <PaymentContainer>
                   <Elements stripe={stripePromise}>
                     <Purchase
                       customerFormInput={customerFormInput}
@@ -109,7 +106,7 @@ const Checkout = ({
                       address={address}
                     />
                   </Elements>
-                </div>
+                </PaymentContainer>
               )}
           </div>
         </CheckoutContainer>
@@ -132,11 +129,17 @@ export default connect(mapStateToProps, {
   checkUserAuthenticated,
 })(Checkout);
 
+const PaymentContainer = styled.div`
+  position: absolute;
+  top: 200px;
+`;
+
 const CheckoutContainer = styled.div`
   position: fixed;
-  padding-top: 60px;
+  padding-top: 100px;
   padding-left: 30px;
   margin-left: 80px;
+  width: 43vw;
   display: flex;
   flex-direction: column;
 `;
@@ -145,15 +148,18 @@ const CheckoutOptions = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  width: 35vw;
   margin-bottom: 20px;
 `;
 
 const GuestCheckoutButton = styled.button`
   margin-top: 20px;
-  background-blend-mode: color;
-  border-style: none;
-  background-color: black;
-  color: white;
+  color: black;
+  border-style: solid;
+  border-width: 1px;
+  border-color: black;
+  background-color: white;
+  font-weight: 600;
   width: 200px;
   padding: 10px;
   font-size: 13px;

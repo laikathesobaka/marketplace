@@ -3,18 +3,23 @@ import styled from "styled-components";
 
 const ShippingInfoSummary = ({ fullName, address }) => {
   return (
-    <div>
+    <Container>
       <Title>Shipping</Title>
       <Summary>
         <div>{fullName}</div>
         <div>{address}</div>
       </Summary>
-    </div>
+    </Container>
   );
 };
 
 export default ShippingInfoSummary;
 
+const Container = styled.div`
+  position: fixed;
+  top: 170px;
+  left: 110px;
+`;
 const Title = styled.div`
   font-weight: bold;
 `;

@@ -2,12 +2,14 @@ const express = require("express");
 const url = require("url");
 const querystring = require("querystring");
 const session = require("express-session");
+const cors = require("cors");
 const bodyParser = require("body-parser");
 const stripe = require("./stripe");
 import { v4 as uuidv4 } from "uuid";
 const FileStore = require("session-file-store")(session);
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = require("./controllers/user");
 const Order = require("./controllers/order");
 const Product = require("./controllers/products");
@@ -32,6 +34,36 @@ passport.use(
   )
 );
 
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: process.env.GOOGLE_CALLBACK_URL,
+      // passReqToCallback: true,
+    },
+    async (accessToken, refreshToken, profile, cb) => {
+      console.log("GOOGLE PROFILE: ", profile);
+      try {
+        const user = await User.findOrCreateGoogleID(profile);
+        console.log("USER RES", user);
+        return cb(null, user);
+      } catch (err) {
+        return cb(err);
+      }
+      // try {
+      //   await User.findOrCreateGoogleID(profile, async (err, user) => {
+      //     return done(null, user)
+      //   });
+      // } catch (err) {
+      //   console.log("ERR GOOG AUTH: ", err);
+      //   return done(err);
+      // }
+      // return done(null, user);
+    }
+  )
+);
+
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
@@ -44,6 +76,8 @@ passport.deserializeUser(async (id, done) => {
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
+
 app.use(
   session({
     genid: (req) => {
@@ -67,7 +101,6 @@ const isAuthenticated = async (req, res, next) => {
   res.send({ authenticated: false });
 };
 app.get("/authenticated", isAuthenticated, async (req, res, next) => {
-  // const user = { ...req.user, auth };
   res.send({ ...req.user, authenticated: true });
 });
 
@@ -82,20 +115,22 @@ app.post("/signin", async (req, res, next) => {
   })(req, res, next);
 });
 
-app.post("/signin/google", async (req, res) => {
-  const { email, firstName, lastName } = req.body;
-  let existingUser = await User.getUserByEmail(email);
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
 
-  if (!existingUser) {
-    const newUser = await User.createUser(firstName, lastName, email);
-    res.send(newUser);
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/" }),
+  async (req, res) => {
+    // Successful authentication, redirect home.
+    res.redirect("/");
   }
-  res.send(existingUser);
-});
+);
 
 app.post("/signup", async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
-  // Check if user already exists
   let userExistsRes;
   try {
     userExistsRes = await User.getUserByEmail(email);
@@ -118,11 +153,6 @@ app.post("/signup", async (req, res) => {
 app.get("/signout", async (req, res) => {
   req.logout();
   res.redirect("/");
-});
-
-app.post("/products", async (req, res) => {
-  const products = await Product.createProducts();
-  res.send(products);
 });
 
 app.get("/products", async (req, res) => {

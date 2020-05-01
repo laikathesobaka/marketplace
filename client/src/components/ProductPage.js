@@ -28,43 +28,46 @@ const ProductPage = (props) => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        height: "-webkit-fill-available",
       }}
     >
-      <Header />
-      <Container>
-        <ProductContainer>
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <ImgContainer>
-              <Img src={product.media} />
-            </ImgContainer>
-            <ProductInfoContainer>
-              <div>
-                <ProductName>{product.name}</ProductName>
-                <About unitCost={product.unit_cost} />
-              </div>
-              <AddItems product={product} />
-            </ProductInfoContainer>
-          </div>
-          <VendorContainer>
+      <div style={{ marginTop: "50px" }}>
+        <Header />
+        <Container>
+          <ProductContainer>
             <div style={{ display: "flex", flexDirection: "row" }}>
-              <FarmIcon src={process.env.PUBLIC_URL + "/farm2.png"} />
-              <Farmer>Other products from {vendor.name}'s farm</Farmer>
+              <ImgContainer>
+                <Img src={product.media} />
+              </ImgContainer>
+              <ProductInfoContainer>
+                <div>
+                  <ProductName>{product.name}</ProductName>
+                  <About unitCost={product.unit_cost} />
+                </div>
+                <AddItems product={product} />
+              </ProductInfoContainer>
             </div>
-            <OtherVendorProducts>
-              {vendorProducts.map((vendorProduct) => {
-                if (vendorProduct.id !== product.id) {
-                  return (
-                    <OtherProduct onClick={() => onProductClick(vendorProduct)}>
-                      <OtherProductImg src={vendorProduct.media} />
-                    </OtherProduct>
-                  );
-                }
-              })}
-            </OtherVendorProducts>
-          </VendorContainer>
-        </ProductContainer>
-      </Container>
+            <VendorContainer>
+              <div style={{ display: "flex", flexDirection: "row" }}>
+                <FarmIcon src={process.env.PUBLIC_URL + "/farm2.png"} />
+                <Farmer>Other products from {vendor.name}'s farm</Farmer>
+              </div>
+              <OtherVendorProducts>
+                {vendorProducts.map((vendorProduct) => {
+                  if (vendorProduct.id !== product.id) {
+                    return (
+                      <OtherProduct
+                        onClick={() => onProductClick(vendorProduct)}
+                      >
+                        <OtherProductImg src={vendorProduct.media} />
+                      </OtherProduct>
+                    );
+                  }
+                })}
+              </OtherVendorProducts>
+            </VendorContainer>
+          </ProductContainer>
+        </Container>
+      </div>
     </div>
   );
 };

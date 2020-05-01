@@ -56,19 +56,16 @@ const CloseButton = styled.button`
   color: black;
 `;
 
-const Title = styled.div``;
-
 const Sidebar = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: start;
-  width: 35%;
+  width: 24vw;
   background-color: white;
   border-left-style: solid;
   border-width: 1px;
   transform: ${({ open }) => (open ? "translateX(0)" : "translateX(100%)")};
   height: 100vh;
-  text-align: left;
   padding: 0;
   position: fixed;
   top: 0;

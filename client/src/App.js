@@ -1,7 +1,7 @@
 import React from "react";
 import { Router } from "@reach/router";
 
-import "./App.css";
+// import "./App.css";
 import Home from "./components/Home";
 import ProductPage from "./components/ProductPage";
 import Checkout from "./components/Checkout";

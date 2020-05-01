@@ -13,22 +13,19 @@ const CartItem = ({
   removeFromCart,
 }) => {
   const removeItem = (productName) => {
-    console.log("REMOVE CLICKED!");
     removeFromCart(productName);
   };
   return (
     <Container>
       <CartItemContainer>
-        <Details>
-          <div>
-            {name} x {amount}lbs
-          </div>
-          <div>${formatPrice(total)}</div>
-        </Details>
-        <div style={{ verticalAlign: "middle" }}>
-          <ProductImg src={media} />
+        <Overview>
+          {amount}lbs x {name}
+        </Overview>
+        <ProductImg src={media} />
+        <div>
+          <Subscription>{subscription}</Subscription>
+          <Price>${formatPrice(total)}</Price>
         </div>
-        <Subscription>{subscription}</Subscription>
       </CartItemContainer>
       {remove && (
         <RemoveButton onClick={() => removeItem(productID)}>
@@ -41,50 +38,54 @@ const CartItem = ({
 
 export default CartItem;
 
-const Details = styled.div`
-  margin-top: 10px;
-  text-align: center;
-  font-size: 12px;
-  font-weight: 300;
-  margin-right: 10px;
+const Overview = styled.div`
+  font-weight: 500;
+`;
+
+const Price = styled.div`
+  font-size: 11px;
 `;
 
 const Container = styled.div`
-  margin-bottom: 10px;
+  width: 120px;
+  height: 20vh;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 17px;
 `;
 const CartItemContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
   position: relative;
-  width: 110px;
-  height: 120px;
-  background-color: deepskyblue;
+  height: inherit;
+  background-color: floralwhite;
   border-style: solid;
   border-width: 0.01em;
-  font-size: 14px;
+  font-size: 12px;
 `;
 
 const ProductImg = styled.img`
-  width: 40%;
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  width: 40px;
 `;
 
 const RemoveButton = styled.button`
+  cursor: pointer;
   border-style: solid;
   border-top-style: none;
   border-color: black;
-  width: 110px;
-  height: 30px;
+  border-style: solid;
+  border-top-style: none;
+  border-color: black;
+  height: 40px;
   color: black;
+  &:hover {
+    background-color: tomato;
+  }
 `;
 
 const Subscription = styled.div`
   font-size: 10px;
   font-weight: 600;
-  position: absolute;
-  bottom: 15px;
-  text-align: center;
-  width: inherit;
 `;

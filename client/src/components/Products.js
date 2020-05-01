@@ -8,13 +8,35 @@ import { getVendors } from "../reducers/vendors";
 import Header from "./Header";
 import SearchBar from "./SearchBar";
 import styled from "styled-components";
-import { formatPrice } from "../helpers/formatPrice";
 import {
   checkUserAuthenticated,
   getAllProducts,
   getAllVendors,
   updateShowSearch,
 } from "../actions";
+
+const categoryImageMap = {
+  produce: {
+    default: process.env.PUBLIC_URL + "/icons/salad.svg",
+    hover: process.env.PUBLIC_URL + "/icons/saladhover.svg",
+  },
+  dairy: {
+    default: process.env.PUBLIC_URL + "/icons/cheese.svg",
+    hover: process.env.PUBLIC_URL + "/icons/cheesehover.svg",
+  },
+  seafood: {
+    default: process.env.PUBLIC_URL + "/icons/fish.svg",
+    hover: process.env.PUBLIC_URL + "/icons/fishhover.svg",
+  },
+  poultry: {
+    default: process.env.PUBLIC_URL + "/icons/chicken.svg",
+    hover: process.env.PUBLIC_URL + "/icons/chickenhover.svg",
+  },
+  meat: {
+    default: process.env.PUBLIC_URL + "/icons/meat.svg",
+    hover: process.env.PUBLIC_URL + "/icons/meathover.svg",
+  },
+};
 
 const Products = ({
   products,
@@ -26,15 +48,6 @@ const Products = ({
   updateShowSearch,
 }) => {
   useEffect(() => {
-    const seedProducts = async () => {
-      try {
-        await fetch("/products", { method: "POST" });
-      } catch (err) {
-        console.log("Error occurred seeding products");
-      }
-    };
-    checkUserAuthenticated();
-    seedProducts();
     getAllProducts();
     getAllVendors();
   }, []);
@@ -53,7 +66,6 @@ const Products = ({
   }, {});
 
   const onProductClick = (product) => {
-    console.log("CLICKED ON PRODUCT CLICK : ", product);
     const vendor = vendors[product.vendor_id];
     navigate(`/product/${product.name}`, {
       state: {
@@ -79,13 +91,6 @@ const Products = ({
     });
   };
 
-  const categoryImageMap = {
-    produce: "🍅",
-    dairy: "🧀",
-    seafood: "🐟",
-    poultry: "🐔",
-    meat: "🥩",
-  };
   return (
     <div
       style={{
@@ -106,7 +111,15 @@ const Products = ({
         <CategoryTabs>
           {categories.map((category) => (
             <CategoryTab onClick={() => onCategoryClick(category)}>
-              {categoryImageMap[category]}
+              <Img
+                src={categoryImageMap[category].default}
+                onMouseOver={(e) =>
+                  (e.currentTarget.src = categoryImageMap[category].hover)
+                }
+                onMouseOut={(e) =>
+                  (e.currentTarget.src = categoryImageMap[category].default)
+                }
+              />
             </CategoryTab>
           ))}
         </CategoryTabs>
@@ -119,6 +132,7 @@ const Products = ({
                   return (
                     <Product
                       product={product}
+                      vendor={vendors[product.vendor_id]}
                       onProductClick={onProductClick}
                     />
                   );
@@ -157,6 +171,7 @@ const Container = styled.div`
   margin-bottom: 50px;
   width: -webkit-fill-available;
 `;
+
 const CategoryContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -187,11 +202,11 @@ const CategoryTab = styled.div`
   display: flex;
   flex-grow: 1;
   font-size: 25px;
-  border-style: solid;
+  // border-style: solid;
   // border-bottom-style: none;
   border-width: 1px;
   width: 110px;
-  border-radius: 100px 100px 0 0;
+  // border-radius: 100px 100px 0 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -206,6 +221,10 @@ const Category = styled.div`
   font-weight: 300;
 `;
 
+const Img = styled.img`
+  width: 35px;
+`;
+
 const SeeMore = styled.div`
   font-size: 12px;
   border-style: solid;
@@ -216,5 +235,5 @@ const SeeMore = styled.div`
   margin-top: 25px;
   margin-bottom: 30px;
   align-self: center;
-  color: darkviolet;
+  color: black;
 `;
