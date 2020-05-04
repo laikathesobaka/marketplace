@@ -71,8 +71,13 @@ const SubmitButton = styled.button`
   border-style: solid;
   border-color: black;
   border-width: 1px;
+  cursor: pointer;
+  &:hover {
+    background-color: #bdd8f1;
+  }
 `;
 const Title = styled.div`
+  font-family: "Rubik", sans-serif;
   font-size: 20px;
   font-weight: 200;
   padding-bottom: 20px;

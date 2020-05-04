@@ -81,7 +81,7 @@ const RemoveButton = styled.button`
   height: 40px;
   color: black;
   &:hover {
-    background-color: tomato;
+    background-color: #ff634782;
   }
 `;
 

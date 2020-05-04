@@ -18,7 +18,7 @@ const SubscriptionItem = ({ subscription, product, cancelSubscriptions }) => {
         <Title>
           {subscriptionType} subscription for {subscription.product_name}
         </Title>
-        <div>Quantity: {subscription.quantity}</div>
+        <div>Quantity: {subscription.quantity}lbs</div>
         <div>Total: ${formatPrice(subscription.cost)}</div>
         <div>Next order takes place on {nextOrderDate}</div>
         <CancelSubscriptionButton
@@ -41,7 +41,7 @@ const SubscriptionItemContainer = styled.div`
   border-style: solid;
   border-width: 1px;
   padding: 20px;
-  border-color: blue;
+  border-color: #000000a6;
   width: 500px;
   font-size: 12px;
 `;
@@ -56,8 +56,15 @@ const Information = styled.div`
 `;
 
 const CancelSubscriptionButton = styled.button`
+  cursor: pointer;
+  padding: 3px;
   background-blend-mode: color;
+  color: black;
+  border-color: #524a4a;
   margin-top: 10px;
+  &:hover {
+    background-color: #f98357;
+  }
 `;
 
 const ImgContainer = styled.div`

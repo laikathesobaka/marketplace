@@ -41,9 +41,8 @@ const OrderContainer = styled.div`
   flex-direction: column;
   border-style: solid;
   width: 600px;
-  //   height: 130px;
   border-width: 1px;
-  border-color: lightgray;
+  border-color: #000000a6;
   padding: 25px;
   margin-bottom: 15px;
 `;
@@ -52,11 +51,11 @@ const Overview = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  font-size: 13px;
+  font-size: 11px;
 `;
 
 const CostTotal = styled.div`
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
 `;
 
@@ -69,14 +68,17 @@ const OrderItemsContainer = styled.div`
     content: "",
     flex: auto
   }
+  margin-top: 15px;
 `;
 
 const OrderItem = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   //   flex: 1;
   padding: 10px;
   font-size: 10px;
+  width: 100px;
 `;
 
 const ImgContainer = styled.div`

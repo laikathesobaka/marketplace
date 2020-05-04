@@ -197,6 +197,10 @@ const PayButton = styled.button`
   border-style: solid;
   border-color: black;
   border-width: 1px;
+  cursor: pointer;
+  &:hover {
+    background-color: #bdd8f1;
+  }
 `;
 
 const Input = styled.input`
@@ -214,7 +218,7 @@ const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
   position: fixed;
-  top: 250px;
+  top: 280px;
   left: 110px;
 `;
 

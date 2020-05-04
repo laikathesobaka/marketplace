@@ -1,31 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Product from "./Product";
-import { navigate } from "@reach/router";
 import styled from "styled-components";
 
 const Category = ({ location }) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const category = location.state.category;
   const products = location.state.products;
   const vendors = location.state.vendors;
 
-  const onProductClick = (product) => {
-    const vendor = vendors[product.vendor_id];
-    navigate(`/product/${product.name}`, {
-      state: {
-        product,
-        vendor,
-        vendorProducts: Object.keys(products).reduce((res, product) => {
-          if (products[product].vendor_id === vendor.id) {
-            res.push(products[product]);
-          }
-          return res;
-        }, []),
-      },
-    });
-  };
   return (
     <Container>
-      {console.log("LOCATION IN CATEGORY ----- ", location)}
       <Title>{category}</Title>
       <ProductsContainer>
         {Object.keys(products).map((productID) => {
@@ -33,7 +19,9 @@ const Category = ({ location }) => {
             return (
               <Product
                 product={products[productID]}
-                onProductClick={onProductClick}
+                products={products}
+                vendor={vendors[products[productID].vendor_id]}
+                vendors={vendors}
               />
             );
           }
@@ -49,16 +37,18 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 100px;
   margin-bottom: 100px;
 `;
 const ProductsContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  width: 70%;
+  width: 50%;
 `;
 const Title = styled.div`
+  font-family: "Rubik", sans-serif;
   margin-bottom: 30px;
-  font-weight: bold;
+  margin-top: 100px;
+  font-size: 20px;
+  font-weight: 100;
 `;

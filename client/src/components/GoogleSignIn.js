@@ -16,13 +16,13 @@ const GoogleButtonContainer = styled.a`
   display: flex;
   flex-direction: row;
   color: dimgray;
-  border-style: outset;
   border-width: 1px;
   text-decoration: none;
   padding: 10px;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
+  border-style: solid;
 `;
 
 const Logo = styled.img`

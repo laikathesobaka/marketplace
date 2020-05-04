@@ -11,7 +11,7 @@ const OrderSummary = ({ cart, cartTotals, products }) => {
   }
   return (
     <SummaryContainer>
-      <Title>Order Summary - {cartTotals.amount} items</Title>
+      <Title>Order Summary - {Object.keys(cart).length} items</Title>
       <Cart
         cartItems={cart}
         cartTotals={cartTotals}
@@ -26,8 +26,11 @@ const OrderSummary = ({ cart, cartTotals, products }) => {
 export default OrderSummary;
 
 const Title = styled.div`
-  margin-top: 50px;
-  text-align: center;
+  display: flex;
+  justify-content: space-around;
+  position: fixed;
+  top: 20px;
+  width: 24vw;
 `;
 
 const SummaryContainer = styled.div`
@@ -45,11 +48,4 @@ const SummaryContainer = styled.div`
   top: 0;
   right: 0;
   z-index: 1;
-`;
-
-const OrderItemContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  border-left-style: solid;
 `;

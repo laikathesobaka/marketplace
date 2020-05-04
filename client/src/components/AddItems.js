@@ -128,14 +128,11 @@ const PurchaseOptions = styled.div`
   flex-direction: row;
   font-size: 12px;
   width: 200px;
-  // border-style: solid;
   margin-left: 10px;
-  // border-width: 0.01em;
-  // justify-content: space-around;
-  // align-items: center;
 `;
 
 const PurchaseOption = styled.button`
+  cursor: pointer;
   width: 100px;
   display: flex;
   justify-content: center;
@@ -143,12 +140,24 @@ const PurchaseOption = styled.button`
   border-style: solid;
   border-width: 1px;
   color: darkslategray;
-  border-color: dimgray;
+  border-color: lightsteelblue;
+  &:hover {
+  }
+
   &:nth-child(2) {
     border-left-style: none;
   }
+  &:nth-child(1) {
+    border-right-style: none;
+  }
+
   ${({ active }) =>
-    active ? `background-color: honeydew;` : `background-color: white;`}
+    active
+      ? `background-color: lightsteelblue;`
+      : `background-color: white; &:hover{background-color: #6e8fbb;}`}
+  &:hover {
+    background-color: #6e8fbb;
+  }
 `;
 
 const SelectContainer = styled.div`
@@ -156,10 +165,13 @@ const SelectContainer = styled.div`
 `;
 
 const AddToCartButton = styled.button`
+  cursor: pointer;
   background-blend-mode: color;
-  border-style: none;
-  color: white;
   background-color: black;
+  color: white;
+  &:hover {
+    opacity: 0.8;
+  }
   font-weight: 600;
   padding: 8px;
   font-size: 13px;
@@ -170,6 +182,7 @@ const AddToCartButton = styled.button`
 const DropdownContainer = styled.div`
   display: flex;
   flex-direction: row;
+  cursor: pointer;
 `;
 
 const StyledDropdown = styled(Dropdown)`

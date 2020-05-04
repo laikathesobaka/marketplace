@@ -87,6 +87,7 @@ export default AccountSidebar;
 
 const Title = styled.div`
   font-size: 14px;
+  font-family: "Rubik", sans-serif;
 `;
 
 const Options = styled.div`
@@ -96,6 +97,7 @@ const Options = styled.div`
 `;
 
 export const CreateAccountButton = styled.button`
+cursor: pointer;
   color: black
   border-style: solid;
   border-color: black;
@@ -106,14 +108,14 @@ export const CreateAccountButton = styled.button`
   padding: 10px;
   background-blend-mode: color;
   margin-top: 10px;
-  width: 17vw;
+  width: -webkit-fill-available;
 `;
 
 const SidebarContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 24vw;
+  width: 20%;
   background: white;
   border-left-style: solid;
   border-width: 1px;

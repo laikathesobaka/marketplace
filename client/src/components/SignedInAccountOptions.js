@@ -47,6 +47,7 @@ export default SignedInAccountOptions;
 
 const Title = styled.div`
   font-size: 14px;
+  font-family: "Rubik", sans-serif;
 `;
 
 const AccountOptions = styled.div`

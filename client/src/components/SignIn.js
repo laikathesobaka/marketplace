@@ -78,6 +78,7 @@ const Input = styled.input`
 `;
 
 const SignInButton = styled.button`
+  cursor: pointer;
   padding: 10px;
   margin-top: 12px;
   color: black;

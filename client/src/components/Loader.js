@@ -36,7 +36,7 @@ const Container = styled.div`
   opacity: 0.6;
   z-index: 6;
   height: 100vh;
-  width: 77vw;
+  width: 100vw;
   left: 0;
   top: 0;
   margin-left: -50vw;

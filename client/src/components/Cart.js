@@ -60,6 +60,7 @@ const CartContainer = styled.div`
 `;
 
 const CheckoutButton = styled.button`
+  cursor: pointer;
   font-size: 14px;
   padding: 10px;
   width: 200px;
@@ -67,6 +68,9 @@ const CheckoutButton = styled.button`
   border-style: none;
   background-color: black;
   color: white;
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 const Total = styled.div`
@@ -88,7 +92,7 @@ const TotalsContainer = styled.div`
   background-color: white;
   width: 24vw;
   display: flex;
-  flex-direction: ${(props) => (props.checkout ? "column" : "row")};
+  flex-direction: column;
   align-items: center;
 `;
 

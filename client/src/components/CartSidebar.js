@@ -10,13 +10,19 @@ const CartSidebar = ({
   purchaseItemsTotal,
   removeFromCart,
 }) => {
+  const numItems = Object.keys(purchaseItems).length;
+  const itemWord = numItems > 1 ? "items" : "item";
   return (
     <Sidebar open={open}>
       <TopBar>
-        <CloseButton onClick={() => updateSidebarStatus(false)}>X</CloseButton>
-        {/* <Title>Your Cart</Title> */}
+        <Close
+          src={process.env.PUBLIC_URL + "/icons/close.svg"}
+          onClick={() => updateSidebarStatus(false)}
+        />
         <Img src={process.env.PUBLIC_URL + "/basket.png"} />
-        <NumItems>{purchaseItemsTotal.amount} items</NumItems>
+        <NumItems>
+          {numItems} {itemWord}
+        </NumItems>
       </TopBar>
       <Cart
         cartItems={purchaseItems}
@@ -50,10 +56,8 @@ const TopBar = styled.div`
   width: 100%;
 `;
 
-const CloseButton = styled.button`
-  background-blend-mode: color;
-  border-style: none;
-  color: black;
+const Close = styled.img`
+  width: 9px;
 `;
 
 const Sidebar = styled.div`

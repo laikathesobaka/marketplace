@@ -166,6 +166,7 @@ const GuestCheckoutButton = styled.button`
 `;
 
 const MainTitle = styled.div`
+  font-family: "Rubik", sans-serif;
   padding-bottom: 30px;
   font-size: 40px;
 `;

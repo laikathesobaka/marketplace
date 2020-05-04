@@ -6,6 +6,7 @@ export default function Header() {
 }
 
 const Title = styled.div`
+  font-family: "Rubik", sans-serif;
   position: relative;
   width: -webkit-fill-available;
   font-size: 30px;

@@ -1,7 +1,8 @@
 import React from "react";
 import { Router } from "@reach/router";
 
-// import "./App.css";
+import "./App.css";
+import "./index.css";
 import Home from "./components/Home";
 import ProductPage from "./components/ProductPage";
 import Checkout from "./components/Checkout";
@@ -12,7 +13,6 @@ import Category from "./components/Category";
 import OrderHistory from "./components/OrderHistory";
 import SignedInAccountOptions from "./components/SignedInAccountOptions";
 import Subscriptions from "./components/Subscriptions";
-import SearchBar from "./components/SearchBar";
 
 function App() {
   return (
@@ -20,11 +20,9 @@ function App() {
       <Home />
       <Router>
         <Products path="/" />
-        {/* <SearchBar path="/search" /> */}
         <Category path="/category/:categoryName" />
         <ProductPage path="/product/:productName" />
         <SignedInAccountOptions path="/account" />
-
         <Checkout path="/checkout" />
         <OrderSuccess path="/success" />
         <OrderFail path="/fail" />

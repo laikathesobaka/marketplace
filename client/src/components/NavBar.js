@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link, Location } from "@reach/router";
 
@@ -33,14 +33,21 @@ const NavBar = ({
   const handleMouseOut = (e, icon) => {
     e.currentTarget.src = iconPaths[icon].default;
   };
+
   return (
     <NavBarContainer>
       <Location>
         {({ location }) => {
-          if (location && location.pathname === "/checkout") {
-            setIsCheckout(true);
+          if (location) {
+            if (
+              location.pathname === "/checkout" ||
+              location.pathname === "/success"
+            ) {
+              setIsCheckout(true);
+            } else {
+              setIsCheckout(false);
+            }
           }
-          console.log("LOCATION---- ", location);
         }}
       </Location>
       {!isCheckout ? (
@@ -105,18 +112,21 @@ const HomeIcon = styled.img`
   z-index: 2;
   position: fixed;
   left: 0;
+  cursor: pointer;
 `;
 
 const SearchIcon = styled.img`
   position: fixed;
   left: 65px;
   width: 22px;
+  cursor: pointer;
 `;
 
 const AccountIcon = styled.img`
   position: fixed;
   right: 55px;
   width: 25px;
+  cursor: pointer;
 `;
 
 const BasketIcon = styled.img`
@@ -124,4 +134,5 @@ const BasketIcon = styled.img`
   right: 20px;
   width: 25px;
   margin-left: 10px;
+  cursor: pointer;
 `;

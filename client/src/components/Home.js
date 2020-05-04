@@ -30,10 +30,12 @@ import {
 import CartSidebar from "./CartSidebar";
 import AccountSidebar from "./AccountSidebar";
 import NavBar from "./NavBar";
+import CounterSidebar from "./CounterSidebar";
 import SearchBar from "./SearchBar";
 
 const Home = ({
   products,
+  vendors,
   getAllProducts,
   cart,
   cartTotals,
@@ -54,23 +56,31 @@ const Home = ({
   useEffect(() => {
     checkUserAuthenticated();
     // seedProducts();
-    // getAllProducts();
-    // getAllVendors();
+    getAllProducts();
+    getAllVendors();
   }, []);
   const onCounterSidebarClick = () => {
     updateAccountSidebarStatus(false);
     updateCartSidebarStatus(false);
   };
+  const sidebarOpen = accountSidebarStatus || cartSidebarStatus;
   return (
     <div>
       <div>
-        {/* <CounterSidebar onClick={() => onCounterSidebarClick()} /> */}
-        {/* {showSearch && <SearchBar products={products} />} */}
         <NavBar
           updateShowSearch={updateShowSearch}
           updateAccountSidebarStatus={updateAccountSidebarStatus}
           updateCartSidebarStatus={updateCartSidebarStatus}
         />
+        <SearchBar
+          show={showSearch}
+          updateShowSearch={updateShowSearch}
+          products={products}
+          vendors={vendors}
+        />
+        <div onClick={() => onCounterSidebarClick()}>
+          <CounterSidebar active={sidebarOpen} />
+        </div>
         <CartSidebar
           products={products}
           open={cartSidebarStatus}
@@ -120,10 +130,3 @@ export default connect(mapStateToProps, {
   getAllVendors,
   updateShowSearch,
 })(Home);
-
-const CounterSidebar = styled.div`
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-`;
