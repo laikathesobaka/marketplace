@@ -42,9 +42,11 @@ export const updateShowSearch = (status) => ({
 });
 
 export const getAllProducts = () => async (dispatch) => {
+  console.log("DISPATCHING GET ALL PRODUCTS");
   let products;
   try {
     const productsRes = await fetch("/products", { method: "GET" });
+    console.log("PRODUCT RES  !", productsRes);
     products = await productsRes.json();
   } catch (err) {
     console.log("Error occurred fetching products: ", err);

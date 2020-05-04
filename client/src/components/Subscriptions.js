@@ -14,6 +14,7 @@ import {
 } from "../actions";
 import { cancelSubscriptions } from "../helpers/payment";
 import SubscriptionItem from "./SubscriptionItem";
+import Loader from "./Loader";
 import styled from "styled-components";
 
 const Subscriptions = ({
@@ -22,6 +23,7 @@ const Subscriptions = ({
   products,
   getAllProducts,
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [subscriptions, setSubscriptions] = useState([]);
   const [cancelSubscriptionStatus, setCancelSubscriptionStatus] = useState(
     false
@@ -30,14 +32,15 @@ const Subscriptions = ({
   useEffect(() => {
     checkUserAuthenticated();
     const getSubscriptions = async () => {
+      setIsLoading(true);
       const res = await fetch("/user/subscriptions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userID: user.id }),
       });
       const subscriptionsRes = await res.json();
-      console.log("ORDERS GET SUBSCRIPTIONS ----- ", subscriptionsRes);
       setSubscriptions(subscriptionsRes);
+      setIsLoading(false);
     };
     getAllProducts();
     getSubscriptions();
@@ -58,9 +61,10 @@ const Subscriptions = ({
   };
   return (
     <div>
+      <Loader active={isLoading} />
       <SubscriptionsContainer>
         <Title>Subscriptions</Title>
-        {!subscriptions.length ? (
+        {!subscriptions.length && !isLoading ? (
           <NoSubscriptions>No subscriptions</NoSubscriptions>
         ) : (
           <SubscriptionItemsContainer>
@@ -73,9 +77,9 @@ const Subscriptions = ({
                 />
               );
             })}
-            <CancelAllSubscriptions>
+            {/* <CancelAllSubscriptions>
               Cancel All Subscriptions
-            </CancelAllSubscriptions>
+            </CancelAllSubscriptions> */}
           </SubscriptionItemsContainer>
         )}
       </SubscriptionsContainer>
@@ -105,8 +109,10 @@ const SubscriptionsContainer = styled.div`
 `;
 
 const Title = styled.div`
-  font-weight: bold;
-  font-size: 13px;
+  font-family: "Rubik", sans-serif;
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: 100;
 `;
 
 const NoSubscriptions = styled.div`

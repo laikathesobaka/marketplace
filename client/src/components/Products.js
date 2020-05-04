@@ -3,18 +3,37 @@ import Product from "./Product";
 import { Link, navigate } from "@reach/router";
 import { connect } from "react-redux";
 import { getProducts } from "../reducers/products";
-import { getShowSearchStatus } from "../reducers/search";
 import { getVendors } from "../reducers/vendors";
 import Header from "./Header";
-import SearchBar from "./SearchBar";
 import styled from "styled-components";
-import { formatPrice } from "../helpers/formatPrice";
 import {
   checkUserAuthenticated,
   getAllProducts,
   getAllVendors,
-  updateShowSearch,
 } from "../actions";
+
+const categoryImageMap = {
+  produce: {
+    default: process.env.PUBLIC_URL + "/icons/salad.svg",
+    hover: process.env.PUBLIC_URL + "/icons/saladhover.svg",
+  },
+  dairy: {
+    default: process.env.PUBLIC_URL + "/icons/cheese.svg",
+    hover: process.env.PUBLIC_URL + "/icons/cheesehover.svg",
+  },
+  seafood: {
+    default: process.env.PUBLIC_URL + "/icons/fish.svg",
+    hover: process.env.PUBLIC_URL + "/icons/fishhover.svg",
+  },
+  poultry: {
+    default: process.env.PUBLIC_URL + "/icons/chicken.svg",
+    hover: process.env.PUBLIC_URL + "/icons/chickenhover.svg",
+  },
+  meat: {
+    default: process.env.PUBLIC_URL + "/icons/meat.svg",
+    hover: process.env.PUBLIC_URL + "/icons/meathover.svg",
+  },
+};
 
 const Products = ({
   products,
@@ -22,19 +41,10 @@ const Products = ({
   vendors,
   getAllVendors,
   checkUserAuthenticated,
-  showSearch,
-  updateShowSearch,
 }) => {
   useEffect(() => {
-    const seedProducts = async () => {
-      try {
-        await fetch("/products", { method: "POST" });
-      } catch (err) {
-        console.log("Error occurred seeding products");
-      }
-    };
+    window.scrollTo(0, 0);
     checkUserAuthenticated();
-    seedProducts();
     getAllProducts();
     getAllVendors();
   }, []);
@@ -52,23 +62,6 @@ const Products = ({
     return res;
   }, {});
 
-  const onProductClick = (product) => {
-    console.log("CLICKED ON PRODUCT CLICK : ", product);
-    const vendor = vendors[product.vendor_id];
-    navigate(`/product/${product.name}`, {
-      state: {
-        product,
-        vendor,
-        vendorProducts: Object.keys(products).reduce((res, product) => {
-          if (products[product].vendor_id === vendor.id) {
-            res.push(products[product]);
-          }
-          return res;
-        }, []),
-      },
-    });
-  };
-
   const onCategoryClick = (category) => {
     navigate(`/category/${category}`, {
       state: {
@@ -79,34 +72,22 @@ const Products = ({
     });
   };
 
-  const categoryImageMap = {
-    produce: "🍅",
-    dairy: "🧀",
-    seafood: "🐟",
-    poultry: "🐔",
-    meat: "🥩",
-  };
   return (
-    <div
-      style={{
-        display: "flex",
-        width: "-webkit-fill-available",
-        height: "100%",
-        overflow: "scroll",
-      }}
-    >
-      <SearchBar
-        show={showSearch}
-        updateShowSearch={updateShowSearch}
-        onProductClick={onProductClick}
-        products={products}
-      />
-      <Container>
+    <Container>
+      <ProductsContainer>
         <Header />
         <CategoryTabs>
           {categories.map((category) => (
             <CategoryTab onClick={() => onCategoryClick(category)}>
-              {categoryImageMap[category]}
+              <Img
+                src={categoryImageMap[category].default}
+                onMouseOver={(e) =>
+                  (e.currentTarget.src = categoryImageMap[category].hover)
+                }
+                onMouseOut={(e) =>
+                  (e.currentTarget.src = categoryImageMap[category].default)
+                }
+              />
             </CategoryTab>
           ))}
         </CategoryTabs>
@@ -114,59 +95,67 @@ const Products = ({
           return (
             <CategoryContainer>
               <Category>{category}</Category>
-              <ProductsContainer>
+              <CategoryProductsContainer>
                 {productsByCategory[category].slice(0, 8).map((product) => {
+                  console.log("PRODUCT IN PRODUCTS ----- ", product);
                   return (
                     <Product
                       product={product}
-                      onProductClick={onProductClick}
+                      products={products}
+                      vendor={vendors[product.vendor_id]}
+                      vendors={vendors}
                     />
                   );
                 })}
-              </ProductsContainer>
+              </CategoryProductsContainer>
               <SeeMore onClick={() => onCategoryClick(category)}>
                 See more
               </SeeMore>
             </CategoryContainer>
           );
         })}
-      </Container>
-    </div>
+      </ProductsContainer>
+    </Container>
   );
 };
 
 const mapStateToProps = (state) => ({
   products: getProducts(state),
   vendors: getVendors(state),
-  showSearch: getShowSearchStatus(state),
 });
 
 export default connect(mapStateToProps, {
   checkUserAuthenticated,
   getAllProducts,
   getAllVendors,
-  updateShowSearch,
 })(Products);
 
 const Container = styled.div`
+  display: flex;
+  height: 100vh;
+  overflow: scroll;
+  width: 100vw;
+`;
+
+const ProductsContainer = styled.div`
   margin-top: 50px;
   display: flex;
   flex-direction: column;
-  // flex: 0 0 auto;
   align-items: center;
   margin-bottom: 50px;
   width: -webkit-fill-available;
 `;
+
 const CategoryContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 55%;
+  width: 50%;
   justify-content: flex-start;
   margin-bottom: 60px;
 `;
 
-const ProductsContainer = styled.div`
+const CategoryProductsContainer = styled.div`
   display: flex;
   flex-direction: row;
   // position: relative;
@@ -187,11 +176,9 @@ const CategoryTab = styled.div`
   display: flex;
   flex-grow: 1;
   font-size: 25px;
-  border-style: solid;
-  // border-bottom-style: none;
+  cursor: pointer;
   border-width: 1px;
   width: 110px;
-  border-radius: 100px 100px 0 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -201,9 +188,14 @@ const CategoryTab = styled.div`
 `;
 
 const Category = styled.div`
+  font-family: "Rubik", sans-serif;
   font-size: 15px;
   margin-bottom: 5px;
   font-weight: 300;
+`;
+
+const Img = styled.img`
+  width: 35px;
 `;
 
 const SeeMore = styled.div`
@@ -216,5 +208,11 @@ const SeeMore = styled.div`
   margin-top: 25px;
   margin-bottom: 30px;
   align-self: center;
-  color: darkviolet;
+  color: black;
+  cursor: pointer;
+  &:hover {
+    background-color: black;
+    color: white;
+  }
+  font-family: "Rubik", sans-serif;
 `;

@@ -10,13 +10,19 @@ const CartSidebar = ({
   purchaseItemsTotal,
   removeFromCart,
 }) => {
+  const numItems = Object.keys(purchaseItems).length;
+  const itemWord = numItems > 1 ? "items" : "item";
   return (
     <Sidebar open={open}>
       <TopBar>
-        <CloseButton onClick={() => updateSidebarStatus(false)}>X</CloseButton>
-        {/* <Title>Your Cart</Title> */}
+        <Close
+          src={process.env.PUBLIC_URL + "/icons/close.svg"}
+          onClick={() => updateSidebarStatus(false)}
+        />
         <Img src={process.env.PUBLIC_URL + "/basket.png"} />
-        <NumItems>{purchaseItemsTotal.amount} items</NumItems>
+        <NumItems>
+          {numItems} {itemWord}
+        </NumItems>
       </TopBar>
       <Cart
         cartItems={purchaseItems}
@@ -50,25 +56,20 @@ const TopBar = styled.div`
   width: 100%;
 `;
 
-const CloseButton = styled.button`
-  background-blend-mode: color;
-  border-style: none;
-  color: black;
+const Close = styled.img`
+  width: 9px;
 `;
-
-const Title = styled.div``;
 
 const Sidebar = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: start;
-  width: 35%;
+  width: 24vw;
   background-color: white;
   border-left-style: solid;
   border-width: 1px;
   transform: ${({ open }) => (open ? "translateX(0)" : "translateX(100%)")};
   height: 100vh;
-  text-align: left;
   padding: 0;
   position: fixed;
   top: 0;

@@ -12,27 +12,7 @@ const comparePassword = async (password, hash) => {
   return await bcrypt.compare(password, hash);
 };
 
-const userPurchasesQuery = `
-  SELECT
-    users.first_name,
-    users.last_name,
-    users.email,
-    users.address,
-    products.id product_id,
-    products.unit_cost,
-    products.name product_name,
-    amount,
-    subscription,
-    purchase_date
-  FROM
-    users
-  INNER JOIN purchases ON purchases.user_id = users.id
-  INNER JOIN products ON purchases.product_id = products.id
-  ;
-`;
-
 async function authenticateUser(email, password) {
-  console.log("EMAIL ", email);
   let queryRes;
   const query = {
     text: "SELECT * FROM USERS WHERE email = $1",
@@ -55,6 +35,25 @@ async function authenticateUser(email, password) {
   return queryRes.rows[0];
 }
 
+async function findOrCreateGoogleID(googleProfile) {
+  let res;
+  const query = {
+    text: `INSERT INTO users(first_name, last_name, email, google_id) VALUES ($1, $2, $3, $4) ON CONFLICT (email) DO UPDATE SET google_id=${googleProfile.id} RETURNING * ;`,
+    values: [
+      googleProfile.name.givenName,
+      googleProfile.name.familyName,
+      googleProfile.emails[0].value,
+      googleProfile.id,
+    ],
+  };
+  try {
+    res = await pool.query(query);
+  } catch (err) {
+    console.log("Error ocurred inserting google id: ", err.stack);
+  }
+  return res.rows[0];
+}
+
 async function createUser(firstName, lastName, email, password = "") {
   let passwordHash;
   if (password.length) {
@@ -74,6 +73,7 @@ async function createUser(firstName, lastName, email, password = "") {
   return insertedUser.rows[0];
 }
 
+// TODO: Implement updateUserContact
 async function updateUserContact(userID, address, phoneNumber) {
   const query = {
     text:
@@ -81,7 +81,7 @@ async function updateUserContact(userID, address, phoneNumber) {
     values: [address, phoneNumber, userID],
   };
   try {
-    await pool.query();
+    await pool.query(query);
   } catch (err) {
     console.log(err.stack);
   }
@@ -120,4 +120,5 @@ module.exports = {
   getUserByID,
   getUserByEmail,
   updateUserContact,
+  findOrCreateGoogleID,
 };

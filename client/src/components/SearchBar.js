@@ -3,13 +3,14 @@ import Product from "./Product";
 import styled from "styled-components";
 import { compareSimilarity } from "../helpers/search";
 const MATCH_THRESHOLD = 0.5;
-const SearchBar = ({ show, updateShowSearch, onProductClick, products }) => {
+
+const SearchBar = ({ show, updateShowSearch, products, vendors }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const productNames = Object.keys(products).map(
     (productID) => products[productID].name
   );
-
+  console.log("PRODUCT NAMES ----- ", productNames);
   const handleSearchSubmit = async (e) => {
     if (e.keyCode === 13) {
       e.preventDefault();
@@ -30,22 +31,26 @@ const SearchBar = ({ show, updateShowSearch, onProductClick, products }) => {
         },
         []
       );
+      console.log("BEST MATCHING PRODUCTS ", bestMatchingProducts);
       setSearchResults(bestMatchingProducts);
       setSearchTerm("");
     }
     console.log("SEARCH RESULTS ---- ", searchResults);
   };
 
-  const handleProductClick = (item) => {
+  const resetSearchResults = (item) => {
     updateShowSearch(false);
-    onProductClick(item);
+    setSearchResults([]);
   };
 
   return (
     <div>
       {show ? (
         <Container>
-          <Close onClick={() => updateShowSearch(false)}>X</Close>
+          <Close
+            src={process.env.PUBLIC_URL + "/icons/close.svg"}
+            onClick={() => updateShowSearch(false)}
+          />
           <Form>
             <Input
               type="text"
@@ -57,13 +62,20 @@ const SearchBar = ({ show, updateShowSearch, onProductClick, products }) => {
             />
           </Form>
           <SearchResults>
-            {searchResults.map((item) => (
-              <Item onClick={() => handleProductClick(item)}>
-                {console.log("ITEM ! ", item)}
-                <ItemImg src={item.media} />
-                {item.name}
-              </Item>
-            ))}
+            {searchResults.length ? (
+              searchResults.map((item) => (
+                <Product
+                  product={item}
+                  products={products}
+                  vendor={vendors[item.vendor_id]}
+                  vendors={vendors}
+                  forSearchBar={true}
+                  resetSearchResults={resetSearchResults}
+                />
+              ))
+            ) : (
+              <Default>Can't find what you need? Let us know!</Default>
+            )}
           </SearchResults>
         </Container>
       ) : null}
@@ -80,11 +92,14 @@ const Container = styled.div`
   position: fixed;
   width: 100%;
   height: 300px;
-  background-color: honeydew;
+  background-color: white;
+  border-bottom-style: solid;
+  border-width: 1px;
   z-index: 4;
 `;
 
-const Close = styled.div`
+const Close = styled.img`
+  width: 9px;
   align-self: end;
   position: fixed;
   padding: 25px;
@@ -97,7 +112,6 @@ const Form = styled.form`
   padding: 5px;
   box-sizing: border-box;
   border-width: 0.09em;
-  background-color: honeydew;
   padding: 5px;
   border-color: darkslategray;
 `;
@@ -113,19 +127,31 @@ const Input = styled.input`
 const SearchResults = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: baseline;
+  //   align-items: baseline;
   margin-top: 20px;
 `;
 
-const Item = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex-grow: 1;
-  font-size: 10px;
-  padding: 20px;
-`;
+// export const SearchBarItem = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+//   flex-grow: 1;
+//   font-size: 10px;
+//   padding: 20px;
+//   border-style: solid;
+//   border-width: 1px;
+//   border-color: black;
+//   background-color: aliceblue;
+//   height: 50px;
+//   margin-left: 5px;
+//   margin-right: 5px;
+// `;
 
 const ItemImg = styled.img`
   width: 50px;
+`;
+
+const Default = styled.div`
+  font-size: 12px;
 `;

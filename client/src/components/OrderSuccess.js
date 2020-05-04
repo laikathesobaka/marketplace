@@ -1,23 +1,22 @@
 import React from "react";
 import styled from "styled-components";
 import ShippingInfoSummary from "./ShippingInfoSummary";
-import { useNavigate } from "@reach/router";
+import { Link } from "@reach/router";
 
-const OrderSuccess = (props) => {
-  const data = props.location.state;
-  const navigate = useNavigate();
+const OrderSuccess = ({ location }) => {
+  const { address, email, fullName } = location.state;
   return (
     <Container>
       <Title>Order placed!</Title>
       <Note>
         We have received your order and it is being processed. <br />
-        You will get an email confirmation at {data.email}.
+        You will get an email confirmation at {email}.
       </Note>
-      <ContinueShoppingButton onClick={() => navigate("/")}>
-        Continue Shopping
-      </ContinueShoppingButton>
+      <Link to="/">
+        <ContinueShoppingButton>Continue Shopping</ContinueShoppingButton>
+      </Link>
       <ShippingInfoContainer>
-        <ShippingInfoSummary fullName={data.fullName} address={data.address} />
+        <ShippingInfoSummary fullName={fullName} address={address} />
       </ShippingInfoContainer>
     </Container>
   );
@@ -33,8 +32,9 @@ const Container = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 30px;
-  font-weight: bold;
+  font-family: "Rubik", sans-serif;
+  font-weight: 100;
+  font-size: 35px;
 `;
 
 const Note = styled.div`
@@ -58,4 +58,9 @@ const ContinueShoppingButton = styled.button`
   width: 300px;
   border-radius: 2px;
   font-weight: bold;
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background-color: black;
+  }
 `;

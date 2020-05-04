@@ -60,13 +60,17 @@ const CartContainer = styled.div`
 `;
 
 const CheckoutButton = styled.button`
+  cursor: pointer;
   font-size: 14px;
   padding: 10px;
-  width: 235px;
+  width: 200px;
   background-blend-mode: color;
   border-style: none;
   background-color: black;
   color: white;
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 const Total = styled.div`
@@ -86,23 +90,22 @@ const TotalsContainer = styled.div`
   border-top-style: solid;
   border-width: 1px;
   background-color: white;
-  //   width: width: 35%;;
-  width: -webkit-fill-available;
+  width: 24vw;
   display: flex;
-  flex-direction: ${(props) => (props.checkout ? "column" : "row")};
+  flex-direction: column;
   align-items: center;
 `;
 
 const CartItemContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  width: 80%;
-  &:after {
-      content: "",
-      flex: auto
-  }
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 80%;
+    &:after {
+        content: "",
+        flex: auto
+    }
   overflow: auto;
   min-height: min-content;
   overflow-y: auto;

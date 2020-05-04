@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { getVendors } from "../reducers/vendors";
-import { getAllVendors } from "../actions";
+import { getProducts } from "../reducers/products";
+import { getAccountSidebarStatus } from "../reducers/user";
+import { getCartSidebarStatus } from "../reducers/cart";
+import { getShowSearchStatus } from "../reducers/search";
+import { updateShowSearch } from "../actions";
 import styled from "styled-components";
 import About from "./About";
 import AddItems from "./AddItems";
 import Header from "./Header";
+import SearchBar from "./SearchBar";
 import { useNavigate } from "@reach/router";
-import fetch from "cross-fetch";
 
-const ProductPage = (props) => {
-  const { product, vendor, vendorProducts } = props.location.state;
+const ProductPage = ({ location }) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  const { product, vendor, vendorProducts } = location.state;
   const navigate = useNavigate();
   const onProductClick = (prod) => {
-    // const vendor = vendors[product.vendor_id];
     navigate(`/product/${prod.name}`, {
       state: {
         product: prod,
@@ -23,61 +28,67 @@ const ProductPage = (props) => {
     });
   };
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        height: "-webkit-fill-available",
-      }}
-    >
-      <Header />
-      <Container>
-        <ProductContainer>
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <ImgContainer>
-              <Img src={product.media} />
-            </ImgContainer>
-            <ProductInfoContainer>
-              <div>
-                <ProductName>{product.name}</ProductName>
-                <About unitCost={product.unit_cost} />
-              </div>
-              <AddItems product={product} />
-            </ProductInfoContainer>
-          </div>
-          <VendorContainer>
+    <Container>
+      <div style={{ marginTop: "50px" }}>
+        <Header />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <ProductContainer>
             <div style={{ display: "flex", flexDirection: "row" }}>
-              <FarmIcon src={process.env.PUBLIC_URL + "/farm2.png"} />
-              <Farmer>Other products from {vendor.name}'s farm</Farmer>
+              <ImgContainer>
+                <Img src={product.media} />
+              </ImgContainer>
+              <ProductInfoContainer>
+                <div>
+                  <ProductName>{product.name}</ProductName>
+                  <About unitCost={product.unit_cost} />
+                </div>
+                <AddItems product={product} />
+              </ProductInfoContainer>
             </div>
-            <OtherVendorProducts>
-              {vendorProducts.map((vendorProduct) => {
-                if (vendorProduct.id !== product.id) {
-                  return (
-                    <OtherProduct onClick={() => onProductClick(vendorProduct)}>
-                      <OtherProductImg src={vendorProduct.media} />
-                    </OtherProduct>
-                  );
-                }
-              })}
-            </OtherVendorProducts>
-          </VendorContainer>
-        </ProductContainer>
-      </Container>
-    </div>
+            <VendorContainer>
+              <div style={{ display: "flex", flexDirection: "row" }}>
+                <FarmIcon src={process.env.PUBLIC_URL + "/farm2.png"} />
+                <Farmer>Other products from {vendor.name}'s farm</Farmer>
+              </div>
+              <OtherVendorProducts>
+                {vendorProducts.map((vendorProduct) => {
+                  if (vendorProduct.id !== product.id) {
+                    return (
+                      <OtherProduct
+                        onClick={() => onProductClick(vendorProduct)}
+                      >
+                        <OtherProductImg src={vendorProduct.media} />
+                      </OtherProduct>
+                    );
+                  }
+                })}
+              </OtherVendorProducts>
+            </VendorContainer>
+          </ProductContainer>
+        </div>
+      </div>
+    </Container>
   );
 };
 
 const mapStateToProps = (state) => ({
-  vendors: getVendors(state),
+  products: getProducts(state),
+  cartSidebarStatus: getCartSidebarStatus(state),
+  accountSidebarStatus: getAccountSidebarStatus(state),
+  showSearch: getShowSearchStatus(state),
 });
 export default connect(mapStateToProps, {
-  getAllVendors,
+  updateShowSearch,
 })(ProductPage);
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
 `;
 
@@ -149,6 +160,10 @@ const OtherProduct = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  &:hover {
+    background-color: ghostwhite;
+  }
 `;
 
 const OtherProductImg = styled.img`

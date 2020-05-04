@@ -26,11 +26,12 @@ const AccountSidebar = ({
 
   return (
     <SidebarContainer open={open}>
-      {console.log("ACCOUNT SIDE BAR OPEN STATUS ----- ", open)}
       {!signedIn ? (
         <div>
           <TopBar>
-            <CloseButton onClick={() => onCloseClick()}>X</CloseButton>
+            <Close onClick={() => onCloseClick()}>
+              <CloseIcon src={process.env.PUBLIC_URL + "/icons/close.svg"} />
+            </Close>
             <Title>Sign in</Title>
           </TopBar>
           <Options>
@@ -41,7 +42,6 @@ const AccountSidebar = ({
                   updateUserAuth={updateUserAuth}
                   style={{ marginBottom: "20px" }}
                 />
-                <hr />
                 <SignUp
                   receiveUser={receiveUser}
                   onCloseClick={onCloseClick}
@@ -57,7 +57,6 @@ const AccountSidebar = ({
                   updateUserAuth={updateUserAuth}
                   style={{ marginBottom: "20px" }}
                 />
-                <hr />
                 <SignIn
                   receiveUser={receiveUser}
                   updateAccountSidebarStatus={updateAccountSidebarStatus}
@@ -86,34 +85,37 @@ const AccountSidebar = ({
 
 export default AccountSidebar;
 
-const Title = styled.div``;
+const Title = styled.div`
+  font-size: 14px;
+  font-family: "Rubik", sans-serif;
+`;
 
 const Options = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 80px;
-  width: 200px;
 `;
 
 export const CreateAccountButton = styled.button`
+cursor: pointer;
   color: black
   border-style: solid;
   border-color: black;
   border-width: 1px;
-  background-color: white;
+  background-color: ghostwhite;
   font-size: 13px;
   font-weight: 600;
   padding: 10px;
   background-blend-mode: color;
   margin-top: 10px;
-  width: 200px;
+  width: -webkit-fill-available;
 `;
 
 const SidebarContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 35%;
+  width: 20%;
   background: white;
   border-left-style: solid;
   border-width: 1px;
@@ -130,15 +132,15 @@ const SidebarContainer = styled.div`
 const TopBar = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 14px;
+  margin-top: 20px;
   width: 100%;
 `;
 
-const CloseButton = styled.button`
-  background-blend-mode: color;
-  border-style: none;
+const CloseIcon = styled.img`
+  width: 9px;
+`;
+
+const Close = styled.div`
   position: fixed;
-  left: 12px;
-  top: 15px;
-  color: black;
+  left: 22px;
 `;

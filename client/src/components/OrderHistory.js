@@ -25,7 +25,6 @@ const OrderHistory = (props) => {
         body: JSON.stringify({ userID }),
       });
       const ordersRes = await res.json();
-      console.log("ORDERS GET ORDER HISTORY ----- ", ordersRes);
       setOrders(ordersRes);
     };
     getOrderHistory();
@@ -44,8 +43,6 @@ const OrderHistory = (props) => {
     </OrderHistoryContainer>
   );
 };
-
-// export default OrderHistory;
 
 const mapStateToProps = (state) => ({
   accountSidebarStatus: getAccountSidebarStatus(state),
@@ -68,9 +65,10 @@ const OrderHistoryContainer = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 13px;
-  margin-bottom: 10px;
-  font-weight: 700;
+  font-family: "Rubik", sans-serif;
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: 100;
 `;
 
 const NoOrders = styled.div`

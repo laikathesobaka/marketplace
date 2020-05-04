@@ -37,8 +37,10 @@ const CardContainer = styled.div`
   margin-top: 10px;
   margin-bottom: 10px;
   border-style: solid;
+  border-color: #b9b7b7;
   border-width: 0.01em;
   padding: 10px;
+  width: 280px;
 `;
 
 const SubTitle = styled.div`

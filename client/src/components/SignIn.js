@@ -78,24 +78,14 @@ const Input = styled.input`
 `;
 
 const SignInButton = styled.button`
+  cursor: pointer;
   padding: 10px;
-  background-blend-mode: color;
-  background-color: black;
   margin-top: 12px;
-  border-style: none;
-  color: white;
-  font-size: 13px;
-`;
-
-const CreateAccountButton = styled.button`
-  color: black
+  color: black;
   border-style: solid;
   border-color: black;
   border-width: 1px;
-  background-color: white;
-  font-size: 13px;
   font-weight: 600;
-  padding: 10px;
-  background-blend-mode: color;
-  margin-top: 10px;
+  background-color: aliceblue;
+  font-size: 13px;
 `;

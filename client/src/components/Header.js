@@ -6,6 +6,7 @@ export default function Header() {
 }
 
 const Title = styled.div`
+  font-family: "Rubik", sans-serif;
   position: relative;
   width: -webkit-fill-available;
   font-size: 30px;
@@ -13,5 +14,5 @@ const Title = styled.div`
   color: black;
   font-weight: 900;
   margin-bottom: 60px;
-  margin-bottom: 60px;
+  margin-top: 40px;
 `;

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { navigate } from "@reach/router";
 import CardSection from "./CardSection";
+import ShippingInfoSummary from "./ShippingInfoSummary";
+import Loader from "./Loader";
 import {
   getPaymentIntent,
   submitSubscription,
@@ -32,6 +34,7 @@ const Purchase = ({
   fullName,
   address,
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [
     subscriptionPurchaseItems,
@@ -41,8 +44,9 @@ const Purchase = ({
   const elements = useElements();
   const customerName = `${customerFormInput.firstName} ${customerFormInput.lastName}`;
   const { register, handleSubmit, watch, errors } = useForm({
-    defaultValues: { email },
+    defaultValues: { email: user.email },
   });
+
   const emailRules = {
     required: "Email is required.",
     pattern: {
@@ -108,17 +112,20 @@ const Purchase = ({
   };
 
   const handlePaymentSubmit = async (data, event) => {
+    console.log("SUBMITTING PAYMENT !!!!!!!!!!!", data);
     event.preventDefault();
+    setEmail(data.email);
+    setIsLoading(true);
     if (!stripe || !elements) {
       // Stripe.js has not yet loaded.
       // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
-    setEmail(data.email);
     const cardElement = elements.getElement(CardElement);
     if (oneTimePurchaseItems.length) {
       const oneTimePaymentRes = await processOneOffPayments(cardElement);
       if (!oneTimePaymentRes) {
+        setIsLoading(false);
         navigate("/fail");
       }
     }
@@ -128,6 +135,7 @@ const Purchase = ({
         subscriptionPurchaseItems
       );
       if (subscriptionPaymentRes.every((res) => res)) {
+        setIsLoading(false);
         navigate("/fail");
       }
     }
@@ -137,6 +145,7 @@ const Purchase = ({
     } catch (err) {
       console.log("Error occurred submitting order :", err);
     }
+    setIsLoading(false);
     navigate("/success", {
       state: {
         address,
@@ -151,18 +160,28 @@ const Purchase = ({
   };
 
   return (
-    <PaymentInfoContainer>
-      <form onSubmit={handleSubmit(handlePaymentSubmit)}>
-        <Title>What's your payment information?</Title>
-        <CardSection />
-        <SubTitle>Where should we send your receipt?</SubTitle>
-        <Input name="email" placeholder="Email" ref={register(emailRules)} />
-        {errors.email && <span>{errors.email.message}</span>}
-        <PayButton type="submit" disabled={!stripe}>
-          Place Order
-        </PayButton>
-      </form>
-    </PaymentInfoContainer>
+    <div>
+      <Loader active={isLoading} />
+      <ShippingInfoSummary fullName={fullName} address={address} />
+      <FormContainer>
+        <form onSubmit={handleSubmit(handlePaymentSubmit)}>
+          <Title>What's your payment information?</Title>
+          <CardSection />
+          <SubTitle>Where should we send your receipt?</SubTitle>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <Input
+              name="email"
+              placeholder="Email"
+              ref={register(emailRules)}
+            />
+            {errors.email && <span>{errors.email.message}</span>}
+            <PayButton type="submit" disabled={!stripe}>
+              Place Order
+            </PayButton>
+          </div>
+        </form>
+      </FormContainer>
+    </div>
   );
 };
 
@@ -172,31 +191,37 @@ const PayButton = styled.button`
   margin-top: 50px;
   width: 200px;
   height: 40px;
-  background-color: deeppink;
-  border-style: none;
-  font-weight: 100;
-  font-size: 15px;
-`;
-
-const Form = styled.div`
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
+  font-size: 13px;
+  font-weight: 600;
+  background-color: aliceblue;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  cursor: pointer;
+  &:hover {
+    background-color: #bdd8f1;
+  }
 `;
 
 const Input = styled.input`
-  width: 338px;
+  width: 275px;
   margin-top: 10px;
   margin-bottom: 10px;
   border-style: solid;
+  border-color: #b9b7b7;
   border-width: 0.01em;
   padding: 12px;
   font-size: 13px;
 `;
-const PaymentInfoContainer = styled.div`
-  padding-top: 40px;
-  width: 40%;
+
+const FormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 280px;
+  left: 110px;
 `;
+
 const Title = styled.div`
   font-size: 20px;
   font-weight: 200;
