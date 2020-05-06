@@ -37,11 +37,10 @@ async function createPaymentMethod(cardElement, customerName) {
 }
 
 async function createPaymentIntent(amount) {
-  console.log("CREATE PAYMENT INTENT ", amount);
   let paymentIntent;
   try {
     paymentIntent = await stripe.paymentIntents.create({
-      amount: amount * 100,
+      amount,
       currency: "usd",
       // Verify your integration in this guide by including this parameter
       metadata: { integration_check: "accept_a_payment" },
@@ -116,7 +115,6 @@ async function createSubscription(customerID, planID, paymentIntent) {
   } catch (err) {
     console.log("Error occurred creating subscription: ", err);
   }
-  console.log("CREATED SUBSCRIPTION IN STRIPE.JS: ", subscription);
   return subscription;
 }
 
@@ -134,7 +132,6 @@ async function cancelSubscriptions(subscriptionIDs) {
   for (const subscriptionID of subscriptionIDs) {
     try {
       const subscription = await stripe.subscriptions.del(subscriptionID);
-      console.log("DELETED SUBSCRIPTION ------------- ", subscription);
     } catch (err) {
       console.log("Error occurred deleting subscription: ", err);
     }

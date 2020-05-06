@@ -15,7 +15,7 @@ export const removeUser = () => {
 
 export const checkUserAuthenticated = () => async (dispatch) => {
   try {
-    const res = await fetch("/authenticated");
+    const res = await fetch("/auth/authenticated");
     const authRes = await res.json();
     dispatch(updateUserAuth(authRes));
   } catch (err) {
@@ -42,11 +42,9 @@ export const updateShowSearch = (status) => ({
 });
 
 export const getAllProducts = () => async (dispatch) => {
-  console.log("DISPATCHING GET ALL PRODUCTS");
   let products;
   try {
     const productsRes = await fetch("/products", { method: "GET" });
-    console.log("PRODUCT RES  !", productsRes);
     products = await productsRes.json();
   } catch (err) {
     console.log("Error occurred fetching products: ", err);
@@ -62,7 +60,6 @@ export const getAllVendors = () => async (dispatch) => {
   try {
     const vendorsRes = await fetch("/vendors", { method: "GET" });
     vendors = await vendorsRes.json();
-    console.log("VENDORS FETCH RES -------- ", vendors);
   } catch (err) {
     console.log("Error occurred fetching vendors: ", err);
   }
@@ -83,7 +80,6 @@ export const addToCartNew = (purchaseItem) => ({
 });
 
 export const addToCartExisting = (existingProduct, newProduct) => {
-  console.log("ADDING TO CART EXISTING: ", existingProduct, newProduct);
   const product = {
     [existingProduct.productID]: {
       ...existingProduct,

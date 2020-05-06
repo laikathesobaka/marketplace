@@ -21,7 +21,7 @@ const SignIn = ({
     required: "Password is required",
   };
   const onSubmit = async (data) => {
-    const res = await fetch("/signin", {
+    const res = await fetch("/auth/signin", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
