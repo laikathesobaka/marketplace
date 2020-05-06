@@ -13,9 +13,10 @@ import {
 import styled from "styled-components";
 import Order from "./Order";
 
-const OrderHistory = (props) => {
+const OrderHistory = ({ location }) => {
+  console.log("ORDER HISTORY PROPS ----------------- ", location);
   const [orders, setOrders] = useState({});
-  const userID = props.location.state.user.id;
+  const userID = location.state.user.id;
   useEffect(() => {
     checkUserAuthenticated();
     const getOrderHistory = async () => {

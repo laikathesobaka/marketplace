@@ -1,7 +1,7 @@
 export async function getPaymentIntent(totalCost) {
   let paymentIntent;
   try {
-    paymentIntent = await fetch("/purchase", {
+    paymentIntent = await fetch("/purchase/paymentIntent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ totalCost }),

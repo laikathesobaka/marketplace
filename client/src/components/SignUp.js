@@ -22,7 +22,7 @@ const SignUp = ({
 
   const onSubmit = async (data) => {
     setEmail(data.email);
-    const res = await fetch("/signup", {
+    const res = await fetch("/auth/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -37,7 +37,7 @@ const SignUp = ({
       setAlreadyRegisteredErr(true);
     }
     if (res.status === 200) {
-      const signInRes = await fetch("/signin", {
+      const signInRes = await fetch("/auth/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

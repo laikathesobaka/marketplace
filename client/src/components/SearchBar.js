@@ -10,7 +10,6 @@ const SearchBar = ({ show, updateShowSearch, products, vendors }) => {
   const productNames = Object.keys(products).map(
     (productID) => products[productID].name
   );
-  console.log("PRODUCT NAMES ----- ", productNames);
   const handleSearchSubmit = async (e) => {
     if (e.keyCode === 13) {
       e.preventDefault();
@@ -31,11 +30,9 @@ const SearchBar = ({ show, updateShowSearch, products, vendors }) => {
         },
         []
       );
-      console.log("BEST MATCHING PRODUCTS ", bestMatchingProducts);
       setSearchResults(bestMatchingProducts);
       setSearchTerm("");
     }
-    console.log("SEARCH RESULTS ---- ", searchResults);
   };
 
   const resetSearchResults = (item) => {

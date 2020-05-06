@@ -4,7 +4,7 @@ import styled from "styled-components";
 const SignOut = ({ removeUser, updateUserAuth }) => {
   const onSignOutClick = async () => {
     try {
-      await fetch("/signout");
+      await fetch("/auth/signout");
     } catch (err) {
       throw err;
     }

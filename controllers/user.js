@@ -20,7 +20,6 @@ async function authenticateUser(email, password) {
   };
   try {
     queryRes = await pool.query(query);
-    console.log("AUTH USER QUERY RES ------ ", queryRes);
   } catch (err) {
     console.log(err.stack);
   }
