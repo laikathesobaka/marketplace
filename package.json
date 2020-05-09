@@ -9,7 +9,7 @@
     "server": "nodemon -r esm server.js --ignore sessions/ './client/'",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "yarn && (cd client && yarn) --ignore-scripts",
+    "postinstall": "yarn install && cd client && yarn install --ignore-scripts",
     "heroku-postbuild": "cd client && yarn && yarn run build"
   },
   "author": "",
