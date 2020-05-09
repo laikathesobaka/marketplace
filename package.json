@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "install": "(cd client && yarn) && (cd server && yarn)",
+    "install": "yarn && (cd client && yarn)",
     "start": "concurrently \"yarn run server\" \"yarn run client\"",
     "client": "cd client && yarn start",
     "server": "nodemon -r esm server.js --ignore sessions/ './client/'",
