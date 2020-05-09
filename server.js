@@ -8,6 +8,7 @@ const passport = require("./routes/passport");
 
 require("dotenv").config();
 
+const PORT = process.env.PORT || 3001;
 const app = express();
 
 app.use(bodyParser.json());
@@ -32,6 +33,6 @@ app.use(passport.session());
 
 app.use(require("./routes"));
 
-app.listen(3001, () =>
+app.listen(PORT, () =>
   console.log("Express server is running on localhost:3001")
 );
