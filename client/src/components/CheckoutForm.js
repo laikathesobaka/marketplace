@@ -1,9 +1,8 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
 const CheckoutForm = ({ onSubmit, customerFormStatus, user }) => {
-  const [customerFormSuccess, setCustomerFormStatus] = useState(false);
   const { register, handleSubmit, errors } = useForm({
     defaultValues: {
       firstName: user.first_name,
@@ -93,9 +92,6 @@ const Form = styled.form`
   flex-direction: column;
   width: 453px;
 `;
-
-const UserInfoSection = styled.div``;
-const ShippingInfoSection = styled.div``;
 
 const FormContainer = styled.div`
   display: flex;

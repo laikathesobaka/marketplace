@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import SignUpPopUp from "./SignUpPopUp";
+import React, { useState } from "react";
 import FormErrorMsg from "./FormErrorMsg";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
@@ -13,12 +12,6 @@ const SignUp = ({
 }) => {
   const [alreadyRegisteredErr, setAlreadyRegisteredErr] = useState(false);
   const [email, setEmail] = useState("");
-  // const [formError, setFormError] = useState("");
-  // const [showFormError, setShowFormError] = useState(false);
-  // const updateFormError = (formErr) => {
-  //   setFormError(formErr);
-  //   showFormError(true);
-  // };
 
   const onSubmit = async (data) => {
     setEmail(data.email);
@@ -124,7 +117,6 @@ const SignUp = ({
             message={`An account with email address ${email} already exits.`}
           />
         )}
-        {console.log("ERRORS ------------ ", errors)}
         <CreateAccountButton type="submit">Create Account</CreateAccountButton>
       </Form>
     </div>

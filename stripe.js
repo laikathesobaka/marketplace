@@ -1,10 +1,11 @@
 // Set your secret key. Remember to switch to your live secret key in production!
 // See your keys here: https://dashboard.stripe.com/account/apikeys
 
-require("dotenv").config();
+// require("dotenv").config();
 
-const stripeSecret = process.env.STRIPE_SECRET;
-const stripe = require("stripe")(stripeSecret);
+// const stripeSecret = process.env.STRIPE_SECRET;
+const config = require("config");
+const stripe = require("stripe")(config.get("stripe.secret"));
 
 async function createPaymentRequest(cardElement, customerName) {
   let paymentRequest;

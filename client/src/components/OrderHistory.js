@@ -14,7 +14,6 @@ import styled from "styled-components";
 import Order from "./Order";
 
 const OrderHistory = ({ location }) => {
-  console.log("ORDER HISTORY PROPS ----------------- ", location);
   const [orders, setOrders] = useState({});
   const userID = location.state.user.id;
   useEffect(() => {

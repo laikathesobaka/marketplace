@@ -1,14 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import CartItem from "./CartItem";
 import Cart from "./Cart";
 
 const OrderSummary = ({ cart, cartTotals, products }) => {
-  {
-    console.log("ORDER SUMM CART ITEMS ---------- ", cart);
-    console.log("ORDER SUMMCART PRODUCTS ---- ", products);
-    console.log("ORDER SUM CART TOTALS ", cartTotals);
-  }
   return (
     <SummaryContainer>
       <Title>Order Summary - {Object.keys(cart).length} items</Title>

@@ -26,15 +26,10 @@ const AddItems = ({ product, addToCart, updateCartSidebarStatus }) => {
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState(0);
   const [total, setTotal] = useState(0);
-  const [subscription, setSubscription] = useState("");
   const [isSubscriptionPurchase, setIsSubscriptionPurchase] = useState(false);
   useEffect(() => {
     setProductData();
   }, [product]);
-  // const unitCost = product.unit_cost;
-  // const productName = product.name;
-  // const category = product.category;
-  // const media = product.media;
   const setProductData = () => {
     setUnitCost(product.unit_cost);
     setMedia(product.media);
@@ -99,7 +94,7 @@ const AddItems = ({ product, addToCart, updateCartSidebarStatus }) => {
           </PurchaseOptions>
         </DropdownContainer>
 
-        <Total>Total ${total ? formatPrice(total) : "0.00"}</Total>
+        <Total>Total ${formatPrice(total)}</Total>
 
         <AddToCartButton
           disabled={!canCheckout}
