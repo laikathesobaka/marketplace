@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Product from "./Product";
-import { Link, navigate } from "@reach/router";
+import { navigate } from "@reach/router";
 import { connect } from "react-redux";
 import { getProducts } from "../reducers/products";
 import { getVendors } from "../reducers/vendors";
@@ -97,7 +97,6 @@ const Products = ({
               <Category>{category}</Category>
               <CategoryProductsContainer>
                 {productsByCategory[category].slice(0, 8).map((product) => {
-                  console.log("PRODUCT IN PRODUCTS ----- ", product);
                   return (
                     <Product
                       product={product}

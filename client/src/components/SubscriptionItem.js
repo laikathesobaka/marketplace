@@ -10,7 +10,6 @@ const SubscriptionItem = ({ subscription, product, cancelSubscriptions }) => {
     .format("MMM Do, YYYY");
   return (
     <SubscriptionItemContainer>
-      {console.log(" SUBSCRIPTION ITEM SUB AND PRO", subscription, product)}
       <ImgContainer>
         <Img src={product.media} />
       </ImgContainer>

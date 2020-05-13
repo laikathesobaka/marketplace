@@ -51,8 +51,6 @@ const Subscriptions = ({
     const cancelledSubscriptionIDs = subscriptionItems.map(
       (item) => item.subscription_id
     );
-    console.log("CANCEL SUBSCRIPTION STATUS: ", cancelSubscriptionStatus);
-    console.log("SUBSCRIPTIONS -------- . ", subscriptions);
     setSubscriptions(
       subscriptions.filter(
         (item) => !cancelledSubscriptionIDs.includes(item.subscription_id)
@@ -77,9 +75,6 @@ const Subscriptions = ({
                 />
               );
             })}
-            {/* <CancelAllSubscriptions>
-              Cancel All Subscriptions
-            </CancelAllSubscriptions> */}
           </SubscriptionItemsContainer>
         )}
       </SubscriptionsContainer>
@@ -124,8 +119,4 @@ const SubscriptionItemsContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const CancelAllSubscriptions = styled.button`
-  width: 200px;
 `;

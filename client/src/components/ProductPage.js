@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { getProducts } from "../reducers/products";
 import { getAccountSidebarStatus } from "../reducers/user";
@@ -9,7 +9,6 @@ import styled from "styled-components";
 import About from "./About";
 import AddItems from "./AddItems";
 import Header from "./Header";
-import SearchBar from "./SearchBar";
 import { useNavigate } from "@reach/router";
 
 const ProductPage = ({ location }) => {

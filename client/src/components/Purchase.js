@@ -43,7 +43,7 @@ const Purchase = ({
   const stripe = useStripe();
   const elements = useElements();
   const customerName = `${customerFormInput.firstName} ${customerFormInput.lastName}`;
-  const { register, handleSubmit, watch, errors } = useForm({
+  const { register, handleSubmit, errors } = useForm({
     defaultValues: { email: user.email },
   });
 
@@ -112,7 +112,6 @@ const Purchase = ({
   };
 
   const handlePaymentSubmit = async (data, event) => {
-    console.log("SUBMITTING PAYMENT !!!!!!!!!!!", data);
     event.preventDefault();
     setEmail(data.email);
     setIsLoading(true);
@@ -141,7 +140,7 @@ const Purchase = ({
     }
 
     try {
-      const orderSubmitRes = await submitOrder(user, cart, cartTotals);
+      await submitOrder(user, cart, cartTotals);
     } catch (err) {
       console.log("Error occurred submitting order :", err);
     }

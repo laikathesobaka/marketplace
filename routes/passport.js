@@ -2,8 +2,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = require("../controllers/user");
-
-require("dotenv").config();
+const config = require("config");
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -35,15 +34,13 @@ passport.use(
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.GOOGLE_CALLBACK_URL,
+      clientID: config.get("google.clientID"),
+      clientSecret: config.get("google.clientSecret"),
+      callbackURL: config.get("google.callbackURL"),
     },
     async (accessToken, refreshToken, profile, cb) => {
-      console.log("GOOGLE PROFILE: ", profile);
       try {
         const user = await User.findOrCreateGoogleID(profile);
-        console.log("USER RES", user);
         return cb(null, user);
       } catch (err) {
         return cb(err);

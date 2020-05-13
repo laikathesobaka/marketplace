@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Purchase from "./Purchase";
 import CheckoutForm from "./CheckoutForm";
 import OrderSummarySidebar from "./OrderSummarySidebar";
-import ShippingInfoSummary from "./ShippingInfoSummary";
 import SignIn from "./SignIn";
 import styled from "styled-components";
 
@@ -32,7 +31,6 @@ const Checkout = ({
 }) => {
   const [customerFormInput, setCustomerFormInput] = useState({});
   const [customerFormStatus, setCustomerFormStatus] = useState(false);
-  const [checkoutOption, setCheckoutOption] = useState("");
   const [guestCheckoutClicked, setGuestCheckoutClicked] = useState(false);
   useEffect(() => {
     checkUserAuthenticated();

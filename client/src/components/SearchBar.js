@@ -128,27 +128,6 @@ const SearchResults = styled.div`
   margin-top: 20px;
 `;
 
-// export const SearchBarItem = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-//   flex-grow: 1;
-//   font-size: 10px;
-//   padding: 20px;
-//   border-style: solid;
-//   border-width: 1px;
-//   border-color: black;
-//   background-color: aliceblue;
-//   height: 50px;
-//   margin-left: 5px;
-//   margin-right: 5px;
-// `;
-
-const ItemImg = styled.img`
-  width: 50px;
-`;
-
 const Default = styled.div`
   font-size: 12px;
 `;

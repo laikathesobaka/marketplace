@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 const GoogleSignIn = ({ receiveUser, updateUserAuth }) => {
@@ -15,7 +15,9 @@ export default GoogleSignIn;
 const GoogleButtonContainer = styled.a`
   display: flex;
   flex-direction: row;
-  color: dimgray;
+  border-color: lightgray;
+  color: gray;
+  background-color: #d3d3d336;
   border-width: 1px;
   text-decoration: none;
   padding: 10px;
