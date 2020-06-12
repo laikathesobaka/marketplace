@@ -14,18 +14,17 @@ for (let i = 1; i <= 10; i++) {
 }
 
 const AddItems = ({ product, addToCart, updateCartSidebarStatus }) => {
-  const [canCheckout, setCheckout] = useState(false);
   const [dropdownOption, setDropdownOption] = useState({
-    value: 0,
-    label: "0",
+    value: 1,
+    label: "1",
   });
 
-  const [unitCost, setUnitCost] = useState(0);
-  const [media, setMedia] = useState("");
-  const [productName, setProductName] = useState("");
-  const [category, setCategory] = useState("");
-  const [amount, setAmount] = useState(0);
-  const [total, setTotal] = useState(0);
+  const [unitCost, setUnitCost] = useState(product.unit_cost);
+  const [media, setMedia] = useState(product.media);
+  const [productName, setProductName] = useState(product.name);
+  const [category, setCategory] = useState(product.category);
+  const [amount, setAmount] = useState(1);
+  const [total, setTotal] = useState(product.unit_cost);
   const [isSubscriptionPurchase, setIsSubscriptionPurchase] = useState(false);
   useEffect(() => {
     setProductData();
@@ -42,9 +41,6 @@ const AddItems = ({ product, addToCart, updateCartSidebarStatus }) => {
     setDropdownOption(option);
     setAmount(quantity);
     setTotal(unitCost * quantity);
-    if (quantity > 0) {
-      setCheckout(true);
-    }
   };
 
   const onAddToCart = (sidebarStatus) => {
@@ -60,9 +56,9 @@ const AddItems = ({ product, addToCart, updateCartSidebarStatus }) => {
       category,
     };
     addToCart(purchaseItem);
-    setAmount(0);
-    setTotal(0);
-    setDropdownOption({ value: 0, label: "0" });
+    setAmount(1);
+    setTotal(product.unit_cost);
+    setDropdownOption({ value: 1, label: "1" });
     setIsSubscriptionPurchase(false);
     updateCartSidebarStatus(sidebarStatus);
   };
@@ -97,7 +93,7 @@ const AddItems = ({ product, addToCart, updateCartSidebarStatus }) => {
         <Total>Total ${formatPrice(total)}</Total>
 
         <AddToCartButton
-          disabled={!canCheckout}
+          // disabled={!canCheckout}
           onClick={() => onAddToCart(true)}
         >
           Add To Cart

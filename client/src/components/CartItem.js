@@ -72,7 +72,9 @@ const ProductImg = styled.img`
 
 const RemoveButton = styled.button`
   cursor: pointer;
+  font-size: 12px;
   border-style: solid;
+  border-width: 1px;
   border-top-style: none;
   border-color: black;
   border-style: solid;
@@ -80,6 +82,7 @@ const RemoveButton = styled.button`
   border-color: black;
   height: 40px;
   color: black;
+  background-color: white;
   &:hover {
     background-color: #ff634782;
   }

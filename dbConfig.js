@@ -1,7 +1,7 @@
 const Pool = require("pg").Pool;
 const products = require("./products");
 const config = require("config");
-const dbConfig = config.get("dbConfig");
+const dbConfig = config.get("Store.dbConfig");
 
 const pool = new Pool(dbConfig);
 
