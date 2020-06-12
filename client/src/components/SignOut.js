@@ -19,7 +19,7 @@ export default SignOut;
 const Button = styled.button`
   padding: 10px;
   font-size: 13px;
-  background-blend-mode: color;
+  background-color: transparent;
   border-style: solid;
   border-color: black;
 `;

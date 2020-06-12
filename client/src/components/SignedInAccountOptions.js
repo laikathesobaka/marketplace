@@ -54,12 +54,12 @@ const AccountOptions = styled.div`
   padding: 20px 0px 50px;
 `;
 const ViewOrders = styled.button`
-  background-blend-mode: color;
+  background-color: transparent;
   border-style: none;
   font-weight: 700;
 `;
 const Subscriptions = styled.button`
-  background-blend-mode: color;
+  background-color: transparent;
   border-style: none;
   font-weight: 700;
 `;

@@ -20,7 +20,7 @@ app.use(
       console.log("Inside the session middleware");
       return uuidv4();
     },
-    secret: config.get("session.secret"),
+    secret: config.get("Store.session.secret"),
     resave: false,
     saveUninitialized: true,
     store: new FileStore(),

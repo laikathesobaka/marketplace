@@ -5,7 +5,7 @@
 
 // const stripeSecret = process.env.STRIPE_SECRET;
 const config = require("config");
-const stripe = require("stripe")(config.get("stripe.secret"));
+const stripe = require("stripe")(config.get("Store.stripe.secret"));
 
 async function createPaymentRequest(cardElement, customerName) {
   let paymentRequest;

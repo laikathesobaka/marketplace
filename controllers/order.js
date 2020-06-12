@@ -30,7 +30,6 @@ async function createPurchases(userID, orderID, orderDate, purchases) {
     };
     try {
       const purchase = await pool.query(query);
-      console.log("INSERTED PURCHSE ---- ", purchase);
     } catch (err) {
       console.log("Error occurred inserting purchase: ", err.stack);
     }
@@ -38,7 +37,6 @@ async function createPurchases(userID, orderID, orderDate, purchases) {
 }
 
 async function createOrder(user, purchases, orderTotals, orderDate) {
-  console.log("PURCHASES TO INSERT: ", purchases);
   let order;
   const query = {
     text: `INSERT INTO orders(
@@ -51,7 +49,6 @@ async function createOrder(user, purchases, orderTotals, orderDate) {
   try {
     order = await pool.query(query);
     // await User.updateUserContact(user.id, user.address, user.phone)
-    console.log("INSERTED ORDER ----- ", order);
     await createPurchases(user.id, order.rows[0].id, orderDate, purchases);
   } catch (err) {
     console.log("Error occurred inserting order", err.stack);
@@ -150,7 +147,6 @@ async function getSubscriptionsByUserID(userID) {
       start_date: subscription.start_date,
     });
   }
-  console.log("GET SUBSCRIPTIONS RES -------- ", res);
   return res;
 }
 
