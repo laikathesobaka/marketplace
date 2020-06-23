@@ -34,6 +34,11 @@ app.use(passport.session());
 
 app.use(require("./routes"));
 
+app.use(express.static(path.join(__dirname, "client/build")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/client/build/index.html"));
+});
+
 app.listen(PORT, () =>
   console.log("Express server is running on localhost:3001")
 );
