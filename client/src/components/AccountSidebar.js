@@ -104,11 +104,13 @@ cursor: pointer;
   border-width: 1px;
   background-color: ghostwhite;
   font-size: 13px;
-  font-weight: 600;
   padding: 10px;
   background-blend-mode: color;
   margin-top: 10px;
   width: -webkit-fill-available;
+  &:hover {
+    background-color: #d8d8fb;
+  }
 `;
 
 const SidebarContainer = styled.div`

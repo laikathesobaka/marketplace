@@ -1,10 +1,26 @@
+require("dotenv").config();
+
 const Pool = require("pg").Pool;
 const products = require("./products");
-const config = require("config");
-const dbConfig = config.get("Store.dbConfig");
 
-const pool = new Pool(dbConfig);
+// const isProduction = process.NODE_ENV === "production";
 
+// console.log("IS PRODUCTION :", process.NODE_ENV);
+// console.log(process.env);
+// const connectionString = `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`;
+// console.log("CONNECTION STRING: ", connectionString);
+// const pool = new Pool({
+//   connectionString: isProduction ? process.env.DATABASE_URL : connectionString,
+//   ssl: isProduction,
+// });
+
+const pool = new Pool({
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_DATABASE,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
+});
 pool.query(`
 CREATE TABLE IF NOT EXISTS users (
   ID SERIAL PRIMARY KEY,

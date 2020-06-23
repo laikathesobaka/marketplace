@@ -25,6 +25,9 @@ const GoogleButtonContainer = styled.a`
   align-items: center;
   margin-bottom: 40px;
   border-style: solid;
+  &:hover {
+    background-color: #88747436;
+  }
 `;
 
 const Logo = styled.img`

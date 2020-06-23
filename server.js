@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const session = require("express-session");
 const cors = require("cors");
@@ -5,7 +7,7 @@ const bodyParser = require("body-parser");
 import { v4 as uuidv4 } from "uuid";
 const FileStore = require("session-file-store")(session);
 const passport = require("./routes/passport");
-const config = require("config");
+// const config = require("config");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -20,7 +22,7 @@ app.use(
       console.log("Inside the session middleware");
       return uuidv4();
     },
-    secret: config.get("Store.session.secret"),
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     store: new FileStore(),
