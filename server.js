@@ -4,6 +4,7 @@ const express = require("express");
 const session = require("express-session");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const path = require("path");
 import { v4 as uuidv4 } from "uuid";
 const FileStore = require("session-file-store")(session);
 const passport = require("./routes/passport");
