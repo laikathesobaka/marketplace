@@ -85,7 +85,9 @@ const SignInButton = styled.button`
   border-style: solid;
   border-color: black;
   border-width: 1px;
-  font-weight: 600;
   background-color: aliceblue;
   font-size: 13px;
+  &:hover {
+    background-color: #bbdcf9;
+  }
 `;

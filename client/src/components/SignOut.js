@@ -22,4 +22,5 @@ const Button = styled.button`
   background-color: transparent;
   border-style: solid;
   border-color: black;
+  border-width: 1px;
 `;
