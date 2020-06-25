@@ -33,11 +33,6 @@ app.use(passport.session());
 
 app.use(require("./routes"));
 
-console.log("🧚‍♀️", process.env.NODE_ENV);
-console.log("🎒", process.env.PORT);
-console.log("👑", process.env);
-console.log("DIRNAME ", __dirname);
-console.log("PATH ------- ", __dirname, "client/build");
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client/build")));
   app.get("*", (req, res) => {

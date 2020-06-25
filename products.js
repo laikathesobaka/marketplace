@@ -1,4 +1,5 @@
 //Product unit cost is in cents
+
 module.exports = [
   {
     unitCost: 120,
