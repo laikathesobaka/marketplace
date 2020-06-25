@@ -14,14 +14,20 @@ if (process.env.NODE_ENV !== "production") {
   middleware.push(createLogger());
 }
 
-const store = createStore(
-  reducer,
-  {},
-  compose(
-    applyMiddleware(...middleware),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
-);
+let store;
+if (process.env.NODE_ENV === "production") {
+  store = createStore(reducer, {}, compose(applyMiddleware(...middleware)));
+} else {
+  store = createStore(
+    reducer,
+    {},
+    compose(
+      applyMiddleware(...middleware),
+      window.__REDUX_DEVTOOLS_EXTENSION__ &&
+        window.__REDUX_DEVTOOLS_EXTENSION__()
+    )
+  );
+}
 
 ReactDOM.render(
   // <React.StrictMode>
