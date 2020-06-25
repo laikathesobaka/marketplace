@@ -22,7 +22,6 @@ const pool = new Pool({
   port: process.env.DB_PORT,
 });
 
-
 const createTables = `
 CREATE TABLE IF NOT EXISTS users (
   ID SERIAL PRIMARY KEY,
@@ -74,8 +73,7 @@ CREATE TABLE IF NOT EXISTS purchases (
 );
 
 INSERT INTO vendors (name) VALUES ('Yulia'), ('Dima'), ('Anna'), ('Alex'), ('Sasha'), ('Katya'), ('Vlad') ON CONFLICT (name) DO NOTHING;
-
-`);
+`;
 
 const seedProducts = {
   text: `INSERT INTO products (vendor_id, unit_cost, name, media, category, inventory)
@@ -89,16 +87,15 @@ const seedProducts = {
     products.map((product) => product.inventory),
   ],
 };
-pool.query(query);
 
 const initializeDB = async () => {
   try {
-    await pool.query(createTables)
-    await pool.query(seedProducts)
-  } catch(err) {
+    await pool.query(createTables);
+    await pool.query(seedProducts);
+  } catch (err) {
     throw err;
   }
-}
+};
 
 initializeDB();
 
