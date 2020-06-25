@@ -5,17 +5,15 @@ const session = require("express-session");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path");
-import { v4 as uuidv4 } from "uuid";
+const { v4: uuidv4 } = require("uuid");
 const FileStore = require("session-file-store")(session);
 const passport = require("./routes/passport");
-// const config = require("config");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(cors());
 
 app.use(
   session({
@@ -38,6 +36,8 @@ app.use(require("./routes"));
 console.log("🧚‍♀️", process.env.NODE_ENV);
 console.log("🎒", process.env.PORT);
 console.log("👑", process.env);
+console.log("DIRNAME ", __dirname);
+console.log("PATH ------- ", __dirname, "client/build");
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client/build")));
   app.get("*", (req, res) => {
