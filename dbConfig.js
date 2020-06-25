@@ -21,7 +21,9 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
 });
-pool.query(`
+
+
+const createTables = `
 CREATE TABLE IF NOT EXISTS users (
   ID SERIAL PRIMARY KEY,
   email TEXT UNIQUE NOT NULL,
@@ -75,7 +77,7 @@ INSERT INTO vendors (name) VALUES ('Yulia'), ('Dima'), ('Anna'), ('Alex'), ('Sas
 
 `);
 
-const query = {
+const seedProducts = {
   text: `INSERT INTO products (vendor_id, unit_cost, name, media, category, inventory)
   SELECT * FROM UNNEST ($1::int[], $2::int[], $3::text[], $4::text[], $5::text[], $6::int[]) ON CONFLICT (name, category, vendor_id) DO NOTHING RETURNING *;`,
   values: [
@@ -88,5 +90,16 @@ const query = {
   ],
 };
 pool.query(query);
+
+const initializeDB = async () => {
+  try {
+    await pool.query(createTables)
+    await pool.query(seedProducts)
+  } catch(err) {
+    throw err;
+  }
+}
+
+initializeDB();
 
 module.exports = { pool };
