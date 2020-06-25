@@ -37,7 +37,7 @@ const Cart = ({
       </CartItemContainer>
       <TotalsContainer checkout={checkout}>
         <Total>
-          <div>Order Total</div>
+          <div>Order Total </div>
           <div>${formatPrice(cartTotals.cost)}</div>
         </Total>
         {checkout && (

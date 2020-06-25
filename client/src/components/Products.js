@@ -142,7 +142,7 @@ const ProductsContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 50px;
-  width: -webkit-fill-available;
+  width: 100%;
 `;
 
 const CategoryContainer = styled.div`
