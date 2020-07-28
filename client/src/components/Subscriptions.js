@@ -28,7 +28,6 @@ const Subscriptions = ({
   const [cancelSubscriptionStatus, setCancelSubscriptionStatus] = useState(
     false
   );
-  const [cancelledSubscriptions, setCancelledSubscriptions] = useState([]);
   useEffect(() => {
     checkUserAuthenticated();
     const getSubscriptions = async () => {

@@ -91,6 +91,10 @@ const seedProducts = {
 const initializeDB = async () => {
   try {
     await pool.query(createTables);
+  } catch (err) {
+    throw err;
+  }
+  try {
     await pool.query(seedProducts);
   } catch (err) {
     throw err;
