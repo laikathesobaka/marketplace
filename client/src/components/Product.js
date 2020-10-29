@@ -7,11 +7,11 @@ const Product = ({
   product,
   products,
   vendor,
-  vendors,
   forSearchBar,
   resetSearchResults,
 }) => {
   const [vendorProducts, setVendorProducts] = useState([]);
+
   useEffect(() => {
     const res = [];
     if (products && vendor) {
@@ -20,9 +20,9 @@ const Product = ({
           res.push(products[productID]);
         }
       }
-      setVendorProducts([...vendorProducts, ...res]);
+      setVendorProducts(res);
     }
-  }, []);
+  }, [vendor]);
 
   const linkParams = {
     state: {
@@ -34,9 +34,6 @@ const Product = ({
   };
 
   if (forSearchBar) {
-    {
-      console.log("PRODUCT PARAMS -------------- ", product, vendor, vendors);
-    }
     return (
       <Link
         to={`/product/${product.name}`}

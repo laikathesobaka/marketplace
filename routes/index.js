@@ -4,10 +4,10 @@ const Product = require("../controllers/products");
 const Vendor = require("../controllers/vendors");
 
 router.use("/auth", require("./auth"));
-router.use("/user", require("./user"));
-router.use("/purchase", require("./purchase"));
+router.use("/users", require("./users"));
+router.use("/stripe", require("./stripe"));
 
-router.get("/products", async (req, res) => {
+router.get("/products-list", async (req, res) => {
   const products = await Product.getAllProducts();
   res.send(products);
 });

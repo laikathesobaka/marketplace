@@ -47,7 +47,6 @@ const Products = ({
     checkUserAuthenticated();
     getAllProducts();
     getAllVendors();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const categories = Array.from(
@@ -158,7 +157,6 @@ const CategoryContainer = styled.div`
 const CategoryProductsContainer = styled.div`
   display: flex;
   flex-direction: row;
-  // position: relative;
   z-index: 2;
   flex-wrap: wrap;
 `;

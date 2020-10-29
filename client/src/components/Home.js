@@ -54,7 +54,6 @@ const Home = ({
 }) => {
   useEffect(() => {
     checkUserAuthenticated();
-    // seedProducts();
     getAllProducts();
     getAllVendors();
   }, []);
@@ -65,6 +64,7 @@ const Home = ({
   const sidebarOpen = accountSidebarStatus || cartSidebarStatus;
   return (
     <div>
+      {console.log("products ??? ", products)}
       <div>
         <NavBar
           updateShowSearch={updateShowSearch}

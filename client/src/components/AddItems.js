@@ -19,16 +19,18 @@ const AddItems = ({ product, addToCart, updateCartSidebarStatus }) => {
     label: "1",
   });
 
-  const [unitCost, setUnitCost] = useState(product.unit_cost);
+  const [unitCost, setUnitCost] = useState(0);
   const [media, setMedia] = useState(product.media);
   const [productName, setProductName] = useState(product.name);
   const [category, setCategory] = useState(product.category);
   const [amount, setAmount] = useState(1);
   const [total, setTotal] = useState(product.unit_cost);
   const [isSubscriptionPurchase, setIsSubscriptionPurchase] = useState(false);
+
   useEffect(() => {
     setProductData();
   }, [product]);
+
   const setProductData = () => {
     setUnitCost(product.unit_cost);
     setMedia(product.media);
@@ -36,7 +38,7 @@ const AddItems = ({ product, addToCart, updateCartSidebarStatus }) => {
     setCategory(product.category);
   };
 
-  const onSelect = (option) => {
+  const onSelectProduct = (option) => {
     const quantity = option.value;
     setDropdownOption(option);
     setAmount(quantity);
@@ -69,7 +71,7 @@ const AddItems = ({ product, addToCart, updateCartSidebarStatus }) => {
         <DropdownContainer>
           <StyledDropdown
             options={options}
-            onChange={(option) => onSelect(option)}
+            onChange={(option) => onSelectProduct(option)}
             value={dropdownOption.label}
             placeholder={dropdownOption.label}
           ></StyledDropdown>
@@ -90,12 +92,9 @@ const AddItems = ({ product, addToCart, updateCartSidebarStatus }) => {
           </PurchaseOptions>
         </DropdownContainer>
 
-        <Total>Total ${formatPrice(total)}</Total>
+        <Total>Total ${formatPrice(unitCost * amount)}</Total>
 
-        <AddToCartButton
-          // disabled={!canCheckout}
-          onClick={() => onAddToCart(true)}
-        >
+        <AddToCartButton onClick={() => onAddToCart(true)}>
           Add To Cart
         </AddToCartButton>
       </SelectContainer>
