@@ -1,7 +1,7 @@
-export async function getPaymentIntent(totalCost) {
+export async function createPaymentIntent(totalCost) {
   let paymentIntent;
   try {
-    paymentIntent = await fetch("/purchase/paymentIntent", {
+    paymentIntent = await fetch("/stripe/payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ totalCost }),
@@ -12,10 +12,10 @@ export async function getPaymentIntent(totalCost) {
   return await paymentIntent.json();
 }
 
-export async function submitSubscription(totalCost, email, paymentMethodID) {
+export async function createSubscription(totalCost, email, paymentMethodID) {
   let subscriptionRes;
   try {
-    subscriptionRes = await fetch("/purchase/subscription", {
+    subscriptionRes = await fetch(`/users/subscriptions`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -33,25 +33,24 @@ export async function submitSubscription(totalCost, email, paymentMethodID) {
 export async function cancelSubscriptions(subscriptions) {
   let res;
   try {
-    res = await fetch("/user/cancelSubscriptions", {
-      method: "POST",
+    res = await fetch("/users/subscriptions", {
+      method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(subscriptions),
     });
   } catch (err) {
     console.log("Error occurred canceling subscriptions: ", err);
   }
-  console.log("RES FROM CANCEL SUBSCRIPTION: ", res);
   if (res.status === 200) {
     return true;
   }
   return false;
 }
 
-export async function submitOrder(user, purchases, orderTotals) {
+export async function createOrder(user, purchases, orderTotals) {
   const orderDate = new Date();
   try {
-    await fetch("/purchase/submitOrder", {
+    await fetch("/users/orders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -64,6 +63,6 @@ export async function submitOrder(user, purchases, orderTotals) {
       }),
     });
   } catch (err) {
-    console.log("ERROR OCCURRED SUBMITTING ORDER TO SERVER", err);
+    throw err;
   }
 }

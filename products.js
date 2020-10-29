@@ -3,7 +3,7 @@
 module.exports = [
   {
     unitCost: 120,
-    media: "/garlic2.png",
+    media: "/products/garlic2.png",
     name: "garlic",
     category: "produce",
     vendorID: 1,
@@ -11,7 +11,7 @@ module.exports = [
   },
   {
     unitCost: 200,
-    media: "/onion.png",
+    media: "/products/onion.png",
     name: "onion",
     category: "produce",
     vendorID: 1,
@@ -19,7 +19,7 @@ module.exports = [
   },
   {
     unitCost: 099,
-    media: "/scallion2.png",
+    media: "/products/scallion2.png",
     name: "scallion",
     category: "produce",
     vendorID: 1,
@@ -27,7 +27,7 @@ module.exports = [
   },
   {
     unitCost: 100,
-    media: "/scallion3.png",
+    media: "/products/scallion3.png",
     name: "scallion",
     category: "produce",
     vendorID: 2,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     unitCost: 150,
-    media: "/cabbage2.png",
+    media: "/products/cabbage2.png",
     name: "cabbage",
     category: "produce",
     vendorID: 5,
@@ -43,7 +43,7 @@ module.exports = [
   },
   {
     unitCost: 150,
-    media: "/cabbage.png",
+    media: "/products/cabbage.png",
     name: "cabbage",
     category: "produce",
     vendorID: 6,
@@ -51,7 +51,7 @@ module.exports = [
   },
   {
     unitCost: 179,
-    media: "/beet2.png",
+    media: "/products/beet2.png",
     name: "beet",
     category: "produce",
     vendorID: 3,
@@ -60,14 +60,14 @@ module.exports = [
   {
     unitCost: 099,
     name: "scallion",
-    media: "/scallion.png",
+    media: "/products/scallion.png",
     category: "dairy",
     vendorID: 3,
     inventory: 100,
   },
   {
     unitCost: 489,
-    media: "/marinatedmushroom.png",
+    media: "/products/marinatedmushroom.png",
     name: "marinated mushroom",
     category: "produce",
     vendorID: 3,
@@ -75,7 +75,7 @@ module.exports = [
   },
   {
     unitCost: 315,
-    media: "/blueberry.png",
+    media: "/products/blueberry.png",
     name: "blueberry",
     category: "produce",
     vendorID: 4,
@@ -83,7 +83,7 @@ module.exports = [
   },
   {
     unitCost: 525,
-    media: "/pomegranate.png",
+    media: "/products/pomegranate.png",
     name: "pomegranate",
     category: "produce",
     vendorID: 4,
@@ -91,7 +91,7 @@ module.exports = [
   },
   {
     unitCost: 215,
-    media: "/lemon.png",
+    media: "/products/lemon.png",
     name: "lemon",
     category: "produce",
     vendorID: 4,
@@ -99,7 +99,7 @@ module.exports = [
   },
   {
     unitCost: 315,
-    media: "/wildstrawberries.png",
+    media: "/products/wildstrawberries.png",
     name: "wild strawberries",
     category: "produce",
     vendorID: 4,
@@ -107,7 +107,7 @@ module.exports = [
   },
   {
     unitCost: 2000,
-    media: "/blackcaviar.png",
+    media: "/products/blackcaviar.png",
     name: "black caviar",
     category: "seafood",
     vendorID: 3,
@@ -115,7 +115,7 @@ module.exports = [
   },
   {
     unitCost: 1215,
-    media: "/smokedsturgeon.png",
+    media: "/products/smokedsturgeon.png",
     name: "smoked sturgeon",
     category: "seafood",
     vendorID: 3,
@@ -123,7 +123,7 @@ module.exports = [
   },
   {
     unitCost: 1100,
-    media: "/herring.png",
+    media: "/products/herring.png",
     name: "herring",
     category: "seafood",
     vendorID: 4,
@@ -131,7 +131,7 @@ module.exports = [
   },
   {
     unitCost: 2200,
-    media: "/blackcaviar2.png",
+    media: "/products/blackcaviar2.png",
     name: "black caviar",
     category: "seafood",
     vendorID: 4,
@@ -139,7 +139,7 @@ module.exports = [
   },
   {
     unitCost: 1300,
-    media: "/redcaviar.png",
+    media: "/products/redcaviar.png",
     name: "red caviar",
     category: "seafood",
     vendorID: 4,
@@ -147,7 +147,7 @@ module.exports = [
   },
   {
     unitCost: 1300,
-    media: "/redcaviar2.png",
+    media: "/products/redcaviar2.png",
     name: "red caviar",
     category: "seafood",
     vendorID: 7,
@@ -155,7 +155,7 @@ module.exports = [
   },
   {
     unitCost: 1400,
-    media: "/salmon.png",
+    media: "/products/salmon.png",
     name: "salmon",
     category: "seafood",
     vendorID: 7,
@@ -163,7 +163,7 @@ module.exports = [
   },
   {
     unitCost: 1310,
-    media: "/paltus.png",
+    media: "/products/paltus.png",
     name: "halibut",
     category: "seafood",
     vendorID: 7,
@@ -171,7 +171,7 @@ module.exports = [
   },
   {
     unitCost: 350,
-    media: "/potato.png",
+    media: "/products/potato.png",
     name: "potato",
     category: "produce",
     vendorID: 4,
@@ -179,7 +179,7 @@ module.exports = [
   },
   {
     unitCost: 275,
-    media: "/ogurets.png",
+    media: "/products/ogurets.png",
     name: "pickle",
     category: "produce",
     vendorID: 1,
@@ -187,7 +187,7 @@ module.exports = [
   },
   {
     unitCost: 415,
-    media: "/griba.png",
+    media: "/products/griba.png",
     name: "mushroom",
     category: "produce",
     vendorID: 1,
@@ -195,7 +195,7 @@ module.exports = [
   },
   {
     unitCost: 1200,
-    media: "/beef.png",
+    media: "/products/beef.png",
     name: "beef",
     category: "meat",
     vendorID: 2,
@@ -204,7 +204,7 @@ module.exports = [
   {
     unitCost: 1485,
     name: "duck",
-    media: "/utka.png",
+    media: "/products/utka.png",
     category: "meat",
     vendorID: 3,
     inventory: 100,
@@ -212,7 +212,7 @@ module.exports = [
   {
     unitCost: 799,
     name: "kolbasa",
-    media: "/kolbasa.png",
+    media: "/products/kolbasa.png",
     category: "meat",
     vendorID: 3,
     inventory: 100,
@@ -220,7 +220,7 @@ module.exports = [
   {
     unitCost: 559,
     name: "sausage",
-    media: "/russiansausage.png",
+    media: "/products/russiansausage.png",
     category: "meat",
     vendorID: 3,
     inventory: 100,
@@ -228,7 +228,7 @@ module.exports = [
   {
     unitCost: 1299,
     name: "lamb chop",
-    media: "/lambchop.png",
+    media: "/products/lambchop.png",
     category: "meat",
     vendorID: 3,
     inventory: 100,
@@ -236,7 +236,7 @@ module.exports = [
   {
     unitCost: 999,
     name: "chicken",
-    media: "/kuritsa.png",
+    media: "/products/kuritsa.png",
     category: "poultry",
     vendorID: 3,
     inventory: 100,
@@ -244,7 +244,7 @@ module.exports = [
   {
     unitCost: 899,
     name: "brisket",
-    media: "/brisket.png",
+    media: "/products/brisket.png",
     category: "meat",
     vendorID: 3,
     inventory: 100,
@@ -252,14 +252,14 @@ module.exports = [
   {
     unitCost: 1399,
     name: "pate",
-    media: "/pate.png",
+    media: "/products/pate.png",
     category: "meat",
     vendorID: 3,
     inventory: 100,
   },
   {
     unitCost: 200,
-    media: "/maslo.png",
+    media: "/products/maslo.png",
     name: "butter",
     category: "dairy",
     vendorID: 4,
@@ -267,7 +267,7 @@ module.exports = [
   },
   {
     unitCost: 589,
-    media: "/cottagecheesecasserole.png",
+    media: "/products/cottagecheesecasserole.png",
     name: "cottage cheese casserole",
     category: "dairy",
     vendorID: 2,
@@ -275,7 +275,7 @@ module.exports = [
   },
   {
     unitCost: 399,
-    media: "/sirniki.png",
+    media: "/products/sirniki.png",
     name: "cheese pancake",
     category: "dairy",
     vendorID: 2,
@@ -283,7 +283,7 @@ module.exports = [
   },
   {
     unitCost: 289,
-    media: "/tvorog.png",
+    media: "/products/tvorog.png",
     name: "cottage cheese",
     category: "dairy",
     vendorID: 2,
@@ -291,7 +291,7 @@ module.exports = [
   },
   {
     unitCost: 899,
-    media: "/chickenbreast.png",
+    media: "/products/chickenbreast.png",
     name: "chicken breast",
     category: "poultry",
     vendorID: 4,
@@ -299,7 +299,7 @@ module.exports = [
   },
   {
     unitCost: 799,
-    media: "/chickenleg.png",
+    media: "/products/chickenleg.png",
     name: "chicken leg",
     category: "poultry",
     vendorID: 4,
@@ -307,7 +307,7 @@ module.exports = [
   },
   {
     unitCost: 799,
-    media: "/chickenleg2.png",
+    media: "/products/chickenleg2.png",
     name: "chicken leg",
     category: "poultry",
     vendorID: 5,
@@ -315,7 +315,7 @@ module.exports = [
   },
   {
     unitCost: 1499,
-    media: "/kuritsa2.png",
+    media: "/products/kuritsa2.png",
     name: "chicken",
     category: "poultry",
     vendorID: 5,
@@ -323,7 +323,7 @@ module.exports = [
   },
   {
     unitCost: 985,
-    media: "/eggs.png",
+    media: "/products/eggs.png",
     name: "eggs",
     category: "poultry",
     vendorID: 4,
@@ -331,7 +331,7 @@ module.exports = [
   },
   {
     unitCost: 985,
-    media: "/eggs2.png",
+    media: "/products/eggs2.png",
     name: "eggs",
     category: "poultry",
     vendorID: 5,
@@ -339,7 +339,7 @@ module.exports = [
   },
   {
     unitCost: 985,
-    media: "/eggs3.png",
+    media: "/products/eggs3.png",
     name: "eggs",
     category: "poultry",
     vendorID: 6,
@@ -348,7 +348,7 @@ module.exports = [
   {
     unitCost: 345,
     name: "sour cream",
-    media: "/smetana.png",
+    media: "/products/smetana.png",
     category: "dairy",
     vendorID: 4,
     inventory: 100,
@@ -356,7 +356,7 @@ module.exports = [
   {
     unitCost: 345,
     name: "cottage cheese",
-    media: "/tvorog2.png",
+    media: "/products/tvorog2.png",
     category: "dairy",
     vendorID: 4,
     inventory: 100,
@@ -364,14 +364,14 @@ module.exports = [
   {
     unitCost: 375,
     name: "milk",
-    media: "/moloko.png",
+    media: "/products/moloko.png",
     category: "dairy",
     vendorID: 1,
     inventory: 100,
   },
   {
     unitCost: 375,
-    media: "/moloko2.png",
+    media: "/products/moloko2.png",
     name: "milk",
     category: "dairy",
     vendorID: 2,
@@ -379,7 +379,7 @@ module.exports = [
   },
   {
     unitCost: 375,
-    media: "/moloko3.png",
+    media: "/products/moloko3.png",
     name: "milk",
     category: "dairy",
     vendorID: 4,
@@ -388,7 +388,7 @@ module.exports = [
   {
     unitCost: 600,
     name: "cheese",
-    media: "/cheese.png",
+    media: "/products/cheese.png",
     category: "dairy",
     vendorID: 1,
     inventory: 100,
@@ -396,7 +396,7 @@ module.exports = [
   {
     unitCost: 715,
     name: "goat cheese",
-    media: "/goatcheese.png",
+    media: "/products/goatcheese.png",
     category: "dairy",
     vendorID: 1,
     inventory: 100,
@@ -404,7 +404,7 @@ module.exports = [
   {
     unitCost: 339,
     name: "yogurt",
-    media: "/yogurt.png",
+    media: "/products/yogurt.png",
     category: "dairy",
     vendorID: 1,
     inventory: 100,
@@ -413,7 +413,7 @@ module.exports = [
   {
     unitCost: 539,
     name: "pork loin",
-    media: "/porkloin.png",
+    media: "/products/porkloin.png",
     category: "meat",
     vendorID: 7,
     inventory: 100,
@@ -421,7 +421,7 @@ module.exports = [
   {
     unitCost: 439,
     name: "salo",
-    media: "/salo.png",
+    media: "/products/salo.png",
     category: "meat",
     vendorID: 7,
     inventory: 100,

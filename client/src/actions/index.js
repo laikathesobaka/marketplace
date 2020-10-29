@@ -19,10 +19,7 @@ export const checkUserAuthenticated = () => async (dispatch) => {
     const authRes = await res.json();
     dispatch(updateUserAuth(authRes));
   } catch (err) {
-    console.log(
-      "Error occurred in checkUserAuthenticated pinging /authenticated: ",
-      err
-    );
+    dispatch(updateUserAuth({ authenticated: false }));
   }
 };
 
@@ -44,10 +41,10 @@ export const updateShowSearch = (status) => ({
 export const getAllProducts = () => async (dispatch) => {
   let products;
   try {
-    const productsRes = await fetch("/products", { method: "GET" });
+    const productsRes = await fetch("/products-list");
     products = await productsRes.json();
   } catch (err) {
-    console.log("Error occurred fetching products: ", err);
+    products = {};
   }
   dispatch({
     type: "GET_PRODUCTS",
@@ -61,7 +58,7 @@ export const getAllVendors = () => async (dispatch) => {
     const vendorsRes = await fetch("/vendors", { method: "GET" });
     vendors = await vendorsRes.json();
   } catch (err) {
-    console.log("Error occurred fetching vendors: ", err);
+    vendors = {};
   }
   dispatch({
     type: "GET_VENDORS",

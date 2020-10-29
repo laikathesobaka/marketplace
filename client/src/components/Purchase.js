@@ -5,10 +5,10 @@ import CardSection from "./CardSection";
 import ShippingInfoSummary from "./ShippingInfoSummary";
 import Loader from "./Loader";
 import {
-  getPaymentIntent,
-  submitSubscription,
-  submitOrder,
-} from "../helpers/payment";
+  createPaymentIntent,
+  createSubscription,
+  createOrder,
+} from "../helpers/stripe";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
@@ -56,7 +56,7 @@ const Purchase = ({
   };
 
   const processOneOffPayments = async (cardElement) => {
-    const paymentIntent = await getPaymentIntent(cartTotals.oneTime.cost);
+    const paymentIntent = await createPaymentIntent(cartTotals.oneTime.cost);
     const confirmPaymentRes = await stripe.confirmCardPayment(
       paymentIntent.clientSecret,
       {
@@ -72,8 +72,6 @@ const Purchase = ({
       return true;
     }
     if (confirmPaymentRes.error) {
-      // Show error to your customer (e.g., insufficient funds)
-      console.log(confirmPaymentRes.error.message);
       return false;
     }
     return false;
@@ -95,7 +93,7 @@ const Purchase = ({
           paymentMethodRes.error
         );
       }
-      const subscription = await submitSubscription(
+      const subscription = await createSubscription(
         purchaseItem.total,
         customerFormInput.email,
         paymentMethodRes.paymentMethod.id
@@ -140,7 +138,7 @@ const Purchase = ({
     }
 
     try {
-      await submitOrder(user, cart, cartTotals);
+      await createOrder(user, cart, cartTotals);
     } catch (err) {
       console.log("Error occurred submitting order :", err);
     }

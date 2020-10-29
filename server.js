@@ -18,7 +18,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
   session({
     genid: (req) => {
-      console.log("Inside the session middleware");
       return uuidv4();
     },
     secret: process.env.SESSION_SECRET,

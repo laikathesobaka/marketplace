@@ -3,13 +3,19 @@ const router = express.Router();
 const Order = require("../controllers/order");
 const stripe = require("../stripe");
 
-router.post("/paymentIntent", async (req, res) => {
-  const totalCost = req.body.totalCost;
-  const paymentIntent = await stripe.createPaymentIntent(totalCost);
-  res.send(paymentIntent);
+router.get("/:userID/orders", async (req, res) => {
+  const userID = req.params.userID;
+  const orders = await Order.getOrdersByUserID(userID);
+  res.send(orders);
 });
 
-router.post("/submitOrder", async (req, res) => {
+router.get("/:userID/subscriptions", async (req, res) => {
+  const userID = req.params.userID;
+  const subscriptions = await Order.getSubscriptionsByUserID(userID);
+  res.send(subscriptions);
+});
+
+router.post("/orders", async (req, res) => {
   const { user, purchases, orderTotals, orderDate } = req.body;
   try {
     const order = await Order.createOrder(
@@ -24,32 +30,7 @@ router.post("/submitOrder", async (req, res) => {
   }
 });
 
-router.post("/paymentRequest", async (req, res) => {
-  const { cardElement, customerName } = req.body;
-  let paymentRequest;
-  try {
-    paymentRequest = await stripe.createPaymentRequest(
-      cardElement,
-      customerName
-    );
-  } catch (err) {
-    console.log(err);
-  }
-  return paymentRequest;
-});
-
-router.post("/customer", async (req, res) => {
-  const { email, paymentMethod } = req.body;
-  let customer;
-  try {
-    customer = await stripe.createCustomer(email, paymentMethod);
-  } catch (err) {
-    console.log(err);
-  }
-  return customer;
-});
-
-router.post("/subscription", async (req, res) => {
+router.post("/subscriptions", async (req, res) => {
   const { email, amount, paymentMethodID } = req.body;
   let customer;
   try {
@@ -79,6 +60,28 @@ router.post("/subscription", async (req, res) => {
     console.log(err);
   }
   return res.send(subscription);
+});
+
+router.delete("/subscriptions", async (req, res) => {
+  const subscriptions = req.body;
+  const subscriptionIDs = subscriptions.map(
+    (subscription) => subscription.subscription_id
+  );
+  const purchaseIDs = subscriptions.map(
+    (subscription) => subscription.purchase_id
+  );
+  try {
+    await stripe.cancelSubscriptions(subscriptionIDs);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
+  }
+  try {
+    await Order.cancelPurchaseSubscriptions(purchaseIDs);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+  res.status(200).end();
 });
 
 module.exports = router;

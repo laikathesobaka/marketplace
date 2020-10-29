@@ -9,7 +9,6 @@ const cart = (state = initialState, action) => {
         action.purchaseItem.productName +
         action.purchaseItem.subscription;
       const existingPurchaseItem = state.items[purchaseItemKey];
-      console.log(" EXISTING PURCHASE ITEM -------- ", existingPurchaseItem);
       if (existingPurchaseItem) {
         const combined = {
           ...existingPurchaseItem,
@@ -17,7 +16,6 @@ const cart = (state = initialState, action) => {
           amount: (existingPurchaseItem.amount += action.purchaseItem.amount),
           total: (existingPurchaseItem.total += action.purchaseItem.total),
         };
-        console.log("COMBINED: ", combined);
         return {
           ...state,
           items: { ...state.items, [purchaseItemKey]: combined },

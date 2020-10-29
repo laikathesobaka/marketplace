@@ -23,12 +23,20 @@ const OrderSuccess = ({ location }) => {
 };
 
 export default OrderSuccess;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: -webkit-fill-available;
+  position: fixed;
+  z-index: 6;
+  height: 100vh;
+  width: 100vw;
+  left: 0;
+  top: 0;
+  margin-left: -50vw;
+  left: 50%;
 `;
 
 const Title = styled.div`

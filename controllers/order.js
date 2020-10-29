@@ -1,5 +1,4 @@
 const pool = require("../dbConfig").pool;
-const User = require("./user");
 const stripe = require("../stripe");
 
 async function createPurchases(userID, orderID, orderDate, purchases) {
@@ -113,10 +112,6 @@ async function getOrdersByUserID(userID) {
   } catch (err) {
     console.log(err.stack);
   }
-  console.log(
-    "GET ORDERS INNER JOIN PURCHASES RES: ",
-    formatOrdersByID(orders.rows)
-  );
   return formatOrdersByID(orders.rows);
 }
 
@@ -129,12 +124,12 @@ async function getSubscriptionsByUserID(userID) {
   } catch (err) {
     console.log(err.stack);
   }
-  console.log("PURCHASES SUBSCRIPTIONS QUERY RES", purchases);
-
+  if (!purchases) {
+    return [];
+  }
   const res = [];
   for (const purchase of purchases.rows) {
     let subscription = await stripe.getSubscription(purchase.subscription_id);
-    console.log("GET SUBSCRIPTION--- ", subscription);
     res.push({
       ...purchase,
       purchase_id: purchase.id,

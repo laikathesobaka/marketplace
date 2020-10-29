@@ -12,7 +12,7 @@ import {
   updateAccountSidebarStatus,
   getAllProducts,
 } from "../actions";
-import { cancelSubscriptions } from "../helpers/payment";
+import { cancelSubscriptions } from "../helpers/stripe";
 import SubscriptionItem from "./SubscriptionItem";
 import Loader from "./Loader";
 import styled from "styled-components";
@@ -32,11 +32,7 @@ const Subscriptions = ({
     checkUserAuthenticated();
     const getSubscriptions = async () => {
       setIsLoading(true);
-      const res = await fetch("/user/subscriptions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userID: user.id }),
-      });
+      const res = await fetch(`/users/${user.id}/subscriptions`);
       const subscriptionsRes = await res.json();
       setSubscriptions(subscriptionsRes);
       setIsLoading(false);

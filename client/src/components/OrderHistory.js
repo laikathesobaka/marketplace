@@ -19,11 +19,7 @@ const OrderHistory = ({ location }) => {
   useEffect(() => {
     checkUserAuthenticated();
     const getOrderHistory = async () => {
-      const res = await fetch("/user/orderHistory", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userID }),
-      });
+      const res = await fetch(`/users/${userID}/orders`);
       const ordersRes = await res.json();
       setOrders(ordersRes);
     };

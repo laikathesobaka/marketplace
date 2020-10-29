@@ -19,7 +19,7 @@ const CartSidebar = ({
           src={process.env.PUBLIC_URL + "/icons/close.svg"}
           onClick={() => updateSidebarStatus(false)}
         />
-        <Img src={process.env.PUBLIC_URL + "/basket.png"} />
+        <Img src={process.env.PUBLIC_URL + "/icons/basket.png"} />
         <NumItems>
           {numItems} {itemWord}
         </NumItems>
