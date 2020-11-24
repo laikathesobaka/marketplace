@@ -38,6 +38,34 @@ export const updateShowSearch = (status) => ({
   status,
 });
 
+export const getMarketplaceData = () => async (dispatch) => {
+  let marketplace;
+  try {
+    const marketplaceRes = await fetch("/marketplace");
+    marketplace = await marketplaceRes.json();
+  } catch (err) {
+    marketplace = {};
+  }
+  dispatch({
+    type: "GET_MARKETPLACE",
+    marketplace,
+  });
+};
+
+export const getCategoriesData = () => async (dispatch) => {
+  let categories;
+  try {
+    const categoriesRes = await fetch("/categories");
+    categories = await categoriesRes.json();
+  } catch (err) {
+    categories = [];
+  }
+  dispatch({
+    type: "GET_CATEGORIES",
+    categories,
+  });
+};
+
 export const getAllProducts = () => async (dispatch) => {
   let products;
   try {

@@ -48,7 +48,6 @@ const ProductsContainer = styled.div`
 const Title = styled.div`
   font-family: "Rubik", sans-serif;
   margin-bottom: 30px;
-  margin-top: 100px;
   font-size: 20px;
   font-weight: 100;
 `;

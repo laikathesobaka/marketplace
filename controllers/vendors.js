@@ -1,4 +1,4 @@
-const pool = require("../dbConfig").pool;
+const pool = require("../db-config").pool;
 
 async function createVendors(vendors) {
   for (const vendor of vendors) {

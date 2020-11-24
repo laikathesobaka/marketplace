@@ -1,5 +1,5 @@
-const pool = require("../dbConfig").pool;
-const products = require("../products");
+const pool = require("../db-config").pool;
+const {products} = require("../mock-data");
 
 function formatProducts(productsToFormat) {
   return productsToFormat.reduce((res, product) => {

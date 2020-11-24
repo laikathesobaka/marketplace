@@ -1,4 +1,4 @@
-const pool = require("../dbConfig").pool;
+const pool = require("../db-config").pool;
 const stripe = require("../stripe");
 
 async function createPurchases(userID, orderID, orderDate, purchases) {

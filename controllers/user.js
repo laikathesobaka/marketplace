@@ -1,5 +1,5 @@
 // userfindorcreate
-const pool = require("../dbConfig").pool;
+const pool = require("../db-config").pool;
 
 const bcrypt = require("bcrypt");
 const saltRounds = 10;

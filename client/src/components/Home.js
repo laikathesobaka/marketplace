@@ -10,6 +10,7 @@ import {
   getUserAuthStatus,
   getAccountSidebarStatus,
 } from "../reducers/user";
+import { getMarketplace } from "../reducers/marketplace";
 import { getProducts } from "../reducers/products";
 import { getShowSearchStatus } from "../reducers/search";
 import { getVendors } from "../reducers/vendors";
@@ -21,11 +22,13 @@ import {
   checkUserAuthenticated,
   updateUserAuth,
   updateAccountSidebarStatus,
+  getMarketplaceData,
   getAllProducts,
   getAllVendors,
   updateShowSearch,
 } from "../actions";
 
+import Header from "./Header";
 import CartSidebar from "./CartSidebar";
 import AccountSidebar from "./AccountSidebar";
 import NavBar from "./NavBar";
@@ -33,6 +36,8 @@ import CounterSidebar from "./CounterSidebar";
 import SearchBar from "./SearchBar";
 
 const Home = ({
+  marketplace,
+  getMarketplaceData,
   products,
   vendors,
   getAllProducts,
@@ -54,6 +59,7 @@ const Home = ({
 }) => {
   useEffect(() => {
     checkUserAuthenticated();
+    getMarketplaceData();
     getAllProducts();
     getAllVendors();
   }, []);
@@ -99,12 +105,14 @@ const Home = ({
           updateUserAuth={updateUserAuth}
           checkUserAuthenticated={checkUserAuthenticated}
         />
+        <Header title={marketplace.name} />
       </div>
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
+  marketplace: getMarketplace(state),
   cart: getCartProducts(state),
   cartTotals: aggregateCartTotals(state),
   cartSidebarStatus: getCartSidebarStatus(state),
@@ -125,6 +133,7 @@ export default connect(mapStateToProps, {
   updateAccountSidebarStatus,
   checkUserAuthenticated,
   updateUserAuth,
+  getMarketplaceData,
   getAllProducts,
   getAllVendors,
   updateShowSearch,
