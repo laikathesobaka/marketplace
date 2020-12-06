@@ -5,9 +5,9 @@ import { formatPrice } from "../helpers/formatPrice";
 const About = ({ unitCost, description }) => {
   return (
     <AboutContainer>
+      {console.log("description ?S??S?S", description)}
       <Description>
-        <div>Sourced from the best Siberian farmer's market.</div>
-        <div>Number one cure for colds.</div>
+        <div>{description}</div>
       </Description>
       <Cost>${formatPrice(unitCost)}/lb</Cost>
     </AboutContainer>

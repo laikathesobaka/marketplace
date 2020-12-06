@@ -1,5 +1,5 @@
 // userfindorcreate
-const pool = require("../db-config").pool;
+const db = require("../db-config");
 
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
@@ -19,7 +19,7 @@ async function authenticateUser(email, password) {
     values: [email],
   };
   try {
-    queryRes = await pool.query(query);
+    queryRes = await db.query(query);
   } catch (err) {
     console.log(err.stack);
   }
@@ -46,7 +46,7 @@ async function findOrCreateGoogleID(googleProfile) {
     ],
   };
   try {
-    res = await pool.query(query);
+    res = await db.query(query);
   } catch (err) {
     console.log("Error ocurred inserting google id: ", err.stack);
   }
@@ -65,7 +65,7 @@ async function createUser(firstName, lastName, email, password = "") {
   };
   let insertedUser;
   try {
-    insertedUser = await pool.query(query);
+    insertedUser = await db.query(query);
   } catch (err) {
     console.log(err.stack);
   }
@@ -80,7 +80,7 @@ async function updateUserContact(userID, address, phoneNumber) {
     values: [address, phoneNumber, userID],
   };
   try {
-    await pool.query(query);
+    await db.query(query);
   } catch (err) {
     console.log(err.stack);
   }
@@ -92,7 +92,7 @@ async function getUserByID(userID) {
     values: [userID],
   };
   try {
-    user = await pool.query(query);
+    user = await db.query(query);
   } catch (err) {
     console.log(err.stack);
   }
@@ -106,7 +106,7 @@ async function getUserByEmail(email) {
     values: [email],
   };
   try {
-    user = await pool.query(query);
+    user = await db.query(query);
   } catch (err) {
     console.log(err.stack);
   }

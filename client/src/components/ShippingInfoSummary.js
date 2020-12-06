@@ -16,9 +16,7 @@ const ShippingInfoSummary = ({ fullName, address }) => {
 export default ShippingInfoSummary;
 
 const Container = styled.div`
-  position: static;
-  top: 170px;
-  left: 110px;
+  padding-bottom: 40px;
 `;
 const Title = styled.div`
   font-weight: bold;

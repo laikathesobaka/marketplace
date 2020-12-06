@@ -70,7 +70,6 @@ const Home = ({
   const sidebarOpen = accountSidebarStatus || cartSidebarStatus;
   return (
     <div>
-      {console.log("products ??? ", products)}
       <div>
         <NavBar
           updateShowSearch={updateShowSearch}

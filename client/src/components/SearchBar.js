@@ -64,7 +64,7 @@ const SearchBar = ({ show, updateShowSearch, products, vendors }) => {
                 <Product
                   product={item}
                   products={products}
-                  vendor={vendors[item.vendor_id]}
+                  vendor={vendors[item.vendorID]}
                   vendors={vendors}
                   forSearchBar={true}
                   resetSearchResults={resetSearchResults}

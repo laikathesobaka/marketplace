@@ -44,14 +44,17 @@ const ProductPage = ({ location }) => {
               <ProductInfoContainer>
                 <div>
                   <ProductName>{product.name}</ProductName>
-                  <About unitCost={product.unit_cost} />
+                  <About
+                    unitCost={product.unitCost}
+                    description={product.description}
+                  />
                 </div>
                 <AddItems product={product} />
               </ProductInfoContainer>
             </div>
             <VendorContainer>
               <div style={{ display: "flex", flexDirection: "row" }}>
-                <FarmIcon src={process.env.PUBLIC_URL + "/farm2.png"} />
+                {/* <FarmIcon src={process.env.PUBLIC_URL + "/farm2.png"} /> */}
                 <Farmer>Other products from {vendor.name}'s farm</Farmer>
               </div>
               <OtherVendorProducts>
@@ -127,15 +130,10 @@ const Img = styled.img`
   margin: auto;
 `;
 
-const FarmIcon = styled.img`
-  width: 40px;
-`;
-
 const Farmer = styled.div`
-  padding: 10px;
   margin-top: 10px;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: thin;
 `;
 
 const OtherVendorProducts = styled.div`

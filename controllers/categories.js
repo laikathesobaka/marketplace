@@ -1,13 +1,13 @@
-const pool = require("../db-config").pool;
+const db = require("../db-config");
 
 async function getCategories() {
   let categories;
   try {
-    categories = await pool.query(`SELECT * FROM categories;`);
+    categories = await db.query(`SELECT * FROM categories;`);
   } catch (err) {
     console.log("Error occurred retrieving categories data: ", err.stack);
+    throw err;
   }
-  console.log("CATEGGORISE DATA > :", categories);
   return categories.rows;
 }
 

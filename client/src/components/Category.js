@@ -20,7 +20,7 @@ const Category = ({ location }) => {
               <Product
                 product={products[productID]}
                 products={products}
-                vendor={vendors[products[productID].vendor_id]}
+                vendor={vendors[products[productID].vendorID]}
                 vendors={vendors}
               />
             );

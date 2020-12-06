@@ -16,7 +16,6 @@ router.get("/marketplace", async (req, res) => {
 
 router.get("/categories", async (req, res) => {
   const categories = await Category.getCategories();
-  console.log("🌄", categories);
   res.send(categories);
 });
 

@@ -1,11 +1,11 @@
-const pool = require("../db-config").pool;
+const db = require("../db-config");
 
 async function getMarketplace() {
   let marketplace;
   try {
-    marketplace = await pool.query(`SELECT * FROM marketplace;`);
+    marketplace = await db.query(`SELECT * FROM marketplace;`);
   } catch (err) {
-    console.log("Error occurred retrieving marketplace data: ", err.stack);
+    throw err;
   }
   return marketplace.rows[0];
 }

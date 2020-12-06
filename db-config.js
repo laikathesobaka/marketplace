@@ -2,22 +2,29 @@ require("dotenv").config();
 
 const pg = require("pg");
 const Pool = pg.Pool;
-const { marketplace, vendors, categories, products } = require("./mock-data");
+const {
+  marketplace,
+  vendors,
+  categories,
+  products,
+} = require("./data/mock-data.json");
 
-const createDB = `
-CREATE EXTENSION IF NOT EXISTS dblink;
-
+const createRole = `
 DO
 $do$
 BEGIN
    IF NOT EXISTS (
       SELECT FROM pg_catalog.pg_roles
       WHERE  rolname = '${process.env.DB_USER}') THEN
-
-      CREATE ROLE ${process.env.DB_USER} LOGIN PASSWORD '${process.env.DB_PASSWORD}';
+      CREATE ROLE ${process.env.DB_USER} LOGIN SUPERUSER PASSWORD '${process.env.DB_PASSWORD}';
    END IF;
 END
 $do$;
+
+`;
+
+const createDB = `
+CREATE EXTENSION IF NOT EXISTS dblink;
 
 DO
 $do$
@@ -26,19 +33,22 @@ BEGIN
       RAISE NOTICE 'Database already exists';
    ELSE
       PERFORM dblink_exec('dbname=' || current_database()
-                        , 'CREATE DATABASE ${process.env.DB_NAME}');
+                        , 'CREATE DATABASE ${process.env.DB_NAME} WITH OWNER = ${process.env.DB_USER}');
    END IF;
 END
 $do$;
-
+ 
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO ${process.env.DB_USER};
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO ${process.env.DB_USER};
-
 `;
 
 const createTables = `
 CREATE TABLE IF NOT EXISTS marketplace (
   name TEXT UNIQUE NOT NULL,
+  multi_vendor BOOLEAN,
+  media JSON,
+  authentication JSON,
+  payment_methods JSON,
   created_at DATE DEFAULT CURRENT_DATE
 );
 
@@ -72,6 +82,7 @@ CREATE TABLE IF NOT EXISTS products (
   vendor_id INTEGER REFERENCES vendors(id) ON DELETE CASCADE,
   unit_cost INTEGER NOT NULL,
   name TEXT NOT NULL,
+  description TEXT,
   media TEXT,
   category TEXT,
   inventory INTEGER,
@@ -102,8 +113,14 @@ CREATE TABLE IF NOT EXISTS purchases (
 `;
 
 const seedMarketplaceData = {
-  text: `INSERT INTO marketplace (name) VALUES ($1) ON CONFLICT (name) DO NOTHING RETURNING *;`,
-  values: [marketplace.name],
+  text: `INSERT INTO marketplace (name, multi_vendor, media, authentication, payment_methods) VALUES ($1, $2, $3, $4, $5) ON CONFLICT (name) DO NOTHING RETURNING *;`,
+  values: [
+    marketplace.name,
+    marketplace.multipleVendors,
+    marketplace.media,
+    marketplace.authentication,
+    marketplace.paymentMethods,
+  ],
 };
 
 const seedCategories = {
@@ -116,12 +133,13 @@ const seedCategories = {
 };
 
 const seedProducts = {
-  text: `INSERT INTO products (vendor_id, unit_cost, name, media, category, inventory)
-   SELECT * FROM UNNEST ($1::int[], $2::int[], $3::text[], $4::text[], $5::text[], $6::int[]) ON CONFLICT (name, category, vendor_id) DO NOTHING RETURNING *;`,
+  text: `INSERT INTO products (vendor_id, unit_cost, name, description, media, category, inventory)
+   SELECT * FROM UNNEST ($1::int[], $2::int[], $3::text[], $4::text[], $5::text[], $6::text[], $7::int[]) ON CONFLICT (name, category, vendor_id) DO NOTHING RETURNING *;`,
   values: [
     products.map((product) => product.vendorID),
     products.map((product) => product.unitCost),
     products.map((product) => product.name),
+    products.map((product) => product.description),
     products.map((product) => product.media),
     products.map((product) => product.category),
     products.map((product) => product.inventory),
@@ -138,86 +156,55 @@ const seedVendors = {
   ],
 };
 
-let config = {
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  database: "postgres",
-};
-
-let pool = new Pool(config);
-
+let pool;
 (async () => {
-  let client = await pool.connect();
-  await pool.query(createDB);
+  let poolPG = new Pool({
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    database: "postgres",
+  });
+  try {
+    await poolPG.query(createRole);
+    await poolPG.query(createDB);
+  } catch (err) {
+    console.log(
+      `Error occurred creating role ${process.env.DB_USER}: `,
+      err.stack
+    );
+  } finally {
+    poolPG.end();
+  }
   pool = new Pool({
-    ...config,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
     database: process.env.DB_NAME,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
   });
-  client = await pool.connect();
-  await client.query(createTables);
-  await client.query(seedMarketplaceData);
-  await client.query(seedVendors);
-  await client.query(seedCategories);
-  await client.query(seedProducts);
-})().catch((e) => console.error(e.stack));
+  let client;
+  try {
+    client = await pool.connect();
+  } catch (err) {
+    throw err;
+  }
+  try {
+    await client.query("BEGIN");
+    try {
+      await client.query(createTables);
+      await client.query(seedMarketplaceData);
+      await client.query(seedVendors);
+      await client.query(seedCategories);
+      await client.query(seedProducts);
+      await client.query("COMMIT");
+    } catch (err) {
+      console.error(`Error occurred seeding db: `, err.stack);
+      client.query("ROLLBACK");
+    }
+  } finally {
+    client.end();
+  }
+})().catch((e) => console.log(e));
 
-// pool.on("connect", (client) => {
-//   client.query(createDB, (err, res) => {
-//     client.query(createTables, (err, res) => {
-//       client.query(seedMarketplaceData);
-//       client.query(seedCategories);
-//       client.query(seedVendors, (err, res) => {
-//         client.query(seedProducts);
-//       });
-//     });
-//   });
-// });
-
-// (async () => {
-//   await pool.connect();
-// })().catch((e) => console.error(e.stack));
-
-// let pool = new Pool({ database: "postgres" });
-
-// pool.connect((err, client, release) => {
-//   if (err) {
-//     console.log("error connecting to postgres db: ", err.stack);
-//     // If e-commerce db does not exist, create db and tables, then seed
-//   }
-//   client.query(createDB, (err, result) => {
-//     if (err) {
-//       console.log("error occurred creating db: ", err.stack);
-//     }
-//     release();
-//     pool = new Pool({
-//       ...config,
-//       user: process.env.DB_USER,
-//       password: process.env.DB_PASSWORD,
-//     });
-//     pool.connect((err, client2, release2) => {
-//       if (err) {
-//         console.log("error occurred connecting to marketplace db: ", err.stack);
-//       }
-//       client2.query(createTables, (err, res) => {
-//         if (err) {
-//           console.log("error occurred creating tables: ", err.stack);
-//         }
-//         client2.query(seedMarketplaceData);
-//         client2.query(seedCategories, (err, res) => {
-//           console.log("error seeding categgories: ", err);
-//           console.log("res from seeding categories: ", res);
-//         });
-//         client2.query(seedVendors, (err, res) => {
-//           client2.query(seedProducts);
-//         });
-//       });
-//       release2();
-//     });
-//   });
-// });
-
-// pool.connect();
-
-module.exports = { pool };
+module.exports = {
+  query: async (text, params) => await pool.query(text, params),
+};

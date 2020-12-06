@@ -1,0 +1,944 @@
+{
+  "marketplace": {
+    "name": "Siberian Farmer's Market",
+    "multipleVendors": true,
+    "media": {
+      "navigationBar": {
+        "home": {
+          "default": "/icons/store.svg",
+          "hover": "/icons/storehover.svg"
+        },
+        "search": {
+          "default": "/icons/search.svg",
+          "hover": "/icons/searchhover.svg"
+        },
+        "account": {
+          "default": "/icons/matryoshka.svg",
+          "hover": "/icons/matryoshkahover.svg"
+        },
+        "basket": {
+          "default": "/icons/basket.svg",
+          "hover": "/icons/baskethover.svg"
+        }
+      },
+      "favicon": {}
+    }
+  },
+  "authentication": {
+    "facebook": false,
+    "google": true,
+    "custom": true
+  },
+  "paymentMethods": {
+    "stripe": true,
+    "amazon": false,
+    "apple": false,
+    "paypal": false
+  },
+  "categories": [{
+    "name": "produce",
+    "media": {
+      "default": "/icons/salad.svg",
+      "hover": "/icons/saladhover.svg"
+    },
+    "products": [{
+      "unitCost": 120,
+      "media": "/products/garlic2.png",
+      "name": "garlic",
+      "category": "produce",
+      "vendorID": 1,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 200,
+      "media": "/products/onion.png",
+      "name": "onion",
+      "category": "produce",
+      "vendorID": 1,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 99,
+      "media": "/products/scallion2.png",
+      "name": "scallion",
+      "category": "produce",
+      "vendorID": 1,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 100,
+      "media": "/products/scallion3.png",
+      "name": "scallion",
+      "category": "produce",
+      "vendorID": 2,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 150,
+      "media": "/products/cabbage2.png",
+      "name": "cabbage",
+      "category": "produce",
+      "vendorID": 5,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 150,
+      "media": "/products/cabbage.png",
+      "name": "cabbage",
+      "category": "produce",
+      "vendorID": 6,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 179,
+      "media": "/products/beet2.png",
+      "name": "beet",
+      "category": "produce",
+      "vendorID": 3,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 99,
+      "name": "scallion",
+      "media": "/products/scallion.png",
+      "category": "produce",
+      "vendorID": 3,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 489,
+      "media": "/products/marinatedmushroom.png",
+      "name": "marinated mushroom",
+      "category": "produce",
+      "vendorID": 3,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 315,
+      "media": "/products/blueberry.png",
+      "name": "blueberry",
+      "category": "produce",
+      "vendorID": 4,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 525,
+      "media": "/products/pomegranate.png",
+      "name": "pomegranate",
+      "category": "produce",
+      "vendorID": 4,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 215,
+      "media": "/products/lemon.png",
+      "name": "lemon",
+      "category": "produce",
+      "vendorID": 4,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 315,
+      "media": "/products/wildstrawberries.png",
+      "name": "wild strawberries",
+      "category": "produce",
+      "vendorID": 4,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 275,
+      "media": "/products/ogurets.png",
+      "name": "pickle",
+      "category": "produce",
+      "vendorID": 1,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 415,
+      "media": "/products/griba.png",
+      "name": "mushroom",
+      "category": "produce",
+      "vendorID": 1,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }]
+  }, {
+    "name": "dairy",
+    "media": {
+      "default": "/icons/cheese.svg",
+      "hover": "/icons/cheesehover.svg"
+    },
+    "products": [{
+      "unitCost": 200,
+      "media": "/products/maslo.png",
+      "name": "butter",
+      "category": "dairy",
+      "vendorID": 4,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 589,
+      "media": "/products/cottagecheesecasserole.png",
+      "name": "cottage cheese casserole",
+      "category": "dairy",
+      "vendorID": 2,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 399,
+      "media": "/products/sirniki.png",
+      "name": "cheese pancake",
+      "category": "dairy",
+      "vendorID": 2,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 289,
+      "media": "/products/tvorog.png",
+      "name": "cottage cheese",
+      "category": "dairy",
+      "vendorID": 2,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 345,
+      "name": "sour cream",
+      "media": "/products/smetana.png",
+      "category": "dairy",
+      "vendorID": 4,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 345,
+      "name": "cottage cheese",
+      "media": "/products/tvorog2.png",
+      "category": "dairy",
+      "vendorID": 4,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 375,
+      "name": "milk",
+      "media": "/products/moloko.png",
+      "category": "dairy",
+      "vendorID": 1,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 375,
+      "media": "/products/moloko2.png",
+      "name": "milk",
+      "category": "dairy",
+      "vendorID": 2,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 375,
+      "media": "/products/moloko3.png",
+      "name": "milk",
+      "category": "dairy",
+      "vendorID": 4,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 600,
+      "name": "cheese",
+      "media": "/products/cheese.png",
+      "category": "dairy",
+      "vendorID": 1,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 715,
+      "name": "goat cheese",
+      "media": "/products/goatcheese.png",
+      "category": "dairy",
+      "vendorID": 1,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 339,
+      "name": "yogurt",
+      "media": "/products/yogurt.png",
+      "category": "dairy",
+      "vendorID": 1,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }]
+  }, {
+    "name": "seafood",
+    "media": {
+      "default": "/icons/fish.svg",
+      "hover": "/icons/fishhover.svg"
+    },
+    "products": [{
+      "unitCost": 2000,
+      "media": "/products/blackcaviar.png",
+      "name": "black caviar",
+      "category": "seafood",
+      "vendorID": 3,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 1215,
+      "media": "/products/smokedsturgeon.png",
+      "name": "smoked sturgeon",
+      "category": "seafood",
+      "vendorID": 3,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 1100,
+      "media": "/products/herring.png",
+      "name": "herring",
+      "category": "seafood",
+      "vendorID": 4,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 2200,
+      "media": "/products/blackcaviar2.png",
+      "name": "black caviar",
+      "category": "seafood",
+      "vendorID": 4,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 1300,
+      "media": "/products/redcaviar.png",
+      "name": "red caviar",
+      "category": "seafood",
+      "vendorID": 4,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 1300,
+      "media": "/products/redcaviar2.png",
+      "name": "red caviar",
+      "category": "seafood",
+      "vendorID": 7,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 1400,
+      "media": "/products/salmon.png",
+      "name": "salmon",
+      "category": "seafood",
+      "vendorID": 7,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 1310,
+      "media": "/products/paltus.png",
+      "name": "halibut",
+      "category": "seafood",
+      "vendorID": 7,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }]
+  }, {
+    "name": "poultry",
+    "media": {
+      "default": "/icons/chicken.svg",
+      "hover": "/icons/chickenhover.svg"
+    },
+    "products": [{
+      "unitCost": 899,
+      "media": "/products/chickenbreast.png",
+      "name": "chicken breast",
+      "category": "poultry",
+      "vendorID": 4,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 799,
+      "media": "/products/chickenleg.png",
+      "name": "chicken leg",
+      "category": "poultry",
+      "vendorID": 4,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 799,
+      "media": "/products/chickenleg2.png",
+      "name": "chicken leg",
+      "category": "poultry",
+      "vendorID": 5,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 999,
+      "name": "chicken",
+      "media": "/products/kuritsa.png",
+      "category": "poultry",
+      "vendorID": 3,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 1499,
+      "media": "/products/kuritsa2.png",
+      "name": "chicken",
+      "category": "poultry",
+      "vendorID": 5,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 985,
+      "media": "/products/eggs.png",
+      "name": "eggs",
+      "category": "poultry",
+      "vendorID": 4,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 985,
+      "media": "/products/eggs2.png",
+      "name": "eggs",
+      "category": "poultry",
+      "vendorID": 5,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 985,
+      "media": "/products/eggs3.png",
+      "name": "eggs",
+      "category": "poultry",
+      "vendorID": 6,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }]
+  }, {
+    "name": "meat",
+    "media": {
+      "default": "/icons/meat.svg",
+      "hover": "/icons/meathover.svg"
+    },
+    "products": [{
+      "unitCost": 1200,
+      "media": "/products/beef.png",
+      "name": "beef",
+      "category": "meat",
+      "vendorID": 2,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 1485,
+      "name": "duck",
+      "media": "/products/utka.png",
+      "category": "meat",
+      "vendorID": 3,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 799,
+      "name": "kolbasa",
+      "media": "/products/kolbasa.png",
+      "category": "meat",
+      "vendorID": 3,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 559,
+      "name": "sausage",
+      "media": "/products/russiansausage.png",
+      "category": "meat",
+      "vendorID": 3,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 1299,
+      "name": "lamb chop",
+      "media": "/products/lambchop.png",
+      "category": "meat",
+      "vendorID": 3,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 899,
+      "name": "brisket",
+      "media": "/products/brisket.png",
+      "category": "meat",
+      "vendorID": 3,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 1399,
+      "name": "pate",
+      "media": "/products/pate.png",
+      "category": "meat",
+      "vendorID": 3,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 539,
+      "name": "pork loin",
+      "media": "/products/porkloin.png",
+      "category": "meat",
+      "vendorID": 7,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }, {
+      "unitCost": 439,
+      "name": "salo",
+      "media": "/products/salo.png",
+      "category": "meat",
+      "vendorID": 7,
+      "inventory": 100,
+      "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+    }]
+  }],
+  "products": [{
+    "unitCost": 120,
+    "media": "/products/garlic2.png",
+    "name": "garlic",
+    "category": "produce",
+    "vendorID": 1,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 200,
+    "media": "/products/onion.png",
+    "name": "onion",
+    "category": "produce",
+    "vendorID": 1,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 99,
+    "media": "/products/scallion2.png",
+    "name": "scallion",
+    "category": "produce",
+    "vendorID": 1,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 100,
+    "media": "/products/scallion3.png",
+    "name": "scallion",
+    "category": "produce",
+    "vendorID": 2,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 150,
+    "media": "/products/cabbage2.png",
+    "name": "cabbage",
+    "category": "produce",
+    "vendorID": 5,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 150,
+    "media": "/products/cabbage.png",
+    "name": "cabbage",
+    "category": "produce",
+    "vendorID": 6,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 179,
+    "media": "/products/beet2.png",
+    "name": "beet",
+    "category": "produce",
+    "vendorID": 3,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 99,
+    "name": "scallion",
+    "media": "/products/scallion.png",
+    "category": "produce",
+    "vendorID": 3,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 489,
+    "media": "/products/marinatedmushroom.png",
+    "name": "marinated mushroom",
+    "category": "produce",
+    "vendorID": 3,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 315,
+    "media": "/products/blueberry.png",
+    "name": "blueberry",
+    "category": "produce",
+    "vendorID": 4,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 525,
+    "media": "/products/pomegranate.png",
+    "name": "pomegranate",
+    "category": "produce",
+    "vendorID": 4,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 215,
+    "media": "/products/lemon.png",
+    "name": "lemon",
+    "category": "produce",
+    "vendorID": 4,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 315,
+    "media": "/products/wildstrawberries.png",
+    "name": "wild strawberries",
+    "category": "produce",
+    "vendorID": 4,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 2000,
+    "media": "/products/blackcaviar.png",
+    "name": "black caviar",
+    "category": "seafood",
+    "vendorID": 3,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 1215,
+    "media": "/products/smokedsturgeon.png",
+    "name": "smoked sturgeon",
+    "category": "seafood",
+    "vendorID": 3,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 1100,
+    "media": "/products/herring.png",
+    "name": "herring",
+    "category": "seafood",
+    "vendorID": 4,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 2200,
+    "media": "/products/blackcaviar2.png",
+    "name": "black caviar",
+    "category": "seafood",
+    "vendorID": 4,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 1300,
+    "media": "/products/redcaviar.png",
+    "name": "red caviar",
+    "category": "seafood",
+    "vendorID": 4,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 1300,
+    "media": "/products/redcaviar2.png",
+    "name": "red caviar",
+    "category": "seafood",
+    "vendorID": 7,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 1400,
+    "media": "/products/salmon.png",
+    "name": "salmon",
+    "category": "seafood",
+    "vendorID": 7,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 1310,
+    "media": "/products/paltus.png",
+    "name": "halibut",
+    "category": "seafood",
+    "vendorID": 7,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 350,
+    "media": "/products/potato.png",
+    "name": "potato",
+    "category": "produce",
+    "vendorID": 4,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 275,
+    "media": "/products/ogurets.png",
+    "name": "pickle",
+    "category": "produce",
+    "vendorID": 1,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 415,
+    "media": "/products/griba.png",
+    "name": "mushroom",
+    "category": "produce",
+    "vendorID": 1,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 1200,
+    "media": "/products/beef.png",
+    "name": "beef",
+    "category": "meat",
+    "vendorID": 2,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 1485,
+    "name": "duck",
+    "media": "/products/utka.png",
+    "category": "meat",
+    "vendorID": 3,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 799,
+    "name": "kolbasa",
+    "media": "/products/kolbasa.png",
+    "category": "meat",
+    "vendorID": 3,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 559,
+    "name": "sausage",
+    "media": "/products/russiansausage.png",
+    "category": "meat",
+    "vendorID": 3,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 1299,
+    "name": "lamb chop",
+    "media": "/products/lambchop.png",
+    "category": "meat",
+    "vendorID": 3,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 999,
+    "name": "chicken",
+    "media": "/products/kuritsa.png",
+    "category": "poultry",
+    "vendorID": 3,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 899,
+    "name": "brisket",
+    "media": "/products/brisket.png",
+    "category": "meat",
+    "vendorID": 3,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 1399,
+    "name": "pate",
+    "media": "/products/pate.png",
+    "category": "meat",
+    "vendorID": 3,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 200,
+    "media": "/products/maslo.png",
+    "name": "butter",
+    "category": "dairy",
+    "vendorID": 4,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 589,
+    "media": "/products/cottagecheesecasserole.png",
+    "name": "cottage cheese casserole",
+    "category": "dairy",
+    "vendorID": 2,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 399,
+    "media": "/products/sirniki.png",
+    "name": "cheese pancake",
+    "category": "dairy",
+    "vendorID": 2,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 289,
+    "media": "/products/tvorog.png",
+    "name": "cottage cheese",
+    "category": "dairy",
+    "vendorID": 2,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 899,
+    "media": "/products/chickenbreast.png",
+    "name": "chicken breast",
+    "category": "poultry",
+    "vendorID": 4,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 799,
+    "media": "/products/chickenleg.png",
+    "name": "chicken leg",
+    "category": "poultry",
+    "vendorID": 4,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 799,
+    "media": "/products/chickenleg2.png",
+    "name": "chicken leg",
+    "category": "poultry",
+    "vendorID": 5,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 1499,
+    "media": "/products/kuritsa2.png",
+    "name": "chicken",
+    "category": "poultry",
+    "vendorID": 5,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 985,
+    "media": "/products/eggs.png",
+    "name": "eggs",
+    "category": "poultry",
+    "vendorID": 4,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 985,
+    "media": "/products/eggs2.png",
+    "name": "eggs",
+    "category": "poultry",
+    "vendorID": 5,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 985,
+    "media": "/products/eggs3.png",
+    "name": "eggs",
+    "category": "poultry",
+    "vendorID": 6,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 345,
+    "name": "sour cream",
+    "media": "/products/smetana.png",
+    "category": "dairy",
+    "vendorID": 4,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 345,
+    "name": "cottage cheese",
+    "media": "/products/tvorog2.png",
+    "category": "dairy",
+    "vendorID": 4,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 375,
+    "name": "milk",
+    "media": "/products/moloko.png",
+    "category": "dairy",
+    "vendorID": 1,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 375,
+    "media": "/products/moloko2.png",
+    "name": "milk",
+    "category": "dairy",
+    "vendorID": 2,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 375,
+    "media": "/products/moloko3.png",
+    "name": "milk",
+    "category": "dairy",
+    "vendorID": 4,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 600,
+    "name": "cheese",
+    "media": "/products/cheese.png",
+    "category": "dairy",
+    "vendorID": 1,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 715,
+    "name": "goat cheese",
+    "media": "/products/goatcheese.png",
+    "category": "dairy",
+    "vendorID": 1,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 339,
+    "name": "yogurt",
+    "media": "/products/yogurt.png",
+    "category": "dairy",
+    "vendorID": 1,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 539,
+    "name": "pork loin",
+    "media": "/products/porkloin.png",
+    "category": "meat",
+    "vendorID": 7,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }, {
+    "unitCost": 439,
+    "name": "salo",
+    "media": "/products/salo.png",
+    "category": "meat",
+    "vendorID": 7,
+    "inventory": 100,
+    "description": "Sourced from the best market in the tundra.  Number one cure for colds."
+  }],
+  "vendors": [{
+    "name": "Yulia",
+    "ID": 1,
+    "nickname": "farmer"
+  }, {
+    "name": "Dima",
+    "ID": 2,
+    "nickname": "farmer"
+  }, {
+    "name": "Anna",
+    "ID": 3,
+    "nickname": "farmer"
+  }, {
+    "name": "Alex",
+    "ID": 4,
+    "nickname": "farmer"
+  }, {
+    "name": "Sasha",
+    "ID": 5,
+    "nickname": "farmer"
+  }, {
+    "name": "Katya",
+    "ID": 6,
+    "nickname": "farmer"
+  }, {
+    "name": "Vlad",
+    "ID": 7,
+    "nickname": "farmer"
+  }]
+}

@@ -73,6 +73,7 @@ const Form = styled.form`
 `;
 
 const Input = styled.input`
+  width: 13vw;
   padding: 10px;
   margin-bottom: 5px;
 `;

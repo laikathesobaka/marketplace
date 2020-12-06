@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Product from "./Product";
+import Header from "./Header";
 import { navigate } from "@reach/router";
 import { connect } from "react-redux";
 import { getProducts } from "../reducers/products";
@@ -16,35 +17,10 @@ import {
   getAllVendors,
 } from "../actions";
 
-// const categoryImageMap = {
-//   produce: {
-//     default: process.env.PUBLIC_URL + "/icons/salad.svg",
-//     hover: process.env.PUBLIC_URL + "/icons/saladhover.svg",
-//   },
-//   dairy: {
-//     default: process.env.PUBLIC_URL + "/icons/cheese.svg",
-//     hover: process.env.PUBLIC_URL + "/icons/cheesehover.svg",
-//   },
-//   seafood: {
-//     default: process.env.PUBLIC_URL + "/icons/fish.svg",
-//     hover: process.env.PUBLIC_URL + "/icons/fishhover.svg",
-//   },
-//   poultry: {
-//     default: process.env.PUBLIC_URL + "/icons/chicken.svg",
-//     hover: process.env.PUBLIC_URL + "/icons/chickenhover.svg",
-//   },
-//   meat: {
-//     default: process.env.PUBLIC_URL + "/icons/meat.svg",
-//     hover: process.env.PUBLIC_URL + "/icons/meathover.svg",
-//   },
-// };
-
 const Products = ({
-  marketplace,
   categories,
   products,
   vendors,
-  getMarketplaceData,
   getCategoriesData,
   getAllProducts,
   getAllVendors,
@@ -59,33 +35,12 @@ const Products = ({
     getAllVendors();
   }, []);
 
-  // const categoryNames = Array.from(
-  //   new Set(Object.keys(products).map((product) => products[product].category))
-  // );
-
   const categoryNames = [];
   const categoriesByName = {};
   for (const c of categories) {
-    // c.media.default = process.env.PUBLIC_URL + c.media.default;
-    // c.media.hover = process.env.PUBLIC_URL + c.media.hover;
     categoryNames.push(c.name);
     categoriesByName[c.name] = c;
   }
-
-  // const categoryNames = categories.map((c) => c.name);
-  // const categoriesByName = categories.reduce((res, category) => {
-  //   res[category.name] = category;
-  //   return res;
-  // }, {});
-
-  // const productsByCategory = Object.keys(products).reduce((res, product) => {
-  //   if (res[products[product].category]) {
-  //     res[products[product].category].push(products[product]);
-  //   } else {
-  //     res[products[product].category] = [products[product]];
-  //   }
-  //   return res;
-  // }, {});
 
   const onCategoryClick = (category) => {
     navigate(`/category/${category}`, {
@@ -100,7 +55,6 @@ const Products = ({
   return (
     <Container>
       <ProductsContainer>
-        {console.log(" 😇", process.env.PUBLIC_URL)}
         <CategoryTabs>
           {categoryNames.map((category) => (
             <CategoryTab onClick={() => onCategoryClick(category)}>
@@ -132,7 +86,7 @@ const Products = ({
                       <Product
                         product={product}
                         products={products}
-                        vendor={vendors[product.vendor_id]}
+                        vendor={vendors[product.vendorID]}
                         vendors={vendors}
                       />
                     );
@@ -177,6 +131,8 @@ const ProductsContainer = styled.div`
   flex-direction: column;
   align-items: center;
   // margin-bottom: 50px;
+  margin-top: 50px;
+  margin-bottom: 50px;
   width: 100%;
 `;
 
