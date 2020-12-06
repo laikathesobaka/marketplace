@@ -115,9 +115,10 @@ cursor: pointer;
 
 const SidebarContainer = styled.div`
   display: flex;
+  overflow: hidden;
   flex-direction: column;
   align-items: center;
-  width: 15%;
+  width: 19vw;
   background: white;
   border-left-style: solid;
   border-width: 1px;
@@ -125,6 +126,7 @@ const SidebarContainer = styled.div`
   height: 100vh;
   padding: 0;
   position: fixed;
+  // position: relative;
   top: 0;
   right: 0;
   z-index: 3;

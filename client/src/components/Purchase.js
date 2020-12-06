@@ -159,25 +159,27 @@ const Purchase = ({
   return (
     <div>
       <Loader active={isLoading} />
-      <ShippingInfoSummary fullName={fullName} address={address} />
-      <FormContainer>
-        <form onSubmit={handleSubmit(handlePaymentSubmit)}>
-          <Title>What's your payment information?</Title>
-          <CardSection />
-          <SubTitle>Where should we send your receipt?</SubTitle>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <Input
-              name="email"
-              placeholder="Email"
-              ref={register(emailRules)}
-            />
-            {errors.email && <span>{errors.email.message}</span>}
-            <PayButton type="submit" disabled={!stripe}>
-              Place Order
-            </PayButton>
-          </div>
-        </form>
-      </FormContainer>
+      <div>
+        <ShippingInfoSummary fullName={fullName} address={address} />
+        <FormContainer>
+          <form onSubmit={handleSubmit(handlePaymentSubmit)}>
+            <Title>What's your payment information?</Title>
+            <CardSection />
+            <SubTitle>Where should we send your receipt?</SubTitle>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <Input
+                name="email"
+                placeholder="Email"
+                ref={register(emailRules)}
+              />
+              {errors.email && <span>{errors.email.message}</span>}
+              <PayButton type="submit" disabled={!stripe}>
+                Place Order
+              </PayButton>
+            </div>
+          </form>
+        </FormContainer>
+      </div>
     </div>
   );
 };
@@ -211,13 +213,7 @@ const Input = styled.input`
   font-size: 13px;
 `;
 
-const FormContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  top: 280px;
-  left: 110px;
-`;
+const FormContainer = styled.div``;
 
 const Title = styled.div`
   font-size: 20px;

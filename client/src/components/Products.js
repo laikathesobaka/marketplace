@@ -1,66 +1,46 @@
 import React, { useEffect } from "react";
 import Product from "./Product";
+import Header from "./Header";
 import { navigate } from "@reach/router";
 import { connect } from "react-redux";
 import { getProducts } from "../reducers/products";
 import { getVendors } from "../reducers/vendors";
+import { getMarketplace } from "../reducers/marketplace";
+import { getCategories } from "../reducers/categories";
 import Header from "./Header";
 import styled from "styled-components";
 import {
   checkUserAuthenticated,
+  getMarketplaceData,
+  getCategoriesData,
   getAllProducts,
   getAllVendors,
 } from "../actions";
 
-const categoryImageMap = {
-  produce: {
-    default: process.env.PUBLIC_URL + "/icons/salad.svg",
-    hover: process.env.PUBLIC_URL + "/icons/saladhover.svg",
-  },
-  dairy: {
-    default: process.env.PUBLIC_URL + "/icons/cheese.svg",
-    hover: process.env.PUBLIC_URL + "/icons/cheesehover.svg",
-  },
-  seafood: {
-    default: process.env.PUBLIC_URL + "/icons/fish.svg",
-    hover: process.env.PUBLIC_URL + "/icons/fishhover.svg",
-  },
-  poultry: {
-    default: process.env.PUBLIC_URL + "/icons/chicken.svg",
-    hover: process.env.PUBLIC_URL + "/icons/chickenhover.svg",
-  },
-  meat: {
-    default: process.env.PUBLIC_URL + "/icons/meat.svg",
-    hover: process.env.PUBLIC_URL + "/icons/meathover.svg",
-  },
-};
-
 const Products = ({
+  categories,
   products,
-  getAllProducts,
   vendors,
+  getCategoriesData,
+  getAllProducts,
   getAllVendors,
   checkUserAuthenticated,
 }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
     checkUserAuthenticated();
+    getMarketplaceData();
+    getCategoriesData();
     getAllProducts();
     getAllVendors();
   }, []);
 
-  const categories = Array.from(
-    new Set(Object.keys(products).map((product) => products[product].category))
-  );
-
-  const productsByCategory = Object.keys(products).reduce((res, product) => {
-    if (res[products[product].category]) {
-      res[products[product].category].push(products[product]);
-    } else {
-      res[products[product].category] = [products[product]];
-    }
-    return res;
-  }, {});
+  const categoryNames = [];
+  const categoriesByName = {};
+  for (const c of categories) {
+    categoryNames.push(c.name);
+    categoriesByName[c.name] = c;
+  }
 
   const onCategoryClick = (category) => {
     navigate(`/category/${category}`, {
@@ -75,37 +55,42 @@ const Products = ({
   return (
     <Container>
       <ProductsContainer>
-        <Header />
         <CategoryTabs>
-          {categories.map((category) => (
+          {categoryNames.map((category) => (
             <CategoryTab onClick={() => onCategoryClick(category)}>
               <Img
-                src={categoryImageMap[category].default}
+                src={categoriesByName[category].media.default}
                 onMouseOver={(e) =>
-                  (e.currentTarget.src = categoryImageMap[category].hover)
+                  (e.currentTarget.src =
+                    process.env.PUBLIC_URL +
+                    categoriesByName[category].media.hover)
                 }
                 onMouseOut={(e) =>
-                  (e.currentTarget.src = categoryImageMap[category].default)
+                  (e.currentTarget.src =
+                    process.env.PUBLIC_URL +
+                    categoriesByName[category].media.default)
                 }
               />
             </CategoryTab>
           ))}
         </CategoryTabs>
-        {categories.map((category) => {
+        {categoryNames.map((category) => {
           return (
             <CategoryContainer>
               <Category>{category}</Category>
               <CategoryProductsContainer>
-                {productsByCategory[category].slice(0, 8).map((product) => {
-                  return (
-                    <Product
-                      product={product}
-                      products={products}
-                      vendor={vendors[product.vendor_id]}
-                      vendors={vendors}
-                    />
-                  );
-                })}
+                {categoriesByName[category].products
+                  .slice(0, 8)
+                  .map((product) => {
+                    return (
+                      <Product
+                        product={product}
+                        products={products}
+                        vendor={vendors[product.vendorID]}
+                        vendors={vendors}
+                      />
+                    );
+                  })}
               </CategoryProductsContainer>
               <SeeMore onClick={() => onCategoryClick(category)}>
                 See more
@@ -119,14 +104,18 @@ const Products = ({
 };
 
 const mapStateToProps = (state) => ({
+  marketplace: getMarketplace(state),
   products: getProducts(state),
   vendors: getVendors(state),
+  categories: getCategories(state),
 });
 
 export default connect(mapStateToProps, {
   checkUserAuthenticated,
   getAllProducts,
   getAllVendors,
+  getMarketplaceData,
+  getCategoriesData,
 })(Products);
 
 const Container = styled.div`
@@ -137,11 +126,11 @@ const Container = styled.div`
 `;
 
 const ProductsContainer = styled.div`
-  margin-top: 50px;
+  // margin-top: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 50px;
+  // margin-bottom: 50px;
   width: 100%;
 `;
 

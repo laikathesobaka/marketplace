@@ -1,4 +1,4 @@
-const pool = require("../dbConfig").pool;
+const db = require("../db-config");
 const stripe = require("../stripe");
 
 async function createPurchases(userID, orderID, orderDate, purchases) {
@@ -28,7 +28,7 @@ async function createPurchases(userID, orderID, orderDate, purchases) {
       ],
     };
     try {
-      const purchase = await pool.query(query);
+      const purchase = await db.query(query);
     } catch (err) {
       console.log("Error occurred inserting purchase: ", err.stack);
     }
@@ -46,7 +46,7 @@ async function createOrder(user, purchases, orderTotals, orderDate) {
     values: [user.id, orderTotals.amount, orderTotals.cost, orderDate],
   };
   try {
-    order = await pool.query(query);
+    order = await db.query(query);
     // await User.updateUserContact(user.id, user.address, user.phone)
     await createPurchases(user.id, order.rows[0].id, orderDate, purchases);
   } catch (err) {
@@ -108,7 +108,7 @@ async function getOrdersByUserID(userID) {
   };
   let orders;
   try {
-    orders = await pool.query(query);
+    orders = await db.query(query);
   } catch (err) {
     console.log(err.stack);
   }
@@ -118,7 +118,7 @@ async function getOrdersByUserID(userID) {
 async function getSubscriptionsByUserID(userID) {
   let purchases;
   try {
-    purchases = await pool.query(
+    purchases = await db.query(
       `SELECT * FROM purchases WHERE subscription_id IS NOT NULL AND user_id = ${userID};`
     );
   } catch (err) {
@@ -147,7 +147,7 @@ async function getSubscriptionsByUserID(userID) {
 
 async function cancelPurchaseSubscriptions(purchaseIDs) {
   try {
-    await pool.query(
+    await db.query(
       `UPDATE purchases SET subscription_id = NULL, subscription_interval = NULL WHERE id IN (${purchaseIDs});`
     );
   } catch (err) {

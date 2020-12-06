@@ -20,7 +20,7 @@ const Category = ({ location }) => {
               <Product
                 product={products[productID]}
                 products={products}
-                vendor={vendors[products[productID].vendor_id]}
+                vendor={vendors[products[productID].vendorID]}
                 vendors={vendors}
               />
             );
@@ -48,7 +48,6 @@ const ProductsContainer = styled.div`
 const Title = styled.div`
   font-family: "Rubik", sans-serif;
   margin-bottom: 30px;
-  margin-top: 100px;
   font-size: 20px;
   font-weight: 100;
 `;

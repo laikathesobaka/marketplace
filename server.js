@@ -2,7 +2,6 @@ require("dotenv").config();
 
 const express = require("express");
 const session = require("express-session");
-const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");

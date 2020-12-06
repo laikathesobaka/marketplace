@@ -1,9 +1,9 @@
-const pool = require("../dbConfig").pool;
+const db = require("../db-config");
 
 async function createVendors(vendors) {
   for (const vendor of vendors) {
     try {
-      await pool.query(
+      await db.query(
         `INSERT INTO vendors (name) VALUES (${vendor}) RETURNING id;`
       );
     } catch (err) {
@@ -22,7 +22,7 @@ function formatVendors(vendors) {
 async function getAllVendors() {
   let vendors;
   try {
-    vendors = await pool.query("SELECT * FROM vendors;");
+    vendors = await db.query("SELECT * FROM vendors;");
   } catch (err) {
     console.log("Error occurred retrieving vendors: ", err.stack);
   }

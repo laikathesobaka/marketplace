@@ -16,7 +16,7 @@ const Product = ({
     const res = [];
     if (products && vendor) {
       for (const productID in products) {
-        if (products[productID].vendor_id === vendor.id) {
+        if (products[productID].vendorID === vendor.id) {
           res.push(products[productID]);
         }
       }
@@ -61,7 +61,7 @@ const Product = ({
           <InfoBox>
             <Info>
               <ProductName>{product.name}</ProductName>
-              <UnitCost>${formatPrice(product.unit_cost)}/lb</UnitCost>
+              <UnitCost>${formatPrice(product.unitCost)}/lb</UnitCost>
               {vendor && (
                 <Farmer>
                   <FarmIcon src={process.env.PUBLIC_URL + "/icons/farm.svg"} />

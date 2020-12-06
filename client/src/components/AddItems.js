@@ -24,7 +24,7 @@ const AddItems = ({ product, addToCart, updateCartSidebarStatus }) => {
   const [productName, setProductName] = useState(product.name);
   const [category, setCategory] = useState(product.category);
   const [amount, setAmount] = useState(1);
-  const [total, setTotal] = useState(product.unit_cost);
+  const [total, setTotal] = useState(product.unitCost);
   const [isSubscriptionPurchase, setIsSubscriptionPurchase] = useState(false);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const AddItems = ({ product, addToCart, updateCartSidebarStatus }) => {
   }, [product]);
 
   const setProductData = () => {
-    setUnitCost(product.unit_cost);
+    setUnitCost(product.unitCost);
     setMedia(product.media);
     setProductName(product.name);
     setCategory(product.category);
@@ -59,7 +59,7 @@ const AddItems = ({ product, addToCart, updateCartSidebarStatus }) => {
     };
     addToCart(purchaseItem);
     setAmount(1);
-    setTotal(product.unit_cost);
+    setTotal(product.unitCost);
     setDropdownOption({ value: 1, label: "1" });
     setIsSubscriptionPurchase(false);
     updateCartSidebarStatus(sidebarStatus);
