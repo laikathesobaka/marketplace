@@ -131,8 +131,6 @@ const ProductsContainer = styled.div`
   flex-direction: column;
   align-items: center;
   // margin-bottom: 50px;
-  margin-top: 50px;
-  margin-bottom: 50px;
   width: 100%;
 `;
 
