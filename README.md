@@ -1,7 +1,7 @@
 # marketplace
 An easily configurable custom e-commerce platform builder that accomodates a single or multiple merchants.
-Processes an input JSON file containing merchant, products, media, authentication channel and payment channel data to output online store (like this [fictitious market] (http://www.siberianfarmers.market). of a 
-Supports single and recurring subscription payments.
+Processes an input JSON file containing merchant, products, media, authentication channel and payment channel data to output online store (like this [fictitious market] (http://www.siberianfarmers.market).
+Supports single and recurring subscription payments using Stripe API.
 
 
 ## Next Step Ideas
